@@ -1,4 +1,5 @@
 export const PATH = {
   homePage: '/',
-  signin: '/signin',
+  signIn: '/signin',
+  page404: '*',
 }

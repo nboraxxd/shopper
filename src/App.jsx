@@ -1,3 +1,7 @@
+import { useRoutes } from 'react-router-dom'
+import { routers } from '@/routers'
+
 export default function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>
+  const element = useRoutes(routers)
+  return <>{element}</>
 }
