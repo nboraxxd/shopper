@@ -5,6 +5,8 @@ import { HomePage } from '@/pages/HomePage'
 import { ProductDetail } from '@/pages/ProductDetail'
 import { Products } from '@/pages/Products'
 import { SignIn } from '@/pages/SignIn'
+import { user } from '@/routers/user.router'
+import PrivateRouter from './PrivateRouter/PrivateRouter'
 
 export const routers = [
   {
@@ -15,18 +17,32 @@ export const routers = [
         index: true,
         element: <HomePage />,
       },
+
+      {
+        path: PATH.category,
+        element: <ProductDetail />,
+      },
+
       {
         path: PATH.products,
         element: <Products />,
       },
+
       {
         path: PATH.productDetail,
         element: <ProductDetail />,
       },
+
       {
         path: PATH.signIn,
         element: <SignIn />,
       },
+
+      {
+        element: <PrivateRouter />,
+        children: [user],
+      },
+
       {
         path: PATH.page404,
         element: <Page404 />,
