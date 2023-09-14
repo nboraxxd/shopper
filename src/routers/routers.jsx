@@ -4,9 +4,10 @@ import { Page404 } from '@/pages/404'
 import { HomePage } from '@/pages/HomePage'
 import { ProductDetail } from '@/pages/ProductDetail'
 import { Products } from '@/pages/Products'
-import { SignIn } from '@/pages/SignIn'
+import { Account } from '@/pages/Account'
 import { user } from '@/routers/user.router'
-import PrivateRouter from './PrivateRouter/PrivateRouter'
+import { GuestRouter, PrivateRouter } from '@/routers'
+import { guest } from '@/routers/guest.router'
 
 export const routers = [
   {
@@ -34,13 +35,13 @@ export const routers = [
       },
 
       {
-        path: PATH.signIn,
-        element: <SignIn />,
+        element: <PrivateRouter />,
+        children: [user],
       },
 
       {
-        element: <PrivateRouter />,
-        children: [user],
+        element: <GuestRouter />,
+        children: guest,
       },
 
       {
