@@ -63,7 +63,7 @@ export default function useQuery(options = {}) {
     if (enabled === true) {
       fetchData()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cache, cacheTime, enabled, queryKey])
 
   return {

@@ -1,11 +1,17 @@
+import { ProductCard } from '@/components/ProductCard'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
 
 export default function Products() {
   const getProductsService = useQuery({
-    queryFn: () => productsService.getProducts('?fields=name,real_price,price,categories,slug,id'),
+    queryFn: () =>
+      productsService.getProducts(
+        '?page=1&limit=150&fields=name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
+      ),
   })
+  const products = getProductsService.data
+  console.log(products?.data)
 
   const isLoading =
     getProductsService.status === SERVICE_STATUS.idle || getProductsService.status === SERVICE_STATUS.pending
@@ -124,7 +130,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -138,7 +144,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -152,7 +158,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -166,7 +172,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -180,7 +186,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -200,7 +206,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -214,7 +220,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -228,7 +234,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -242,7 +248,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -283,7 +289,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -297,7 +303,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -311,7 +317,7 @@ export default function Products() {
                               height={14}
                               width={14}
                               xmlns="http://www.w3.org/2000/svg"
-                              style={{ color: 'rgb(253, 216, 54)' }}
+                              style={{ color: '#fdd836' }}
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
@@ -486,443 +492,9 @@ export default function Products() {
               <h4 className="mb-5 text-2xl">Searching for `Clothing`</h4>
               {/* Products */}
               <div className="row">
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Badge */}
-                    <div className="badge badge-white card-badge card-badge-left text-uppercase">New</div>
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img className="card-img-top card-img-back" src="./img/products/product-120.jpg" alt="..." />
-                        <img className="card-img-top card-img-front" src="./img/products/product-5.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Shoes
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href>
-                          Leather mid-heel Sandals
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$129.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img className="card-img-top card-img-back" src="./img/products/product-121.jpg" alt="..." />
-                        <img className="card-img-top card-img-front" src="./img/products/product-6.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Dresses
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href="product.html">
-                          Cotton floral print Dress
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="card-product-price">$40.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Badge */}
-                    <div className="card-sale badge badge-dark card-badge card-badge-left text-uppercase">- 50%</div>
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img className="card-img-top card-img-back" src="./img/products/product-122.jpg" alt="..." />
-                        <img className="card-img-top card-img-front" src="./img/products/product-7.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Shoes
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href="product.html">
-                          Leather Sneakers Cotton floral print Dress Cropped cotton Top Printed A-line Skirt
-                        </a>
-                      </div>
-                      <div className="card-product-rating">
-                        5
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth={0}
-                          viewBox="0 0 24 24"
-                          size={14}
-                          color="#fdd836"
-                          height={14}
-                          width={14}
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ color: 'rgb(253, 216, 54)' }}
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth={0}
-                          viewBox="0 0 24 24"
-                          size={14}
-                          color="#fdd836"
-                          height={14}
-                          width={14}
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ color: 'rgb(253, 216, 54)' }}
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth={0}
-                          viewBox="0 0 24 24"
-                          size={14}
-                          color="#fdd836"
-                          height={14}
-                          width={14}
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ color: 'rgb(253, 216, 54)' }}
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth={0}
-                          viewBox="0 0 24 24"
-                          size={14}
-                          color="#fdd836"
-                          height={14}
-                          width={14}
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ color: 'rgb(253, 216, 54)' }}
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth={0}
-                          viewBox="0 0 24 24"
-                          size={14}
-                          color="#fdd836"
-                          height={14}
-                          width={14}
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ color: 'rgb(253, 216, 54)' }}
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        (40 review)
-                      </div>
-                      {/* Price */}
-                      <div className="card-product-price">
-                        <span className="text-primary sale">$40.00</span>
-                        <span className="font-size-xs text-gray-350 text-decoration-line-through ml-1">$85.00</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a href="#!">
-                        <img className="card-img-top card-img-front" src="./img/products/product-8.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Tops
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href>
-                          Cropped cotton Top
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$29.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a href="#!">
-                        <img className="card-img-top card-img-front" src="./img/products/product-9.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Dresses
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href>
-                          Floral print midi Dress
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$50.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Badge */}
-                    <div className="badge badge-dark card-badge card-badge-left text-uppercase">Sale</div>
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img className="card-img-top card-img-back" src="./img/products/product-123.jpg" alt="..." />
-                        <img className="card-img-top card-img-front" src="./img/products/product-10.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Bags
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href>
-                          Suede cross body Bag
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold">
-                        <span className="font-size-xs text-gray-350 text-decoration-line-through ml-1">$79.00</span>
-                        <span className="text-primary">$49.00</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a className="card-img-hover" href="product.html">
-                        <img className="card-img-top card-img-back" src="./img/products/product-124.jpg" alt="..." />
-                        <img className="card-img-top card-img-front" src="./img/products/product-11.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Skirts
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href>
-                          Printed A-line Skirt
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$79.00</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4">
-                  {/* Card */}
-                  <div className="product-card card mb-7">
-                    {/* Badge */}
-                    <div className="badge badge-white card-badge card-badge text-uppercase">New</div>
-                    {/* Image */}
-                    <div className="card-img">
-                      {/* Image */}
-                      <a href="#!">
-                        <img className="card-img-top card-img-front" src="./img/products/product-12.jpg" alt="..." />
-                      </a>
-                      {/* Actions */}
-                      <div className="card-actions">
-                        <span className="card-action"></span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-shopping-cart" />
-                          </button>
-                        </span>
-                        <span className="card-action">
-                          <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
-                            <i className="fe fe-heart" />
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="card-body px-0">
-                      {/* Category */}
-                      <div className="card-product-category font-size-xs">
-                        <a className="text-muted" href="shop.html">
-                          Shoes
-                        </a>
-                      </div>
-                      {/* Title */}
-                      <div className="card-product-title font-weight-bold">
-                        <a className="text-body card-product-name" href>
-                          Heel strappy Sandals
-                        </a>
-                      </div>
-                      {/* Price */}
-                      <div className="font-weight-bold text-muted">$90.00</div>
-                    </div>
-                  </div>
-                </div>
+                {products.data.map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
               </div>
               {/* Pagination */}
               <nav className="d-flex justify-content-center justify-content-md-end">
