@@ -1,4 +1,19 @@
+import { SERVICE_STATUS } from '@/config/serviceStatus'
+import useQuery from '@/hooks/useQuery'
+import productsService from '@/services/products.service'
+
 export default function Products() {
+  const getProductsService = useQuery({
+    queryFn: () => productsService.getProducts('?fields=name,real_price,price,categories,slug,id'),
+  })
+
+  const isLoading =
+    getProductsService.status === SERVICE_STATUS.idle || getProductsService.status === SERVICE_STATUS.pending
+
+  if (isLoading === true) {
+    return null
+  }
+
   return (
     <>
       {/* PROMO */}

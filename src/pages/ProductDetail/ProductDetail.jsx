@@ -1,5 +1,5 @@
-import { getIdFromSlug } from '@/utils/getIdFromSlug'
 import { useParams } from 'react-router-dom'
+import { getIdFromSlug } from '@/utils'
 
 export default function ProductDetail() {
   const { slug } = useParams()
