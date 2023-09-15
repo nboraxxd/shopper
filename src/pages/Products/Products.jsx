@@ -1,4 +1,4 @@
-import { ProductCard } from '@/components/ProductCard'
+import { ProductCard, ProductCardLoading } from '@/components/ProductCard'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
@@ -15,10 +15,6 @@ export default function Products() {
 
   const isLoading =
     getProductsService.status === SERVICE_STATUS.idle || getProductsService.status === SERVICE_STATUS.pending
-
-  if (isLoading === true) {
-    return null
-  }
 
   return (
     <>
@@ -492,9 +488,9 @@ export default function Products() {
               <h4 className="mb-5 text-2xl">Searching for `Clothing`</h4>
               {/* Products */}
               <div className="row">
-                {products.data.map((product) => (
-                  <ProductCard key={product.id} {...product} />
-                ))}
+                {isLoading
+                  ? Array.from(Array(15)).map((_, index) => <ProductCardLoading key={index} />)
+                  : products?.data.map((product) => <ProductCard key={product.id} {...product} />)}
               </div>
               {/* Pagination */}
               <nav className="d-flex justify-content-center justify-content-md-end">

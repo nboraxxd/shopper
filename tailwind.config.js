@@ -8,7 +8,21 @@ export default {
     preflight: false,
   },
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        shine: {
+          to: {
+            'background-position-x': '-200%',
+          },
+        },
+      },
+      animation: {
+        shine: '1.5s shine infinite',
+      },
+      backgroundImage: {
+        skeleton: 'linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%)',
+      },
+    },
   },
   plugins: [],
 }
