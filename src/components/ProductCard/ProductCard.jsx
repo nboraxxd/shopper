@@ -1,6 +1,7 @@
 import { PATH } from '@/config'
 import { formatCurrency } from '@/utils'
 import { Link, generatePath } from 'react-router-dom'
+import defaultImage from '@/assets/images/default-image.svg'
 
 export default function ProductCard(props) {
   const { name, price, real_price, slug, rating_average, review_count, images, discount_rate } = props
@@ -24,8 +25,24 @@ export default function ProductCard(props) {
               className="card-img-top card-img-back"
               src={images[1]?.thumbnail_url || images[0]?.thumbnail_url}
               alt={name}
+              onError={(e) => {
+                if (e.target.src !== defaultImage) {
+                  e.target.onerror = null
+                  e.target.src = defaultImage
+                }
+              }}
             />
-            <img className="card-img-top card-img-front" src={images[0]?.thumbnail_url} alt={name} />
+            <img
+              className="card-img-top card-img-front"
+              src={images[0]?.thumbnail_url}
+              alt={name}
+              onError={(e) => {
+                if (e.target.src !== defaultImage) {
+                  e.target.onerror = null
+                  e.target.src = defaultImage
+                }
+              }}
+            />
           </Link>
           {/* Actions */}
           <div className="card-actions">
