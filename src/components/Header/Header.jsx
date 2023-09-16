@@ -1,3 +1,6 @@
+import { PATH } from '@/config'
+import { Link } from 'react-router-dom'
+
 export default function Header() {
   return (
     <>
@@ -148,14 +151,14 @@ export default function Header() {
             {/* Nav */}
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
-                <a className="nav-link" href="./">
+                <Link to={PATH.homePage} className="nav-link">
                   Trang chủ
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="./shop.html">
+                <Link to={PATH.products} className="nav-link">
                   Sản phẩm
-                </a>
+                </Link>
               </li>
               <li className="nav-item dropdown">
                 <a className="nav-link" href="./shop.html">
