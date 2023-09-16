@@ -9,7 +9,7 @@ import useScrollTop from '@/hooks/useScrollTop'
 
 export default function Products() {
   const searchParamsObj = useSearchParamsObj()
-  useScrollTop(Object.values(searchParamsObj))
+  useScrollTop([JSON.stringify(searchParamsObj)])
 
   const getProductsService = useQuery({
     queryFn: () =>
@@ -18,7 +18,9 @@ export default function Products() {
           searchParamsObj.page ?? 1
         }&limit=30&fields=name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate`,
       ),
-    queryKey: JSON.stringify(searchParamsObj),
+    queryKey: [JSON.stringify(searchParamsObj)],
+    // cacheTime: 3000,
+    keepPreviousData: true,
   })
   const products = getProductsService.data
 
