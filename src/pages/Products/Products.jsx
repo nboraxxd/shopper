@@ -2,16 +2,25 @@ import { ProductCard, ProductCardLoading } from '@/components/ProductCard'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
+import { Pagination } from '@/pages/Products'
+import { Skeleton } from '@/components/Skeleton'
+import useSearchParamsObj from '@/hooks/useSearchParamsObj'
+import useScrollTop from '@/hooks/useScrollTop'
 
 export default function Products() {
+  const searchParamsObj = useSearchParamsObj()
+  useScrollTop(Object.values(searchParamsObj))
+
   const getProductsService = useQuery({
     queryFn: () =>
       productsService.getProducts(
-        '?page=1&limit=150&fields=name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
+        `?page=${
+          searchParamsObj.page ?? 1
+        }&limit=30&fields=name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate`,
       ),
+    queryKey: JSON.stringify(searchParamsObj),
   })
   const products = getProductsService.data
-  console.log(products?.data)
 
   const isLoading =
     getProductsService.status === SERVICE_STATUS.idle || getProductsService.status === SERVICE_STATUS.pending
@@ -33,9 +42,9 @@ export default function Products() {
       </div>
       {/* CONTENT */}
       <section className="py-11">
-        <div className="container">
+        <div className="products container">
           <div className="row">
-            <div className="col-12 col-md-4 col-lg-3">
+            <div className="products col-12 col-md-4 col-lg-3">
               {/* Filters */}
               <form className="mb-md-0 mb-10">
                 <ul className="nav nav-vertical" id="filterNav">
@@ -391,7 +400,7 @@ export default function Products() {
                 </ul>
               </form>
             </div>
-            <div className="col-12 col-md-8 col-lg-9">
+            <div className="products col-12 col-md-8 col-lg-9">
               {/* Slider */}
               <div className="flickity-page-dots-inner mb-9" data-flickity='{"pageDots": true}'>
                 {/* Item */}
@@ -490,52 +499,15 @@ export default function Products() {
               <div className="row">
                 {isLoading
                   ? Array.from(Array(15)).map((_, index) => <ProductCardLoading key={index} />)
-                  : products?.data.map((product) => <ProductCard key={product.id} {...product} />)}
+                  : products.data.map((product) => <ProductCard key={product.id} {...product} />)}
               </div>
               {/* Pagination */}
               <nav className="d-flex justify-content-center justify-content-md-end">
-                <ul className="pagination pagination-sm text-gray-400">
-                  <li className="page-item">
-                    <a className="page-link page-link-arrow" href="#">
-                      <i className="fa fa-caret-left" />
-                    </a>
-                  </li>
-                  <li className="page-item active">
-                    <a className="page-link" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      4
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      5
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      6
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link page-link-arrow" href="#">
-                      <i className="fa fa-caret-right" />
-                    </a>
-                  </li>
-                </ul>
+                {isLoading ? (
+                  <Skeleton width={300} height={40} />
+                ) : (
+                  <Pagination searchParamsObj={searchParamsObj} totalPage={products.paginate.totalPage} />
+                )}
               </nav>
             </div>
           </div>
