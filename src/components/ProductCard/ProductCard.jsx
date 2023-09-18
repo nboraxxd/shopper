@@ -2,10 +2,23 @@ import { PATH } from '@/config'
 import { formatCurrency } from '@/utils'
 import { Link, generatePath } from 'react-router-dom'
 import defaultImage from '@/assets/images/default-image.svg'
+import { useCategory } from '@/hooks/useCategories'
 
 export default function ProductCard(props) {
-  const { name, price, real_price, slug, rating_average, review_count, images, discount_rate } = props
+  const {
+    name,
+    price,
+    real_price,
+    slug,
+    rating_average,
+    review_count,
+    images,
+    discount_rate,
+    categories: categoryId,
+  } = props
   const productDetailPath = generatePath(PATH.productDetail, { slug })
+
+  const category = useCategory(categoryId)
 
   return (
     <div className="col-6 col-md-4">
@@ -63,9 +76,11 @@ export default function ProductCard(props) {
         <div className="card-body px-0">
           {/* Category */}
           <div className="card-product-category font-size-xs">
-            <a className="text-muted" href="shop.html">
-              Shoes
-            </a>
+            {category && (
+              <a className="text-muted" href="shop.html">
+                {category.title}
+              </a>
+            )}
           </div>
           {/* Title */}
           <div className="card-product-title font-weight-bold">

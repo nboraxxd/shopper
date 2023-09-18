@@ -3,6 +3,10 @@ import { localStorageCache, sessionStorageCache } from '@/utils/cache'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { CanceledError } from 'axios'
 
+const _asyncFunction = {
+  // key: Promise,
+}
+
 // _cache sẽ đại diện cho localStorageCache hoặc sessionStorageCache
 const _cache = {
   localStorage: localStorageCache,
@@ -14,7 +18,7 @@ export default function useQuery({
   queryKey, // Tên key để lưu trữ data trong storeDriver
   cacheTime, // Thời gian data tồn tại trong storeDriver, tính theo ms
   enabled = true, // Dùng để quyết định có thực thi queryFn hay không? Mặc định là true
-  keepPreviousData = false,
+  keepPreviousData = false, // Dùng để quyết định có lưu lại data trong dataRef hay không? Đi kèm là phải có queryKey
   storeDriver = 'sessionStorage', // Dùng để quyết định nơi lưu trữ data. Mặc định là sessionStorage
 } = {}) {
   // Quyết định cache sẽ là localStorageCache hay sessionStorageCache
@@ -44,7 +48,8 @@ export default function useQuery({
 
   useEffect(() => {
     function setCacheDataOrPreviousData(data) {
-      if (keepPreviousData === true) {
+      // Nếu có cacheName (tức queryKey) và keepPreviousData thì mới lưu data vào trong dataRef
+      if (cacheName && keepPreviousData === true) {
         dataRef.current[cacheName] = data
       }
 
@@ -52,20 +57,26 @@ export default function useQuery({
         // Nếu có cacheName && cacheTime thì expired sẽ bằng expired + Date.now()
         const expired = cacheTime + Date.now()
         // Làm vậy để truyền expired vào trong cache.set như một argument
-        cache.set(queryKey, data, expired)
+        cache.set(cacheName, data, expired)
       }
     }
 
     // Function này dùng để lấy data từ storeDriver hoặc dataRef
     function getCacheDataOrPreviousData() {
-      // Kiểm tra keepPreviousData là true và dataRef.current[cacheName] có giá trị thì lấy giá trị của dataRef.current[cacheName]
-      if (keepPreviousData === true && dataRef.current[cacheName]) {
-        return dataRef.current[cacheName]
-      }
-
-      // Kiểm tra nếu có queryKey thì lấy data từ storeDriver ra
+      // Kiểm tra nếu có queryKey (tức là cacheName)
       if (cacheName) {
-        return cache.get(queryKey)
+        // Kiểm tra keepPreviousData là true và dataRef.current[cacheName] có giá trị thì lấy giá trị của dataRef.current[cacheName]
+        if (keepPreviousData === true && dataRef.current[cacheName]) {
+          return dataRef.current[cacheName]
+        }
+
+        // Lần gọi API đầu tiên thì sẽ không thể chạy vào điều kiện này vì khi đó _asyncFunction chỉ là {}
+        if (_asyncFunction[cacheName]) {
+          return _asyncFunction[cacheName]
+        }
+
+        // Lấy data từ storeDriver ra
+        return cache.get(cacheName)
       }
     }
 
@@ -87,7 +98,15 @@ export default function useQuery({
         // Sau khi đã lấy data từ trong cache hoặc dataRef ra thì kiểm tra lại response
         // Nếu response vẫn không có data thì gọi hàm queryFn để lấy dữ liệu từ server
         if (Boolean(response) === false) {
-          response = await queryFn({ signal: controllerRef.current.signal })
+          response = queryFn({ signal: controllerRef.current.signal })
+
+          if (cacheName) {
+            _asyncFunction[cacheName] = response
+          }
+        }
+
+        if (response instanceof Promise) {
+          response = await response
         }
 
         setData(response)
@@ -102,7 +121,7 @@ export default function useQuery({
         // có thể thay thế err instanceof CanceledError bằng axios.isCancel(err)
         if (err instanceof CanceledError) {
           // set lại status bằng pending để không mất loading
-          setStatus(SERVICE_STATUS.pending)
+          setStatus(SERVICE_STATUS.idle)
         } else {
           setError(err)
           setStatus(SERVICE_STATUS.rejected)
@@ -115,8 +134,6 @@ export default function useQuery({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cache, cacheTime, enabled, keepPreviousData].concat(queryKey))
-
-  console.log(status)
 
   return {
     data,

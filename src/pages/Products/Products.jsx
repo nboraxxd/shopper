@@ -3,29 +3,68 @@ import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
 import { Pagination } from '@/pages/Products'
-// import { Skeleton } from '@/components/Skeleton'
+import useScrollTop from '@/hooks/useScrollTop'
+import { Skeleton } from '@/components/Skeleton'
+import { Link, createSearchParams, generatePath, useParams } from 'react-router-dom'
+import { PATH } from '@/config'
+import { slugify } from '@/utils'
 import useSearchParamsObj from '@/hooks/useSearchParamsObj'
-// import useScrollTop from '@/hooks/useScrollTop'
+import omitBy from 'lodash/omitBy'
+import omit from 'lodash/omit'
+import { twJoin } from 'tailwind-merge'
+import { useCategories } from '@/hooks/useCategories'
+
+const PRODUCT_PER_PAGE = 30
 
 export default function Products() {
-  const searchParamsObj = useSearchParamsObj()
-  // useScrollTop([JSON.stringify(searchParamsObj)])
+  // Khi path trong URL là dynamic. Chúng ta có thể dùng useParams để lấy ra từng phần dynamic
+  // Cụ thể ở đây path có dạng /:slug/:id. slug và id là các dynamic path.
+  // Khi đó useParams sẽ trả về object dạng { slug: slugPath, id: idPath }
+  const { id: categoryId } = useParams()
+  const paramsObj = useSearchParamsObj()
+
+  // productsParamsObj sẽ là argument truyền vào getProducts function.
+  // productsParamsObj nhằm tạo ra một object đầy đủ các params cần thiết cho getProducts function.
+  // Dùng omitBy kết hợp với callback để loại bỏ cách giá trị undefined
+  // mục đích là để khi tạo productsParams thì sẽ không có các giá trị undefined
+  // cụ thể nếu không loại bỏ các giá trị undefined params URL sẽ có dạng ?page=3&sort=undefined&minPrice=undefined&maxPrice=undefined.
+  // Nói thêm, khi truyền object vào getProducts function mà property có dạng [key]: undefined
+  // thì property đó sẽ tự động được loại bỏ không gắn vào URL để gọi API
+  const productsParamsObj = omitBy(
+    {
+      page: paramsObj.page || '1',
+      limit: PRODUCT_PER_PAGE.toString(),
+      categories: categoryId,
+      sort: paramsObj.sort,
+      minPrice: paramsObj.minPrice,
+      maxPrice: paramsObj.maxPrice,
+      fields: 'name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
+    },
+    (value) => value === undefined,
+  )
+
+  // createSearchParams(productsParamsObj).toString() sẽ tạo ra searchParams từ productsParamsObj
+  // Cụ thể nếu productsParamsObj có dạng { page: 3, limit: 12, categories: '60aba4e' }
+  // thì searchParams sẽ có dạng page=3&limit=12&categories=60aba4e
+  const productsParams = createSearchParams(omit(productsParamsObj, ['fields'])).toString()
+
+  useScrollTop([productsParams])
 
   const getProductsService = useQuery({
-    queryFn: ({ signal }) =>
-      productsService.getProducts(
-        `?page=${
-          searchParamsObj.page ?? 1
-        }&limit=30&fields=name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate`,
-        signal,
-      ),
-    queryKey: [JSON.stringify(searchParamsObj)],
+    queryFn: ({ signal }) => productsService.getProducts(productsParamsObj, signal),
+    queryKey: [productsParams],
+    // cacheTime: 5000,
     keepPreviousData: true,
   })
   const products = getProductsService.data
-
-  const isLoading =
+  const isLoadingProducts =
     getProductsService.status === SERVICE_STATUS.idle || getProductsService.status === SERVICE_STATUS.pending
+
+  const getCategoriesService = useCategories()
+
+  const categories = getCategoriesService.data
+  const isLoadingCategories =
+    getCategoriesService.status === SERVICE_STATUS.idle || getCategoriesService.status === SERVICE_STATUS.pending
 
   return (
     <>
@@ -59,59 +98,44 @@ export default function Products() {
                     <div>
                       <div className="form-group">
                         <ul className="list-styled mb-0" id="productsNav">
-                          <li className="list-styled-item">
-                            <a className="list-styled-link " href="#">
-                              All Products
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link font-bold" href="#blousesCollapse">
-                              Blouses and Shirts
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#coatsCollapse">
-                              Coats and Jackets
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#dressesCollapse" aria-expanded="true">
-                              Dresses
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#hoodiesCollapse">
-                              Hoodies and Sweats
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#denimCollapse">
-                              Denim
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#jeansCollapse">
-                              Jeans
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#jumpersCollapse">
-                              Jumpers and Cardigans
-                            </a>
-                          </li>
-                          <li className="list-styled-item">
-                            {/* Toggle */}
-                            <a className="list-styled-link" href="#legginsCollapse">
-                              Leggings
-                            </a>
-                          </li>
+                          {isLoadingCategories ? (
+                            Array.from(Array(12)).map((_, index) => (
+                              <li key={index} className="list-styled-item">
+                                <Skeleton height={24} />
+                              </li>
+                            ))
+                          ) : (
+                            <>
+                              <li className="list-styled-item">
+                                <Link
+                                  to={PATH.products}
+                                  className={twJoin('list-styled-link', categoryId === undefined && 'font-bold')}
+                                >
+                                  Tất cả sản phẩm
+                                </Link>
+                              </li>
+                              {categories.data.map((category) => {
+                                const categoryPath = generatePath(PATH.category, {
+                                  slug: slugify(category.title),
+                                  id: category.id,
+                                })
+                                return (
+                                  <li key={category.id} className="list-styled-item">
+                                    {/* Toggle */}
+                                    <Link
+                                      to={categoryPath}
+                                      className={twJoin(
+                                        'list-styled-link',
+                                        Number(categoryId) === category.id && 'font-bold',
+                                      )}
+                                    >
+                                      {category.title}
+                                    </Link>
+                                  </li>
+                                )
+                              })}
+                            </>
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -404,6 +428,7 @@ export default function Products() {
             </div>
             <div className="products col-12 col-md-8 col-lg-9">
               {/* Slider */}
+              {/* TODO */}
 
               {/* Header */}
               <div className="row align-items-center mb-7">
@@ -434,22 +459,18 @@ export default function Products() {
                 </div>
               </div>
               <nav className="d-flex justify-content-center justify-content-md-end">
-                <Pagination searchParamsObj={searchParamsObj} totalPage={products?.paginate?.totalPage} />
+                <Pagination totalPage={products?.paginate?.totalPage} />
               </nav>
               <h4 className="mb-5 text-2xl">Searching for `Clothing`</h4>
               {/* Products */}
               <div className="row">
-                {isLoading
+                {isLoadingProducts
                   ? Array.from(Array(15)).map((_, index) => <ProductCardLoading key={index} />)
                   : products?.data?.map((product) => <ProductCard key={product.id} {...product} />)}
               </div>
               {/* Pagination */}
               <nav className="d-flex justify-content-center justify-content-md-end">
-                {/* {isLoading ? (
-                  <Skeleton width={300} height={40} />
-                ) : ( */}
-                <Pagination searchParamsObj={searchParamsObj} totalPage={products?.paginate?.totalPage} />
-                {/* )} */}
+                <Pagination totalPage={products?.paginate?.totalPage} />
               </nav>
             </div>
           </div>

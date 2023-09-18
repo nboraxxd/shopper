@@ -20,7 +20,7 @@ export const routers = [
 
       {
         path: PATH.category,
-        element: <ProductDetail />,
+        element: <Products />,
       },
 
       {

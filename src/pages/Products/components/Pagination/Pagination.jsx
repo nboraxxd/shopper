@@ -1,15 +1,19 @@
-import { PATH } from '@/config'
-import { Link, createSearchParams } from 'react-router-dom'
+import useSearchParamsObj from '@/hooks/useSearchParamsObj'
+import { Link, createSearchParams, useSearchParams } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 
 const RANGE = 2
-export default function Pagination({ searchParamsObj, totalPage, name = 'page' }) {
-  const currentPage = Number(searchParamsObj[name]) || 1
+export default function Pagination({ totalPage }) {
+  const paramsObj = useSearchParamsObj()
+
+  const [searchParams] = useSearchParams()
+
+  const currentPage = Number(searchParams.get('page')) || 1
 
   function handleChangePage(page) {
     return createSearchParams({
-      ...searchParamsObj,
-      [name]: page,
+      ...paramsObj,
+      page,
     }).toString()
   }
 
@@ -57,7 +61,7 @@ export default function Pagination({ searchParamsObj, totalPage, name = 'page' }
 
       return (
         <li key={index} className={twJoin('page-item', currentPage === pageNumber && 'active')}>
-          <Link to={{ pathname: PATH.products, search: handleChangePage(pageNumber) }} className="page-link">
+          <Link to={{ search: handleChangePage(pageNumber) }} className="page-link">
             {pageNumber}
           </Link>
         </li>
@@ -75,10 +79,7 @@ export default function Pagination({ searchParamsObj, totalPage, name = 'page' }
             <i className="fa fa-caret-left" />
           </span>
         ) : (
-          <Link
-            to={{ pathname: PATH.products, search: handleChangePage(currentPage - 1) }}
-            className="page-link page-link-arrow"
-          >
+          <Link to={{ search: handleChangePage(currentPage - 1) }} className="page-link page-link-arrow">
             <i className="fa fa-caret-left" />
           </Link>
         )}
@@ -90,10 +91,7 @@ export default function Pagination({ searchParamsObj, totalPage, name = 'page' }
             <i className="fa fa-caret-right" />
           </span>
         ) : (
-          <Link
-            to={{ pathname: PATH.products, search: handleChangePage(currentPage + 1) }}
-            className="page-link page-link-arrow"
-          >
+          <Link to={{ search: handleChangePage(currentPage + 1) }} className="page-link page-link-arrow">
             <i className="fa fa-caret-right" />
           </Link>
         )}

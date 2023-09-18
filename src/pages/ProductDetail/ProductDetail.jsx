@@ -3,8 +3,8 @@ import { getIdFromSlug } from '@/utils'
 
 export default function ProductDetail() {
   const { slug } = useParams()
-  const id = getIdFromSlug(slug)
-  console.log('🔥 ~ ProductDetail ~ id:', id)
+  const productId = getIdFromSlug(slug)
+  console.log('🔥 ~ ProductDetail ~ id:', productId)
 
   return (
     <>

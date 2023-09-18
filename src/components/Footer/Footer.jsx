@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-dark @@classList bg-cover" style={{ backgroundImage: 'url(./img/patterns/pattern-2.svg)' }}>
+    <footer className="bg-dark @@classList bg-cover" style={{ backgroundImage: 'url(/img/patterns/pattern-2.svg)' }}>
       <div className="border-bottom border-gray-700 py-12">
         <div className="container">
           <div className="row justify-content-center">
@@ -174,12 +174,12 @@ export default function Footer() {
             </div>
             <div className="col-auto">
               {/* Payment methods */}
-              <img className="footer-payment" src="./img/payment/mastercard.svg" alt="Mastercard" />
-              <img className="footer-payment" src="./img/payment/visa.svg" alt="Visa" />
-              <img className="footer-payment" src="./img/payment/amex.svg" alt="Amex" />
-              <img className="footer-payment" src="./img/payment/paypal.svg" alt="Paypal" />
-              <img className="footer-payment" src="./img/payment/maestro.svg" alt="Maestro" />
-              <img className="footer-payment" src="./img/payment/klarna.svg" alt="Klarna" />
+              <img className="footer-payment" src="/img/payment/mastercard.svg" alt="Mastercard" />
+              <img className="footer-payment" src="/img/payment/visa.svg" alt="Visa" />
+              <img className="footer-payment" src="/img/payment/amex.svg" alt="Amex" />
+              <img className="footer-payment" src="/img/payment/paypal.svg" alt="Paypal" />
+              <img className="footer-payment" src="/img/payment/maestro.svg" alt="Maestro" />
+              <img className="footer-payment" src="/img/payment/klarna.svg" alt="Klarna" />
             </div>
           </div>
         </div>
