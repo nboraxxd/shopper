@@ -1,9 +1,14 @@
 import { PATH } from '@/config'
 import { Link } from 'react-router-dom'
+import { SearchDrawer } from '@/components/SearchDrawer'
+import { useState } from 'react'
 
 export default function Header() {
+  const [openSearchDrawer, setOpenSearchDrawer] = useState(false)
+
   return (
     <>
+      <SearchDrawer open={openSearchDrawer} onClose={() => setOpenSearchDrawer(false)} />
       {/* NAVBAR */}
       <div className="navbar navbar-topbar navbar-expand-xl navbar-light bg-light">
         <div className="container">
@@ -179,9 +184,9 @@ export default function Header() {
             {/* Nav */}
             <ul className="navbar-nav flex-row">
               <li className="nav-item">
-                <a className="nav-link" data-toggle="modal" href="#modalSearch">
+                <button className="nav-link border-none bg-none" onClick={() => setOpenSearchDrawer(true)}>
                   <i className="fe fe-search" />
-                </a>
+                </button>
               </li>
               <li className="nav-item ml-lg-n4">
                 <a className="nav-link" href="./account-wishlist.html">
