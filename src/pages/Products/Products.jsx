@@ -3,7 +3,6 @@ import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
 import { Pagination } from '@/pages/Products'
-import useScrollTop from '@/hooks/useScrollTop'
 import { Skeleton } from '@/components/Skeleton'
 import { Link, createSearchParams, generatePath, useParams } from 'react-router-dom'
 import { PATH } from '@/config'
@@ -47,8 +46,6 @@ export default function Products() {
   // Cụ thể nếu productsParamsObj có dạng { page: 3, limit: 12, categories: '60aba4e' }
   // thì searchParams sẽ có dạng page=3&limit=12&categories=60aba4e
   const productsParams = createSearchParams(omit(productsParamsObj, ['fields'])).toString()
-
-  useScrollTop([productsParams])
 
   const getProductsService = useQuery({
     queryFn: ({ signal }) => productsService.getProducts(productsParamsObj, signal),

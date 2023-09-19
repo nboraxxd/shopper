@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { localStorageCache, sessionStorageCache } from '@/utils/cache'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { CanceledError } from 'axios'
@@ -39,15 +39,8 @@ export default function useQuery({
   // Tạo AbortController trong useQuery. Để giá trị mặc định new AbortController() để lần đầu tiên khi chưa có request nào được thực thi thì controllerRef.current.abort không gây ra lỗi.
   const controllerRef = useRef(new AbortController())
 
-  // Thoát page mà request chưa hoàn thành thì gọi abort trong controllerRef để cancel request còn dang dở
-  useEffect(() => {
-    return () => {
-      controllerRef.current.abort()
-    }
-  }, [])
-
-  useEffect(() => {
-    function setCacheDataOrPreviousData(data) {
+  const setCacheDataOrPreviousData = useCallback(
+    (data) => {
       // Nếu có cacheName (tức queryKey) và keepPreviousData thì mới lưu data vào trong dataRef
       if (cacheName && keepPreviousData === true) {
         dataRef.current[cacheName] = data
@@ -59,81 +52,91 @@ export default function useQuery({
         // Làm vậy để truyền expired vào trong cache.set như một argument
         cache.set(cacheName, data, expired)
       }
+    },
+    [cache, cacheName, cacheTime, keepPreviousData],
+  )
+
+  // Function này dùng để lấy data từ storeDriver hoặc dataRef
+  const getCacheDataOrPreviousData = useCallback(() => {
+    // Kiểm tra nếu có queryKey (tức là cacheName)
+    if (cacheName) {
+      // Kiểm tra keepPreviousData là true và dataRef.current[cacheName] có giá trị thì lấy giá trị của dataRef.current[cacheName]
+      if (keepPreviousData === true && dataRef.current[cacheName]) {
+        return dataRef.current[cacheName]
+      }
+
+      // Lần gọi API đầu tiên thì sẽ không thể chạy vào điều kiện này vì khi đó _asyncFunction chỉ là {}
+      if (_asyncFunction[cacheName]) {
+        return _asyncFunction[cacheName]
+      }
+
+      // Lấy data từ storeDriver ra
+      return cache.get(cacheName)
     }
+  }, [cache, cacheName, keepPreviousData])
 
-    // Function này dùng để lấy data từ storeDriver hoặc dataRef
-    function getCacheDataOrPreviousData() {
-      // Kiểm tra nếu có queryKey (tức là cacheName)
-      if (cacheName) {
-        // Kiểm tra keepPreviousData là true và dataRef.current[cacheName] có giá trị thì lấy giá trị của dataRef.current[cacheName]
-        if (keepPreviousData === true && dataRef.current[cacheName]) {
-          return dataRef.current[cacheName]
+  const fetchData = useCallback(async () => {
+    // Mỗi lần fetchData thực thi chúng ta sẽ gọi abort trong controllerRef để cancel request cũ đi
+    // Nếu không để giá trị mặc định lúc khởi tạo controllerRef thì phải kiểm tra controllerRef.current có giá trị hay không. Có giá trị thì mới tiến hành gọi đến abort để không gây ra lỗi. Trong trường hợp này đã có giá trị mặc định.
+    // Khi fetchData được gọi lần đầu tiên thì abort sẽ là new AbortController() mà chưa được gán vào axios nên nó không có ý nghĩa gì
+    // Từ lần gọi thứ 2 controllerRef.current được gán vào axios nên khi abort được gọi thì request trước đó sẽ bị huỷ
+    controllerRef.current.abort()
+    // Gán lại controllerRef.current
+    // Tạo new AbortController() mới để gắn vào axios
+    controllerRef.current = new AbortController()
+
+    try {
+      setStatus(SERVICE_STATUS.pending)
+
+      let response = getCacheDataOrPreviousData()
+
+      // Sau khi đã lấy data từ trong cache hoặc dataRef ra thì kiểm tra lại response
+      // Nếu response vẫn không có data thì gọi hàm queryFn để lấy dữ liệu từ server
+      if (Boolean(response) === false) {
+        response = queryFn({ signal: controllerRef.current.signal })
+
+        if (cacheName) {
+          _asyncFunction[cacheName] = response
         }
+      }
 
-        // Lần gọi API đầu tiên thì sẽ không thể chạy vào điều kiện này vì khi đó _asyncFunction chỉ là {}
-        if (_asyncFunction[cacheName]) {
-          return _asyncFunction[cacheName]
-        }
+      if (response instanceof Promise) {
+        response = await response
+      }
 
-        // Lấy data từ storeDriver ra
-        return cache.get(cacheName)
+      setData(response)
+      setStatus(SERVICE_STATUS.successful)
+
+      // set response vào trong storeDriver và dataRef
+      setCacheDataOrPreviousData(response)
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
+      // Kiểm tra err có phải do huỷ request không
+      // có thể thay thế err instanceof CanceledError bằng axios.isCancel(err)
+      if (err instanceof CanceledError) {
+        // set lại status bằng pending để không mất loading
+        setStatus(SERVICE_STATUS.idle)
+      } else {
+        setError(err)
+        setStatus(SERVICE_STATUS.rejected)
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cacheName, getCacheDataOrPreviousData, setCacheDataOrPreviousData])
 
-    async function fetchData() {
-      // Mỗi lần fetchData thực thi chúng ta sẽ gọi abort trong controllerRef để cancel request cũ đi
-      // Nếu không để giá trị mặc định lúc khởi tạo controllerRef thì phải kiểm tra controllerRef.current có giá trị hay không. Có giá trị thì mới tiến hành gọi đến abort để không gây ra lỗi. Trong trường hợp này đã có giá trị mặc định.
-      // Khi fetchData được gọi lần đầu tiên thì abort sẽ là new AbortController() mà chưa được gán vào axios nên nó không có ý nghĩa gì
-      // Từ lần gọi thứ 2 controllerRef.current được gán vào axios nên khi abort được gọi thì request trước đó sẽ bị huỷ
+  // Thoát page mà request chưa hoàn thành thì gọi abort trong controllerRef để cancel request còn dang dở
+  useEffect(() => {
+    return () => {
       controllerRef.current.abort()
-      // Gán lại controllerRef.current
-      // Tạo new AbortController() mới để gắn vào axios
-      controllerRef.current = new AbortController()
-
-      try {
-        setStatus(SERVICE_STATUS.pending)
-
-        let response = getCacheDataOrPreviousData()
-
-        // Sau khi đã lấy data từ trong cache hoặc dataRef ra thì kiểm tra lại response
-        // Nếu response vẫn không có data thì gọi hàm queryFn để lấy dữ liệu từ server
-        if (Boolean(response) === false) {
-          response = queryFn({ signal: controllerRef.current.signal })
-
-          if (cacheName) {
-            _asyncFunction[cacheName] = response
-          }
-        }
-
-        if (response instanceof Promise) {
-          response = await response
-        }
-
-        setData(response)
-        setStatus(SERVICE_STATUS.successful)
-
-        // set response vào trong storeDriver và dataRef
-        setCacheDataOrPreviousData(response)
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err)
-        // Kiểm tra err có phải do huỷ request không
-        // có thể thay thế err instanceof CanceledError bằng axios.isCancel(err)
-        if (err instanceof CanceledError) {
-          // set lại status bằng pending để không mất loading
-          setStatus(SERVICE_STATUS.idle)
-        } else {
-          setError(err)
-          setStatus(SERVICE_STATUS.rejected)
-        }
-      }
     }
+  }, [])
 
+  useEffect(() => {
     if (enabled === true) {
       fetchData()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cache, cacheTime, enabled, keepPreviousData].concat(queryKey))
+  }, [enabled, fetchData])
 
   return {
     data,

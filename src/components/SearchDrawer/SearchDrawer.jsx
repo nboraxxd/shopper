@@ -2,33 +2,24 @@ import { SERVICE_STATUS } from '@/config/serviceStatus'
 import productsService from '@/services/products.service'
 import { formatCurrency } from '@/utils'
 import { Drawer } from 'antd'
-import { useState } from 'react'
 import { Skeleton } from '@/components/Skeleton'
+import useQuery from '@/hooks/useQuery'
+import useDebounce from '@/hooks/useDebounce'
 
 export default function SearchDrawer({ open, onClose }) {
-  const [value, setValue] = useState('')
-  const [status, setStatus] = useState(SERVICE_STATUS.idle)
-  const [data, setData] = useState([])
+  const [value, setValue] = useDebounce('')
 
-  async function onSearch() {
-    if (Boolean(value.trim()) === true) {
-      try {
-        setStatus(SERVICE_STATUS.pending)
-
-        const productsParamsObj = {
-          name: value.trim(),
-          limit: '5',
-          fields: 'name,real_price,price,thumbnail_url',
-        }
-        const response = await productsService.getProducts(productsParamsObj)
-        setData(response.data)
-        setStatus(SERVICE_STATUS.successful)
-      } catch (error) {
-        console.log(error)
-        setStatus(SERVICE_STATUS.rejected)
-      }
-    }
+  const productsParamsObj = {
+    name: value.trim(),
+    limit: '5',
+    fields: 'id,name,real_price,price,thumbnail_url',
   }
+
+  const { data, status } = useQuery({
+    queryKey: [value],
+    queryFn: ({ signal }) => productsService.getProducts(productsParamsObj, signal),
+    enabled: Boolean(value.trim()),
+  })
 
   return (
     <Drawer open={open} onClose={onClose} width={470} headerStyle={{ display: 'none' }} bodyStyle={{ padding: 0 }}>
@@ -48,7 +39,7 @@ export default function SearchDrawer({ open, onClose }) {
               Categories:
             </label>
             <select className="custom-select" id="modalSearchCategories">
-              <option selected>All Categories</option>
+              <option>All Categories</option>
               <option>Women</option>
               <option>Men</option>
               <option>Kids</option>
@@ -57,14 +48,14 @@ export default function SearchDrawer({ open, onClose }) {
           <div className="input-group input-group-merge">
             <input
               className="form-control"
+              type="search"
               placeholder="Search"
-              value={value}
               onChange={(ev) => setValue(ev.target.value)}
             />
             <div className="input-group-append">
-              <button className="btn btn-outline-border" onClick={onSearch}>
+              <div className="btn btn-outline-border !pl-0">
                 <i className="fe fe-search" />
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -75,7 +66,7 @@ export default function SearchDrawer({ open, onClose }) {
           {/* Items */}
           {status === SERVICE_STATUS.pending
             ? Array.from(Array(5)).map((_, index) => <SearchItemLoading key={index} />)
-            : data?.map((item) => <SearchItem key={item.id} {...item} />)}
+            : data?.data?.map((item) => <SearchItem key={item.id} {...item} />)}
 
           {/* Button */}
           <a className="btn btn-link text-reset px-0" href="./shop.html">
