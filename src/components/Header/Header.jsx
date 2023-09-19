@@ -188,19 +188,19 @@ export default function Header() {
                   <i className="fe fe-search" />
                 </button>
               </li>
-              <li className="nav-item ml-lg-n4">
+              <li className="nav-item">
                 <a className="nav-link" href="./account-wishlist.html">
                   <i className="fe fe-heart" />
                 </a>
               </li>
-              <li className="nav-item ml-lg-n4">
+              <li className="nav-item">
                 <a className="nav-link" data-toggle="modal" href="#modalShoppingCart">
                   <span data-cart-items={2}>
                     <i className="fe fe-shopping-cart" />
                   </span>
                 </a>
               </li>
-              <li className="nav-item ml-lg-n4">
+              <li className="nav-item">
                 <a className="nav-link" href="./auth.html">
                   <i className="fe fe-user" />
                 </a>

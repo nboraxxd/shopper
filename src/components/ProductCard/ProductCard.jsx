@@ -25,9 +25,9 @@ export default function ProductCard(props) {
       {/* Card */}
       <div className="product-card card mb-7">
         {/* Badge */}
-        {discount_rate > 0 && (
+        {Boolean(discount_rate) && discount_rate > 0 && (
           <div className="card-sale badge badge-dark card-badge card-badge-left text-uppercase pl-2">
-            - {Math.round(100 - (100 * real_price) / price)}%
+            - {discount_rate}%
           </div>
         )}
         {/* Image */}
