@@ -6,20 +6,33 @@ import { Skeleton } from '@/components/Skeleton'
 import useQuery from '@/hooks/useQuery'
 import useDebounce from '@/hooks/useDebounce'
 import { twMerge } from 'tailwind-merge'
-import { Link, createSearchParams } from 'react-router-dom'
+import { Link, createSearchParams, generatePath } from 'react-router-dom'
 import { PATH } from '@/config'
+import { useCategories, useCategory } from '@/hooks/useCategories'
+import omitBy from 'lodash/omitBy'
+import omit from 'lodash/omit'
 
 export default function SearchDrawer({ open, onClose }) {
   const [value, setValue] = useDebounce('')
+  const [categoryId, setCategoryId] = useDebounce(0)
+  const category = useCategory(Number(categoryId))
 
-  const productsParamsObj = {
-    name: value,
-    limit: '5',
-    fields: 'id,name,real_price,price,thumbnail_url',
-  }
+  const productsParamsObj = omitBy(
+    {
+      name: value,
+      limit: '5',
+      fields: 'id,name,real_price,price,thumbnail_url',
+      categories: Number(categoryId) || undefined,
+    },
+    (value) => value === undefined,
+  )
+
+  const productsParams = createSearchParams(omit(productsParamsObj, ['fields'])).toString()
+
+  const { data: categories } = useCategories()
 
   const { data, status } = useQuery({
-    queryKey: [value],
+    queryKey: [productsParams],
     queryFn: ({ signal }) => productsService.getProducts(productsParamsObj, signal),
     enabled: Boolean(value),
   })
@@ -27,6 +40,17 @@ export default function SearchDrawer({ open, onClose }) {
   const searchProductsParams = createSearchParams({
     search: slugify(value),
   }).toString()
+
+  const pathViewMore =
+    Boolean(category) === false
+      ? {
+          pathname: PATH.products,
+          search: searchProductsParams,
+        }
+      : {
+          pathname: generatePath(PATH.category, { slug: slugify(category.title), id: categoryId }),
+          search: searchProductsParams,
+        }
 
   return (
     <Drawer open={open} onClose={onClose} width={470} headerStyle={{ display: 'none' }} bodyStyle={{ padding: 0 }}>
@@ -45,11 +69,17 @@ export default function SearchDrawer({ open, onClose }) {
             <label className="sr-only" htmlFor="modalSearchCategories">
               Categories:
             </label>
-            <select className="custom-select" id="modalSearchCategories">
-              <option>All Categories</option>
-              <option>Women</option>
-              <option>Men</option>
-              <option>Kids</option>
+            <select
+              className="custom-select"
+              id="modalSearchCategories"
+              onChange={(ev) => setCategoryId(ev.target.value)}
+            >
+              <option value={0}>Tất cả danh mục</option>
+              {categories?.data.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.title}
+                </option>
+              ))}
             </select>
           </div>
           <div className="input-group input-group-merge">
@@ -99,12 +129,12 @@ export default function SearchDrawer({ open, onClose }) {
           </div>
           {/* Button */}
           <Link
-            to={{ pathname: PATH.products, search: searchProductsParams }}
+            to={value === '' ? PATH.products : pathViewMore}
             state={{ searchValue: value }}
             onClick={onClose}
             className="btn btn-link text-reset px-0"
           >
-            View All <i className="fe fe-arrow-right ml-2" />
+            Xem thêm <i className="fe fe-arrow-right ml-2" />
           </Link>
         </div>
       </div>
