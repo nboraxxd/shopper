@@ -4,7 +4,7 @@ import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
 import { Pagination } from '@/pages/Products'
 import { Skeleton } from '@/components/Skeleton'
-import { Link, createSearchParams, generatePath, useParams } from 'react-router-dom'
+import { Link, createSearchParams, generatePath, useLocation, useParams } from 'react-router-dom'
 import { PATH } from '@/config'
 import { slugify } from '@/utils'
 import useSearchParamsObj from '@/hooks/useSearchParamsObj'
@@ -21,6 +21,8 @@ export default function Products() {
   // Khi đó useParams sẽ trả về object dạng { slug: slugPath, id: idPath }
   const { id: categoryId } = useParams()
   const paramsObj = useSearchParamsObj()
+  const { state } = useLocation()
+  const searchValue = state?.searchValue
 
   // productsParamsObj sẽ là argument truyền vào getProducts function.
   // productsParamsObj nhằm tạo ra một object đầy đủ các params cần thiết cho getProducts function.
@@ -38,6 +40,7 @@ export default function Products() {
       minPrice: paramsObj.minPrice,
       maxPrice: paramsObj.maxPrice,
       fields: 'name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
+      name: searchValue,
     },
     (value) => value === undefined,
   )
@@ -111,7 +114,7 @@ export default function Products() {
                                   Tất cả sản phẩm
                                 </Link>
                               </li>
-                              {categories.data.map((category) => {
+                              {categories?.data.map((category) => {
                                 const categoryPath = generatePath(PATH.category, {
                                   slug: slugify(category.title),
                                   id: category.id,
@@ -413,7 +416,7 @@ export default function Products() {
                         {/* Input */}
                         <input type="number" className="form-control form-control-xs" placeholder="$10.00" min={10} />
                         {/* Divider */}
-                        <div className="text-gray-350 mx-2">‒</div>
+                        <div className="text-gray-350 mx-2"> - </div>
                         {/* Input */}
                         <input type="number" className="form-control form-control-xs" placeholder="$350.00" max={350} />
                       </div>
@@ -458,7 +461,7 @@ export default function Products() {
               <nav className="d-flex justify-content-center justify-content-md-end">
                 <Pagination totalPage={products?.paginate?.totalPage} />
               </nav>
-              <h4 className="mb-5 text-2xl">Searching for `Clothing`</h4>
+              {searchValue && <h4 className="mb-5 text-2xl">Searching for `{searchValue}`</h4>}
               {/* Products */}
               <div className="row">
                 {isLoadingProducts

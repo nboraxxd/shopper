@@ -1,16 +1,19 @@
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import productsService from '@/services/products.service'
-import { formatCurrency } from '@/utils'
+import { formatCurrency, slugify } from '@/utils'
 import { Drawer } from 'antd'
 import { Skeleton } from '@/components/Skeleton'
 import useQuery from '@/hooks/useQuery'
 import useDebounce from '@/hooks/useDebounce'
+import { twMerge } from 'tailwind-merge'
+import { Link, createSearchParams } from 'react-router-dom'
+import { PATH } from '@/config'
 
 export default function SearchDrawer({ open, onClose }) {
   const [value, setValue] = useDebounce('')
 
   const productsParamsObj = {
-    name: value.trim(),
+    name: value,
     limit: '5',
     fields: 'id,name,real_price,price,thumbnail_url',
   }
@@ -18,8 +21,12 @@ export default function SearchDrawer({ open, onClose }) {
   const { data, status } = useQuery({
     queryKey: [value],
     queryFn: ({ signal }) => productsService.getProducts(productsParamsObj, signal),
-    enabled: Boolean(value.trim()),
+    enabled: Boolean(value),
   })
+
+  const searchProductsParams = createSearchParams({
+    search: slugify(value),
+  }).toString()
 
   return (
     <Drawer open={open} onClose={onClose} width={470} headerStyle={{ display: 'none' }} bodyStyle={{ padding: 0 }}>
@@ -50,7 +57,7 @@ export default function SearchDrawer({ open, onClose }) {
               className="form-control"
               type="search"
               placeholder="Search"
-              onChange={(ev) => setValue(ev.target.value)}
+              onChange={(ev) => setValue(ev.target.value.trim())}
             />
             <div className="input-group-append">
               <div className="btn btn-outline-border !pl-0">
@@ -66,18 +73,39 @@ export default function SearchDrawer({ open, onClose }) {
           {/* Items */}
           {status === SERVICE_STATUS.pending
             ? Array.from(Array(5)).map((_, index) => <SearchItemLoading key={index} />)
-            : data?.data?.map((item) => <SearchItem key={item.id} {...item} />)}
-
+            : data?.data.map((item) => <SearchItem key={item.id} {...item} />)}
+          {/* Body: Empty (remove `.d-none` to disable it) */}
+          <div
+            className={twMerge(
+              'modal-body hidden border',
+              Boolean(data) === false && status === SERVICE_STATUS.idle && 'block',
+            )}
+          >
+            {/* Text */}
+            <p className="font-size-sm mb-3 text-center">Tìm kiếm bất kỳ sản phẩm nào bạn yêu thích</p>
+            <p className="font-size-sm mb-0 text-center">😍</p>
+          </div>
+          <div
+            className={twMerge(
+              'modal-body hidden border',
+              data?.data.length === 0 && status !== SERVICE_STATUS.pending && 'block',
+            )}
+          >
+            {/* Text */}
+            <p className="font-size-sm mb-3 text-center">
+              Rất tiếc, không tìm thấy sản phẩm phù hợp với lựa chọn của bạn
+            </p>
+            <p className="font-size-sm mb-0 text-center">😞</p>
+          </div>
           {/* Button */}
-          <a className="btn btn-link text-reset px-0" href="./shop.html">
+          <Link
+            to={{ pathname: PATH.products, search: searchProductsParams }}
+            state={{ searchValue: value }}
+            onClick={onClose}
+            className="btn btn-link text-reset px-0"
+          >
             View All <i className="fe fe-arrow-right ml-2" />
-          </a>
-        </div>
-        {/* Body: Empty (remove `.d-none` to disable it) */}
-        <div className="d-none modal-body border">
-          {/* Text */}
-          <p className="font-size-sm mb-3 text-center">Nothing matches your search</p>
-          <p className="font-size-sm mb-0 text-center">😞</p>
+          </Link>
         </div>
       </div>
     </Drawer>
