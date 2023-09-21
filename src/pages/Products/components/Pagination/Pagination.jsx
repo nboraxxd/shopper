@@ -1,14 +1,11 @@
 import useSearchParamsObj from '@/hooks/useSearchParamsObj'
-import { Link, createSearchParams, useSearchParams } from 'react-router-dom'
+import { Link, createSearchParams } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 
 const RANGE = 2
 export default function Pagination({ totalPage }) {
   const paramsObj = useSearchParamsObj()
-
-  const [searchParams] = useSearchParams()
-
-  const currentPage = Number(searchParams.get('page')) || 1
+  const currentPage = Number(paramsObj.page) || 1
 
   function handleChangePage(page) {
     return createSearchParams({

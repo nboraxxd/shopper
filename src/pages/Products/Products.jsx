@@ -4,7 +4,7 @@ import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
 import { Pagination } from '@/pages/Products'
 import { Skeleton } from '@/components/Skeleton'
-import { Link, createSearchParams, generatePath, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, createSearchParams, generatePath, useNavigate, useParams } from 'react-router-dom'
 import { PATH } from '@/config'
 import { slugify } from '@/utils'
 import useSearchParamsObj from '@/hooks/useSearchParamsObj'
@@ -22,7 +22,6 @@ export default function Products() {
   const { id: categoryId } = useParams()
   const paramsObj = useSearchParamsObj()
   const navigate = useNavigate()
-  const { pathname } = useLocation()
 
   // productsParamsObj sẽ là argument truyền vào getProducts function.
   // productsParamsObj nhằm tạo ra một object đầy đủ các params cần thiết cho getProducts function.
@@ -87,7 +86,31 @@ export default function Products() {
 
     // Update the pathname and search params in the URL
     navigate({
-      pathname,
+      search: searchParamsString,
+    })
+  }
+
+  /**
+   * Handle price change by updating URL search params
+   * @param {string} fieldChanged - The field that was changed (minPrice or maxPrice)
+   * @param {number} priceValue - The new price value
+   */
+  function handlePriceChange(fieldChanged, priceValue) {
+    // Remove 'limit', 'fields', and 'page' properties from productsParamsObj
+    // Mục đích remove là để gọn url
+    const filteredParamsObj = omit(productsParamsObj, ['limit', 'fields', 'page'])
+
+    // Add 'minPrice' or 'maxPrice' property with sortValue to filteredParamsObj
+    const updatedParamsObj = {
+      ...filteredParamsObj,
+      [fieldChanged]: priceValue,
+    }
+
+    // Create search params string from updatedParamsObj
+    const searchParamsString = createSearchParams(updatedParamsObj).toString()
+
+    // Update the pathname and search params in the URL
+    navigate({
       search: searchParamsString,
     })
   }
@@ -440,11 +463,21 @@ export default function Products() {
                       {/* Range */}
                       <div className="d-flex align-items-center">
                         {/* Input */}
-                        <input type="number" className="form-control form-control-xs" placeholder="$10.00" min={10} />
+                        <input
+                          value={paramsObj.minPrice}
+                          onChange={(ev) => handlePriceChange('minPrice', ev.target.value)}
+                          className="form-control form-control-xs"
+                          placeholder="Thấp nhất"
+                        />
                         {/* Divider */}
                         <div className="text-gray-350 mx-2"> - </div>
                         {/* Input */}
-                        <input type="number" className="form-control form-control-xs" placeholder="$350.00" max={350} />
+                        <input
+                          value={paramsObj.maxPrice}
+                          onChange={(ev) => handlePriceChange('maxPrice', ev.target.value)}
+                          className="form-control form-control-xs"
+                          placeholder="Cao nhất"
+                        />
                       </div>
                       <button className="btn btn-outline-dark btn-block mt-5">Apply</button>
                     </div>
