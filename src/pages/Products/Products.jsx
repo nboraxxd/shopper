@@ -10,8 +10,11 @@ import { slugify } from '@/utils'
 import useSearchParamsObj from '@/hooks/useSearchParamsObj'
 import omitBy from 'lodash/omitBy'
 import omit from 'lodash/omit'
+import isUndefined from 'lodash/isUndefined'
 import { twJoin } from 'tailwind-merge'
 import { useCategories } from '@/hooks/useCategories'
+import { useState } from 'react'
+import useDisUpdateEffect from '@/hooks/useDisUpdateEffect'
 
 const PRODUCT_PER_PAGE = 30
 
@@ -22,6 +25,9 @@ export default function Products() {
   const { id: categoryId } = useParams()
   const paramsObj = useSearchParamsObj()
   const navigate = useNavigate()
+
+  const [minPrice, setMinPrice] = useState(paramsObj.minPrice || '')
+  const [maxPrice, setMaxPrice] = useState(paramsObj.maxPrice || '')
 
   // productsParamsObj sẽ là argument truyền vào getProducts function.
   // productsParamsObj nhằm tạo ra một object đầy đủ các params cần thiết cho getProducts function.
@@ -35,13 +41,13 @@ export default function Products() {
       page: paramsObj.page || '1',
       limit: PRODUCT_PER_PAGE.toString(),
       categories: categoryId,
-      sort: paramsObj.sort || 'newest',
+      sort: paramsObj.sort,
       minPrice: paramsObj.minPrice,
       maxPrice: paramsObj.maxPrice,
       fields: 'name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
       name: paramsObj.search,
     },
-    (value) => value === undefined,
+    isUndefined,
   )
 
   // createSearchParams(productsParamsObj).toString() sẽ tạo ra searchParams từ productsParamsObj
@@ -65,6 +71,11 @@ export default function Products() {
   const isLoadingCategories =
     getCategoriesService.status === SERVICE_STATUS.idle || getCategoriesService.status === SERVICE_STATUS.pending
 
+  useDisUpdateEffect(() => {
+    setMinPrice('')
+    setMaxPrice('')
+  }, [categoryId])
+
   /**
    * Handles sorting of products based on sort value.
    *
@@ -73,13 +84,17 @@ export default function Products() {
   function handleSortBy(sortValue) {
     // Remove 'limit', 'fields', and 'page' properties from productsParamsObj
     // Mục đích remove là để gọn url
-    const filteredParamsObj = omit(productsParamsObj, ['limit', 'fields', 'page'])
+    const filteredParamsObj = omit(productsParamsObj, ['limit', 'fields', 'page', 'name'])
 
     // Add 'sort' property with sortValue to filteredParamsObj
-    const updatedParamsObj = {
-      ...filteredParamsObj,
-      sort: sortValue,
-    }
+    const updatedParamsObj = omitBy(
+      {
+        ...filteredParamsObj,
+        sort: sortValue,
+        search: productsParamsObj.name,
+      },
+      isUndefined,
+    )
 
     // Create search params string from updatedParamsObj
     const searchParamsString = createSearchParams(updatedParamsObj).toString()
@@ -95,16 +110,20 @@ export default function Products() {
    * @param {string} fieldChanged - The field that was changed (minPrice or maxPrice)
    * @param {number} priceValue - The new price value
    */
-  function handlePriceChange(fieldChanged, priceValue) {
+  function handleApplyPriceChange() {
     // Remove 'limit', 'fields', and 'page' properties from productsParamsObj
     // Mục đích remove là để gọn url
     const filteredParamsObj = omit(productsParamsObj, ['limit', 'fields', 'page'])
 
     // Add 'minPrice' or 'maxPrice' property with sortValue to filteredParamsObj
-    const updatedParamsObj = {
-      ...filteredParamsObj,
-      [fieldChanged]: priceValue,
-    }
+    const updatedParamsObj = omitBy(
+      {
+        ...filteredParamsObj,
+        minPrice: minPrice || undefined,
+        maxPrice: maxPrice || undefined,
+      },
+      isUndefined,
+    )
 
     // Create search params string from updatedParamsObj
     const searchParamsString = createSearchParams(updatedParamsObj).toString()
@@ -136,7 +155,7 @@ export default function Products() {
           <div className="row">
             <div className="products col-12 col-md-4 col-lg-3">
               {/* Filters */}
-              <form className="mb-md-0 mb-10">
+              <div className="mb-md-0 mb-10">
                 <ul className="nav nav-vertical" id="filterNav">
                   <li className="nav-item">
                     {/* Toggle */}
@@ -159,6 +178,10 @@ export default function Products() {
                                 <Link
                                   to={PATH.products}
                                   className={twJoin('list-styled-link', categoryId === undefined && 'font-bold')}
+                                  onClick={() => {
+                                    setMinPrice('')
+                                    setMaxPrice('')
+                                  }}
                                 >
                                   Tất cả sản phẩm
                                 </Link>
@@ -464,8 +487,8 @@ export default function Products() {
                       <div className="d-flex align-items-center">
                         {/* Input */}
                         <input
-                          value={paramsObj.minPrice}
-                          onChange={(ev) => handlePriceChange('minPrice', ev.target.value)}
+                          value={minPrice}
+                          onChange={(ev) => setMinPrice(ev.target.value)}
                           className="form-control form-control-xs"
                           placeholder="Thấp nhất"
                         />
@@ -473,17 +496,19 @@ export default function Products() {
                         <div className="text-gray-350 mx-2"> - </div>
                         {/* Input */}
                         <input
-                          value={paramsObj.maxPrice}
-                          onChange={(ev) => handlePriceChange('maxPrice', ev.target.value)}
+                          value={maxPrice}
+                          onChange={(ev) => setMaxPrice(ev.target.value)}
                           className="form-control form-control-xs"
                           placeholder="Cao nhất"
                         />
                       </div>
-                      <button className="btn btn-outline-dark btn-block mt-5">Apply</button>
+                      <button className="btn btn-outline-dark btn-block mt-5" onClick={handleApplyPriceChange}>
+                        Apply
+                      </button>
                     </div>
                   </li>
                 </ul>
-              </form>
+              </div>
             </div>
             <div className="products col-12 col-md-8 col-lg-9">
               {/* Slider */}
