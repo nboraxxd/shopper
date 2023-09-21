@@ -20,7 +20,7 @@ export default function SearchDrawer({ open, onClose }) {
   const productsParamsObj = omitBy(
     {
       name: value,
-      limit: '5',
+      limit: '10',
       fields: 'id,name,real_price,price,thumbnail_url',
       categories: Number(categoryId) || undefined,
     },
@@ -38,7 +38,7 @@ export default function SearchDrawer({ open, onClose }) {
   })
 
   const searchProductsParams = createSearchParams({
-    search: slugify(value),
+    search: value,
   }).toString()
 
   const pathViewMore =
@@ -130,7 +130,6 @@ export default function SearchDrawer({ open, onClose }) {
           {/* Button */}
           <Link
             to={value === '' ? PATH.products : pathViewMore}
-            state={{ searchValue: value }}
             onClick={onClose}
             className="btn btn-link text-reset px-0"
           >

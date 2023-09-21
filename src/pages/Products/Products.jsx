@@ -4,7 +4,7 @@ import useQuery from '@/hooks/useQuery'
 import productsService from '@/services/products.service'
 import { Pagination } from '@/pages/Products'
 import { Skeleton } from '@/components/Skeleton'
-import { Link, createSearchParams, generatePath, useLocation, useParams } from 'react-router-dom'
+import { Link, createSearchParams, generatePath, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { PATH } from '@/config'
 import { slugify } from '@/utils'
 import useSearchParamsObj from '@/hooks/useSearchParamsObj'
@@ -21,8 +21,8 @@ export default function Products() {
   // Khi đó useParams sẽ trả về object dạng { slug: slugPath, id: idPath }
   const { id: categoryId } = useParams()
   const paramsObj = useSearchParamsObj()
-  const { state } = useLocation()
-  const searchValue = state?.searchValue
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   // productsParamsObj sẽ là argument truyền vào getProducts function.
   // productsParamsObj nhằm tạo ra một object đầy đủ các params cần thiết cho getProducts function.
@@ -36,11 +36,11 @@ export default function Products() {
       page: paramsObj.page || '1',
       limit: PRODUCT_PER_PAGE.toString(),
       categories: categoryId,
-      sort: paramsObj.sort,
+      sort: paramsObj.sort || 'newest',
       minPrice: paramsObj.minPrice,
       maxPrice: paramsObj.maxPrice,
       fields: 'name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
-      name: searchValue,
+      name: paramsObj.search,
     },
     (value) => value === undefined,
   )
@@ -53,7 +53,7 @@ export default function Products() {
   const getProductsService = useQuery({
     queryFn: ({ signal }) => productsService.getProducts(productsParamsObj, signal),
     queryKey: [productsParams],
-    // cacheTime: 5000,
+    cacheTime: 5000,
     keepPreviousData: true,
   })
   const products = getProductsService.data
@@ -65,6 +65,32 @@ export default function Products() {
   const categories = getCategoriesService.data
   const isLoadingCategories =
     getCategoriesService.status === SERVICE_STATUS.idle || getCategoriesService.status === SERVICE_STATUS.pending
+
+  /**
+   * Handles sorting of products based on sort value.
+   *
+   * @param {string} sortValue - The sort value to be applied.
+   */
+  function handleSortBy(sortValue) {
+    // Remove 'limit', 'fields', and 'page' properties from productsParamsObj
+    // Mục đích remove là để gọn url
+    const filteredParamsObj = omit(productsParamsObj, ['limit', 'fields', 'page'])
+
+    // Add 'sort' property with sortValue to filteredParamsObj
+    const updatedParamsObj = {
+      ...filteredParamsObj,
+      sort: sortValue,
+    }
+
+    // Create search params string from updatedParamsObj
+    const searchParamsString = createSearchParams(updatedParamsObj).toString()
+
+    // Update the pathname and search params in the URL
+    navigate({
+      pathname,
+      search: searchParamsString,
+    })
+  }
 
   return (
     <>
@@ -448,20 +474,24 @@ export default function Products() {
                 <div className="col-12 col-md-auto flex items-center gap-1 whitespace-nowrap">
                   {/* Select */}
                   Sắp xếp theo:
-                  <select className="custom-select custom-select-xs">
-                    <option>Mới nhất</option>
-                    <option>Giá giảm dần</option>
-                    <option>Giá tăng dần</option>
-                    <option>Giảm giá nhiều nhất</option>
-                    <option>Đánh giá cao nhất</option>
-                    <option>Mua nhiều nhất</option>
+                  <select
+                    value={paramsObj.sort || 'newest'}
+                    onChange={(ev) => handleSortBy(ev.target.value)}
+                    className="custom-select custom-select-xs"
+                  >
+                    <option value="newest">Mới nhất</option>
+                    <option value="real_price.desc">Giá giảm dần</option>
+                    <option value="real_price.asc">Giá tăng dần</option>
+                    <option value="discount_rate.desc">Giảm giá nhiều nhất</option>
+                    <option value="rating_average.desc">Đánh giá cao nhất</option>
+                    <option value="top_sell">Mua nhiều nhất</option>
                   </select>
                 </div>
               </div>
               <nav className="d-flex justify-content-center justify-content-md-end">
                 <Pagination totalPage={products?.paginate?.totalPage} />
               </nav>
-              {searchValue && <h4 className="mb-5 text-2xl">Searching for `{searchValue}`</h4>}
+              {paramsObj?.search && <h4 className="mb-5 text-2xl">Searching for `{paramsObj?.search}`</h4>}
               {/* Products */}
               <div className="row">
                 {isLoadingProducts
