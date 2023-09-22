@@ -15,6 +15,7 @@ import { twJoin } from 'tailwind-merge'
 import { useCategories } from '@/hooks/useCategories'
 import { useState } from 'react'
 import useDisUpdateEffect from '@/hooks/useDisUpdateEffect'
+import { Radio } from '@/components/Radio'
 
 const PRODUCT_PER_PAGE = 30
 
@@ -46,6 +47,7 @@ export default function Products() {
       maxPrice: paramsObj.maxPrice,
       fields: 'name,real_price,price,categories,slug,id,images,rating_average,review_count,discount_rate',
       name: paramsObj.search,
+      filterRating: paramsObj.filterRating,
     },
     isUndefined,
   )
@@ -121,6 +123,29 @@ export default function Products() {
         ...filteredParamsObj,
         minPrice: minPrice || undefined,
         maxPrice: maxPrice || undefined,
+      },
+      isUndefined,
+    )
+
+    // Create search params string from updatedParamsObj
+    const searchParamsString = createSearchParams(updatedParamsObj).toString()
+
+    // Update the pathname and search params in the URL
+    navigate({
+      search: searchParamsString,
+    })
+  }
+
+  function handleChangeRadio(ratingValue) {
+    // Remove 'limit', 'fields', and 'page' properties from productsParamsObj
+    // Mục đích remove là để gọn url
+    const filteredParamsObj = omit(productsParamsObj, ['limit', 'fields', 'page'])
+
+    // Add 'filterRating' property with sortValue to filteredParamsObj
+    const updatedParamsObj = omitBy(
+      {
+        ...filteredParamsObj,
+        filterRating: ratingValue,
       },
       isUndefined,
     )
@@ -220,9 +245,8 @@ export default function Products() {
                     {/* Collapse */}
                     <div>
                       <div className="form-group form-group-overflow mb-6" id="seasonGroup">
-                        <div className="custom-control custom-radio mb-3">
-                          <input className="custom-control-input" type="radio" defaultChecked />
-                          <label className="custom-control-label flex items-center" htmlFor="seasonOne">
+                        <Radio defaultValue={paramsObj.filterRating} handleChangeRadio={handleChangeRadio} toggle>
+                          <Radio.Content value="5">
                             <svg
                               stroke="currentColor"
                               fill="currentColor"
@@ -293,12 +317,9 @@ export default function Products() {
                             >
                               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
-                            <span className="text-small ml-2 inline-block">from 5 star</span>
-                          </label>
-                        </div>
-                        <div className="custom-control custom-radio mb-3">
-                          <input className="custom-control-input" id="seasonTwo" type="radio" />
-                          <label className="custom-control-label flex items-center" htmlFor="seasonOne">
+                            <span className="text-small ml-2 inline-block">5 star</span>
+                          </Radio.Content>
+                          <Radio.Content value="4">
                             <svg
                               stroke="currentColor"
                               fill="currentColor"
@@ -377,11 +398,8 @@ export default function Products() {
                               </g>
                             </svg>
                             <span className="text-small ml-2 inline-block">from 4 star</span>
-                          </label>
-                        </div>
-                        <div className="custom-control custom-radio">
-                          <input className="custom-control-input" id="seasonThree" type="radio" />
-                          <label className="custom-control-label flex items-center" htmlFor="seasonOne">
+                          </Radio.Content>
+                          <Radio.Content value="3">
                             <svg
                               stroke="currentColor"
                               fill="currentColor"
@@ -467,8 +485,8 @@ export default function Products() {
                               </g>
                             </svg>
                             <span className="text-small ml-2 inline-block">from 3 star</span>
-                          </label>
-                        </div>
+                          </Radio.Content>
+                        </Radio>
                       </div>
                     </div>
                   </li>
