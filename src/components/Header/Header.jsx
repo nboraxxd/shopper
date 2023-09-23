@@ -135,10 +135,10 @@ export default function Header() {
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <div className="container">
           {/* Brand */}
-          <a className="navbar-brand" href="./index.html">
+          <Link to={PATH.homePage} className="navbar-brand">
             <img style={{ width: 50 }} src="/img/logo.svg" />
             Shopper.
-          </a>
+          </Link>
           {/* Toggler */}
           <button
             className="navbar-toggler"
@@ -201,9 +201,9 @@ export default function Header() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="./auth.html">
+                <Link to={PATH.account} className="nav-link">
                   <i className="fe fe-user" />
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

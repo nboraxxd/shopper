@@ -1,4 +1,55 @@
+import { Button } from '@/components/Button'
+import { Field } from '@/components/Field'
+import { SERVICE_STATUS } from '@/config/serviceStatus'
+import useBodyClass from '@/hooks/useBodyClass'
+import useForm from '@/hooks/useForm'
+import useQuery from '@/hooks/useQuery'
+import { userService } from '@/services/user.service'
+import { handleError } from '@/utils/handleError'
+import { confirm, max, min, regexp, required } from '@/utils/validate'
+import omit from 'lodash/omit'
+import { toast } from 'sonner'
+
+const PASSWORD_MIN_LENGTH = 6
+const PASSWORD_MAX_LENGTH = 32
+
 export default function Account() {
+  useBodyClass('bg-light')
+
+  const { isValid, register, values } = useForm({
+    name: [required('Vui lòng nhập họ tên của bạn')],
+    username: [required('Vui lòng nhập email của bạn'), regexp('email', 'Email chưa đúng định dạng')],
+    password: [
+      required('Vui lòng nhập mật khẩu của bạn'),
+      min(PASSWORD_MIN_LENGTH, `Mật khẩu phải có tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`),
+      max(PASSWORD_MAX_LENGTH, `Mật khẩu chỉ được phép có tối đa ${PASSWORD_MAX_LENGTH} ký tự`),
+    ],
+    confirmPassword: [
+      required('Vui lòng nhập lại mật khẩu của bạn'),
+      confirm('password', 'Các mật khẩu đã nhập chưa khớp với nhau'),
+    ],
+  })
+
+  const registerService = useQuery({
+    queryFn: () => userService.register({ ...omit(values, ['confirmPassword']), redirect: window.location.href }),
+    enabled: false,
+  })
+
+  async function handleOnRegister(ev) {
+    ev.preventDefault()
+    if (isValid() === true) {
+      try {
+        const response = await registerService.refetch()
+        console.log('🔥 ~ handleOnRegister ~ response:', response)
+        if (response.success === true) {
+          toast.success(response.message)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    }
+  }
+
   return (
     <section className="py-12">
       <div className="container">
@@ -10,37 +61,15 @@ export default function Account() {
                 {/* Heading */}
                 <h6 className="mb-7">Returning Customer</h6>
                 {/* Form */}
-                <form>
+                <form noValidate>
                   <div className="row">
                     <div className="col-12">
                       {/* Email */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="loginEmail">
-                          Email Address *
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="loginEmail"
-                          type="email"
-                          placeholder="Email Address *"
-                          required
-                        />
-                      </div>
+                      <Field type="email" placeholder="Email Address *" />
                     </div>
                     <div className="col-12">
                       {/* Password */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="loginPassword">
-                          Password *
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="loginPassword"
-                          type="password"
-                          placeholder="Password *"
-                          required
-                        />
-                      </div>
+                      <Field type="password" placeholder="Password *" />
                     </div>
                     <div className="col-12 col-md">
                       {/* Remember */}
@@ -63,9 +92,7 @@ export default function Account() {
                     </div>
                     <div className="col-12">
                       {/* Button */}
-                      <a href="./account-personal-info.html" className="btn btn-sm btn-dark" type="submit">
-                        Sign In
-                      </a>
+                      <Button>Sign In</Button>
                     </div>
                     <div className="col-12">
                       <p className="font-size-sm text-muted mb-2 mt-5 font-light">
@@ -94,67 +121,23 @@ export default function Account() {
                 {/* Heading */}
                 <h6 className="mb-7">New Customer</h6>
                 {/* Form */}
-                <form>
+                <form onSubmit={handleOnRegister} noValidate>
                   <div className="row">
                     <div className="col-12">
-                      {/* Email */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="registerFirstName">
-                          Full Name *
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="registerFirstName"
-                          type="text"
-                          placeholder="Full Name *"
-                          required
-                        />
-                      </div>
+                      {/* Full Name */}
+                      <Field placeholder="Full Name *" {...register('name')} />
                     </div>
                     <div className="col-12">
                       {/* Email */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="registerEmail">
-                          Email Address *
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="registerEmail"
-                          type="email"
-                          placeholder="Email Address *"
-                          required
-                        />
-                      </div>
+                      <Field type="email" placeholder="Email Address *" {...register('username')} />
                     </div>
-                    <div className="col-12 col-md-6">
+                    <div className="col-12">
                       {/* Password */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="registerPassword">
-                          Password *
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="registerPassword"
-                          type="password"
-                          placeholder="Password *"
-                          required
-                        />
-                      </div>
+                      <Field type="password" placeholder="Password *" {...register('password')} />
                     </div>
-                    <div className="col-12 col-md-6">
+                    <div className="col-12">
                       {/* Password */}
-                      <div className="form-group">
-                        <label className="sr-only" htmlFor="registerPasswordConfirm">
-                          Confirm Password *
-                        </label>
-                        <input
-                          className="form-control form-control-sm"
-                          id="registerPasswordConfirm"
-                          type="password"
-                          placeholder="Confirm Password *"
-                          required
-                        />
-                      </div>
+                      <Field type="password" placeholder="Confirm Password *" {...register('confirmPassword')} />
                     </div>
                     <div className="col-12 col-md-auto">
                       {/* Link */}
@@ -165,9 +148,7 @@ export default function Account() {
                     </div>
                     <div className="col-12">
                       {/* Button */}
-                      <a href="./account-personal-info.html" className="btn btn-sm btn-dark" type="submit">
-                        Register
-                      </a>
+                      <Button loading={registerService.status === SERVICE_STATUS.pending}>Register</Button>
                     </div>
                   </div>
                 </form>

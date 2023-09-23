@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { PATH } from '@/config'
 
 export default function GuestRouter({ redirect = PATH.homePage }) {
-  const [user] = useState(true)
+  const [user] = useState(false)
 
   return user === false ? <Outlet /> : <Navigate to={redirect} />
 }

@@ -109,6 +109,8 @@ export default function useQuery({
 
       // set response vào trong storeDriver và dataRef
       setCacheDataOrPreviousData(response)
+
+      return response
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err)
@@ -120,10 +122,10 @@ export default function useQuery({
       } else {
         setError(err)
         setStatus(SERVICE_STATUS.rejected)
+        throw err
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cacheName, getCacheDataOrPreviousData, setCacheDataOrPreviousData])
+  }, [cacheName, getCacheDataOrPreviousData, queryFn, setCacheDataOrPreviousData])
 
   // Thoát page mà request chưa hoàn thành thì gọi abort trong controllerRef để cancel request còn dang dở
   useEffect(() => {
@@ -136,12 +138,14 @@ export default function useQuery({
     if (enabled === true) {
       fetchData()
     }
-  }, [enabled, fetchData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled])
 
   return {
     data,
     status,
     error,
+    refetch: fetchData,
   }
 }
 
