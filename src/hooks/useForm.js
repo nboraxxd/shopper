@@ -36,7 +36,6 @@ export default function useForm(rules, { initialValue = {}, dependencies = {} })
   }
 
   function isValid() {
-    console.log(values)
     const errorObject = validate(rules, values)
     setErrors(errorObject)
 

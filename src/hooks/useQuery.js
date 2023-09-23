@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { localStorageCache, sessionStorageCache } from '@/utils/cache'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { CanceledError } from 'axios'
+import { delay } from '@/utils/delay'
 
 const _asyncFunction = {
   // key: Promise,
@@ -20,6 +21,7 @@ export default function useQuery({
   enabled = true, // Dùng để quyết định có thực thi queryFn hay không? Mặc định là true
   keepPreviousData = false, // Dùng để quyết định có lưu lại data trong dataRef hay không? Đi kèm là phải có queryKey
   storeDriver = 'sessionStorage', // Dùng để quyết định nơi lưu trữ data. Mặc định là sessionStorage
+  limitDuration, // Thời gian chờ sau khi thực thi queryFn xong, tính theo ms. Mục đích để làm chậm khi API trả về kết quả quá nhanh
 } = {}) {
   // Quyết định cache sẽ là localStorageCache hay sessionStorageCache
   const cache = _cache[storeDriver]
@@ -85,10 +87,14 @@ export default function useQuery({
     // Tạo new AbortController() mới để gắn vào axios
     controllerRef.current = new AbortController()
 
+    const startTime = Date.now()
+
+    let response
+    let error
     try {
       setStatus(SERVICE_STATUS.pending)
 
-      let response = getCacheDataOrPreviousData()
+      response = getCacheDataOrPreviousData()
 
       // Sau khi đã lấy data từ trong cache hoặc dataRef ra thì kiểm tra lại response
       // Nếu response vẫn không có data thì gọi hàm queryFn để lấy dữ liệu từ server
@@ -103,7 +109,22 @@ export default function useQuery({
       if (response instanceof Promise) {
         response = await response
       }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
+      error = err
+    }
 
+    const endTime = Date.now()
+
+    if (limitDuration) {
+      let timeout = endTime - startTime
+      if (timeout < limitDuration) {
+        await delay(limitDuration - timeout)
+      }
+    }
+
+    if (response) {
       setData(response)
       setStatus(SERVICE_STATUS.successful)
 
@@ -111,21 +132,19 @@ export default function useQuery({
       setCacheDataOrPreviousData(response)
 
       return response
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err)
-      // Kiểm tra err có phải do huỷ request không
-      // có thể thay thế err instanceof CanceledError bằng axios.isCancel(err)
-      if (err instanceof CanceledError) {
-        // set lại status bằng pending để không mất loading
-        setStatus(SERVICE_STATUS.idle)
-      } else {
-        setError(err)
-        setStatus(SERVICE_STATUS.rejected)
-        throw err
-      }
     }
-  }, [cacheName, getCacheDataOrPreviousData, queryFn, setCacheDataOrPreviousData])
+
+    // Kiểm tra err có phải do huỷ request không
+    // có thể thay thế err instanceof CanceledError bằng axios.isCancel(err)
+    if (error instanceof CanceledError) {
+      // set lại status bằng pending để không mất loading
+      setStatus(SERVICE_STATUS.idle)
+    } else {
+      setError(error)
+      setStatus(SERVICE_STATUS.rejected)
+      throw error
+    }
+  }, [cacheName, getCacheDataOrPreviousData, limitDuration, queryFn, setCacheDataOrPreviousData])
 
   // Thoát page mà request chưa hoàn thành thì gọi abort trong controllerRef để cancel request còn dang dở
   useEffect(() => {

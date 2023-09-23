@@ -41,6 +41,7 @@ export default function Account() {
   const registerService = useQuery({
     queryFn: () => userService.register({ ...omit(values, ['confirmPassword']), redirect: window.location.href }),
     enabled: false,
+    limitDuration: 1000,
   })
 
   async function handleOnRegister(ev) {
