@@ -6,7 +6,7 @@ import { useState } from 'react'
  * @param {*} rules
  * @returns values, errors, register
  */
-export default function useForm(rules, initialValue = {}) {
+export default function useForm(rules, { initialValue = {}, dependencies = {} }) {
   const [values, setValues] = useState(initialValue)
   const [errors, setErrors] = useState({})
 
@@ -16,10 +16,19 @@ export default function useForm(rules, initialValue = {}) {
       value: values[name] || '',
       onChange: (value) => {
         let _values = { ...values, [name]: value }
+
+        const _errorObj = {}
+
         if (rules[name]) {
-          const error = validate({ [name]: rules[name] }, _values)
-          setErrors((prev) => ({ ...prev, [name]: error[name] || '' }))
+          _errorObj[name] = validate({ [name]: rules[name] }, _values)[name]
         }
+        if (dependencies[name]) {
+          for (const dependency of dependencies[name]) {
+            _errorObj[dependency] = validate({ [dependency]: rules[dependency] }, _values)[dependency]
+          }
+        }
+
+        setErrors((prev) => ({ ...prev, ..._errorObj }))
 
         setValues((prev) => ({ ...prev, [name]: value }))
       },
@@ -27,6 +36,7 @@ export default function useForm(rules, initialValue = {}) {
   }
 
   function isValid() {
+    console.log(values)
     const errorObject = validate(rules, values)
     setErrors(errorObject)
 

@@ -24,6 +24,7 @@ export function validate(rules, forms) {
     for (const rule of rules[key]) {
       if (rule.required) {
         if (
+          // typeof forms[key] === 'boolean' là để check cho những trường hợp là checkbox input
           (typeof forms[key] === 'boolean' && Boolean(forms[key]) === false) ||
           (typeof forms[key] !== 'boolean' && Boolean(forms[key]?.trim()) === false)
         ) {

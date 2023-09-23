@@ -16,19 +16,27 @@ const PASSWORD_MAX_LENGTH = 32
 export default function Account() {
   useBodyClass('bg-light')
 
-  const { isValid, register, values } = useForm({
-    name: [required('Vui lòng nhập họ tên của bạn')],
-    username: [required('Vui lòng nhập email của bạn'), regexp('email', 'Email chưa đúng định dạng')],
-    password: [
-      required('Vui lòng nhập mật khẩu của bạn'),
-      min(PASSWORD_MIN_LENGTH, `Mật khẩu phải có tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`),
-      max(PASSWORD_MAX_LENGTH, `Mật khẩu chỉ được phép có tối đa ${PASSWORD_MAX_LENGTH} ký tự`),
-    ],
-    confirmPassword: [
-      required('Vui lòng nhập lại mật khẩu của bạn'),
-      confirm('password', 'Các mật khẩu đã nhập chưa khớp với nhau'),
-    ],
-  })
+  const { isValid, register, values } = useForm(
+    {
+      name: [required('Vui lòng nhập họ tên của bạn')],
+      username: [required('Vui lòng nhập email của bạn'), regexp('email', 'Email chưa đúng định dạng')],
+      password: [
+        required('Vui lòng nhập mật khẩu của bạn'),
+        min(PASSWORD_MIN_LENGTH, `Mật khẩu phải có tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`),
+        max(PASSWORD_MAX_LENGTH, `Mật khẩu chỉ được phép có tối đa ${PASSWORD_MAX_LENGTH} ký tự`),
+      ],
+      confirmPassword: [
+        required('Vui lòng nhập lại mật khẩu của bạn'),
+        confirm('password', 'Các mật khẩu đã nhập chưa khớp với nhau'),
+      ],
+    },
+    {
+      dependencies: {
+        // Tức là confirmPassword sẽ phụ thuộc vào password. Khi password thay đổi thì validate lại confirm password
+        password: ['confirmPassword'],
+      },
+    },
+  )
 
   const registerService = useQuery({
     queryFn: () => userService.register({ ...omit(values, ['confirmPassword']), redirect: window.location.href }),
@@ -40,7 +48,6 @@ export default function Account() {
     if (isValid() === true) {
       try {
         const response = await registerService.refetch()
-        console.log('🔥 ~ handleOnRegister ~ response:', response)
         if (response.success === true) {
           toast.success(response.message)
         }
