@@ -6,7 +6,7 @@ import { useState } from 'react'
  * @param {*} rules
  * @returns values, errors, register
  */
-export default function useForm(rules, { initialValue = {}, dependencies = {} }) {
+export default function useForm(rules, { initialValue = {}, dependencies = {} } = {}) {
   const [values, setValues] = useState(initialValue)
   const [errors, setErrors] = useState({})
 

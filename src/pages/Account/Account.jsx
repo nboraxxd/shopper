@@ -4,6 +4,7 @@ import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useBodyClass from '@/hooks/useBodyClass'
 import useForm from '@/hooks/useForm'
 import useQuery from '@/hooks/useQuery'
+import { authenticationService } from '@/services/authentication.service'
 import { userService } from '@/services/user.service'
 import { handleError } from '@/utils/handleError'
 import { confirm, max, min, regexp, required } from '@/utils/validate'
@@ -16,7 +17,7 @@ const PASSWORD_MAX_LENGTH = 32
 export default function Account() {
   useBodyClass('bg-light')
 
-  const { isValid, register, values } = useForm(
+  const registerForm = useForm(
     {
       name: [required('Vui lòng nhập họ tên của bạn')],
       username: [required('Vui lòng nhập email của bạn'), regexp('email', 'Email chưa đúng định dạng')],
@@ -38,17 +39,47 @@ export default function Account() {
     },
   )
 
+  const loginForm = useForm({
+    username: [required('Vui lòng nhập email của bạn'), regexp('email', 'Email chưa đúng định dạng')],
+    password: [
+      required('Vui lòng nhập mật khẩu của bạn'),
+      min(PASSWORD_MIN_LENGTH, `Mật khẩu phải có tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`),
+      max(PASSWORD_MAX_LENGTH, `Mật khẩu chỉ được phép có tối đa ${PASSWORD_MAX_LENGTH} ký tự`),
+    ],
+  })
+
   const registerService = useQuery({
-    queryFn: () => userService.register({ ...omit(values, ['confirmPassword']), redirect: window.location.href }),
+    queryFn: () =>
+      userService.register({ ...omit(registerForm.values, ['confirmPassword']), redirect: window.location.href }),
+    enabled: false,
+    limitDuration: 1000,
+  })
+
+  const loginService = useQuery({
+    queryFn: () => authenticationService.login(loginForm.values),
     enabled: false,
     limitDuration: 1000,
   })
 
   async function handleOnRegister(ev) {
     ev.preventDefault()
-    if (isValid() === true) {
+    if (registerForm.isValid() === true) {
       try {
         const response = await registerService.refetch()
+        if (response.success === true) {
+          toast.success(response.message)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    }
+  }
+
+  async function handleOnLogin(ev) {
+    ev.preventDefault()
+    if (loginForm.isValid() === true) {
+      try {
+        const response = await loginService.refetch()
         if (response.success === true) {
           toast.success(response.message)
         }
@@ -69,15 +100,15 @@ export default function Account() {
                 {/* Heading */}
                 <h6 className="mb-7">Returning Customer</h6>
                 {/* Form */}
-                <form noValidate>
+                <form noValidate onSubmit={handleOnLogin}>
                   <div className="row">
                     <div className="col-12">
                       {/* Email */}
-                      <Field type="email" placeholder="Email Address *" />
+                      <Field type="email" placeholder="Email Address *" {...loginForm.register('username')} />
                     </div>
                     <div className="col-12">
                       {/* Password */}
-                      <Field type="password" placeholder="Password *" />
+                      <Field type="password" placeholder="Password *" {...loginForm.register('password')} />
                     </div>
                     <div className="col-12 col-md">
                       {/* Remember */}
@@ -133,19 +164,23 @@ export default function Account() {
                   <div className="row">
                     <div className="col-12">
                       {/* Full Name */}
-                      <Field placeholder="Full Name *" {...register('name')} />
+                      <Field placeholder="Full Name *" {...registerForm.register('name')} />
                     </div>
                     <div className="col-12">
                       {/* Email */}
-                      <Field type="email" placeholder="Email Address *" {...register('username')} />
+                      <Field type="email" placeholder="Email Address *" {...registerForm.register('username')} />
                     </div>
                     <div className="col-12">
                       {/* Password */}
-                      <Field type="password" placeholder="Password *" {...register('password')} />
+                      <Field type="password" placeholder="Password *" {...registerForm.register('password')} />
                     </div>
                     <div className="col-12">
                       {/* Password */}
-                      <Field type="password" placeholder="Confirm Password *" {...register('confirmPassword')} />
+                      <Field
+                        type="password"
+                        placeholder="Confirm Password *"
+                        {...registerForm.register('confirmPassword')}
+                      />
                     </div>
                     <div className="col-12 col-md-auto">
                       {/* Link */}

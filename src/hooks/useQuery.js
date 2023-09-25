@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { localStorageCache, sessionStorageCache } from '@/utils/cache'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { CanceledError } from 'axios'
@@ -41,25 +41,22 @@ export default function useQuery({
   // Tạo AbortController trong useQuery. Để giá trị mặc định new AbortController() để lần đầu tiên khi chưa có request nào được thực thi thì controllerRef.current.abort không gây ra lỗi.
   const controllerRef = useRef(new AbortController())
 
-  const setCacheDataOrPreviousData = useCallback(
-    (data) => {
-      // Nếu có cacheName (tức queryKey) và keepPreviousData thì mới lưu data vào trong dataRef
-      if (cacheName && keepPreviousData === true) {
-        dataRef.current[cacheName] = data
-      }
+  function setCacheDataOrPreviousData(data) {
+    // Nếu có cacheName (tức queryKey) và keepPreviousData thì mới lưu data vào trong dataRef
+    if (cacheName && keepPreviousData === true) {
+      dataRef.current[cacheName] = data
+    }
 
-      if (cacheName && cacheTime) {
-        // Nếu có cacheName && cacheTime thì expired sẽ bằng expired + Date.now()
-        const expired = cacheTime + Date.now()
-        // Làm vậy để truyền expired vào trong cache.set như một argument
-        cache.set(cacheName, data, expired)
-      }
-    },
-    [cache, cacheName, cacheTime, keepPreviousData],
-  )
+    if (cacheName && cacheTime) {
+      // Nếu có cacheName && cacheTime thì expired sẽ bằng expired + Date.now()
+      const expired = cacheTime + Date.now()
+      // Làm vậy để truyền expired vào trong cache.set như một argument
+      cache.set(cacheName, data, expired)
+    }
+  }
 
   // Function này dùng để lấy data từ storeDriver hoặc dataRef
-  const getCacheDataOrPreviousData = useCallback(() => {
+  function getCacheDataOrPreviousData() {
     // Kiểm tra nếu có queryKey (tức là cacheName)
     if (cacheName) {
       // Kiểm tra keepPreviousData là true và dataRef.current[cacheName] có giá trị thì lấy giá trị của dataRef.current[cacheName]
@@ -75,9 +72,9 @@ export default function useQuery({
       // Lấy data từ storeDriver ra
       return cache.get(cacheName)
     }
-  }, [cache, cacheName, keepPreviousData])
+  }
 
-  const fetchData = useCallback(async () => {
+  async function fetchData() {
     // Mỗi lần fetchData thực thi chúng ta sẽ gọi abort trong controllerRef để cancel request cũ đi
     // Nếu không để giá trị mặc định lúc khởi tạo controllerRef thì phải kiểm tra controllerRef.current có giá trị hay không. Có giá trị thì mới tiến hành gọi đến abort để không gây ra lỗi. Trong trường hợp này đã có giá trị mặc định.
     // Khi fetchData được gọi lần đầu tiên thì abort sẽ là new AbortController() mà chưa được gán vào axios nên nó không có ý nghĩa gì
@@ -144,7 +141,7 @@ export default function useQuery({
       setStatus(SERVICE_STATUS.rejected)
       throw error
     }
-  }, [cacheName, getCacheDataOrPreviousData, limitDuration, queryFn, setCacheDataOrPreviousData])
+  }
 
   // Thoát page mà request chưa hoàn thành thì gọi abort trong controllerRef để cancel request còn dang dở
   useEffect(() => {
@@ -158,7 +155,7 @@ export default function useQuery({
       fetchData()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled])
+  }, [enabled].concat(queryKey))
 
   return {
     data,
