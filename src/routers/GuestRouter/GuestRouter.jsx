@@ -1,9 +1,11 @@
-import { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { PATH } from '@/config'
+import { useSelector } from 'react-redux'
+import { authSelector } from '@/stores/selector'
 
 export default function GuestRouter({ redirect = PATH.homePage }) {
-  const [user] = useState(false)
+  const { profile } = useSelector(authSelector)
+  console.log(profile)
 
-  return user === false ? <Outlet /> : <Navigate to={redirect} />
+  return Boolean(profile) === false ? <Outlet /> : <Navigate to={redirect} />
 }

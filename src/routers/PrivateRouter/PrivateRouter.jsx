@@ -1,9 +1,11 @@
-import { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { PATH } from '@/config'
+import { useSelector } from 'react-redux'
+import { authSelector } from '@/stores/selector'
 
 export default function PrivateRouter({ redirect = PATH.account }) {
-  const [user] = useState(false)
+  const { profile } = useSelector(authSelector)
+  console.log('🔥 ~ PrivateRouter ~ profile:', profile)
 
-  return user === true ? <Outlet /> : <Navigate to={redirect} />
+  return Boolean(profile) === true ? <Outlet /> : <Navigate to={redirect} />
 }

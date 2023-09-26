@@ -5,5 +5,7 @@ export function handleError(error) {
   console.log(error)
   if (error?.response?.data?.message) {
     toast.error(error.response.data.message)
+  } else {
+    toast.error(error.message)
   }
 }

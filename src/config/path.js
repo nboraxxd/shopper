@@ -5,7 +5,7 @@ export const PATH = {
   products: '/san-pham',
   productDetail: '/:slug',
   category: '/:slug/:id',
-  account: '/account',
+  account: '/tai-khoan',
   user: {
     index: USER_PATH,
     order: USER_PATH + '/don-hang',

@@ -1,14 +1,18 @@
 import { Button } from '@/components/Button'
 import { Field } from '@/components/Field'
+import { PATH } from '@/config'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useBodyClass from '@/hooks/useBodyClass'
 import useForm from '@/hooks/useForm'
 import useQuery from '@/hooks/useQuery'
-import { authenticationService } from '@/services/authentication.service'
 import { userService } from '@/services/user.service'
+import { loginAction } from '@/stores/authSlice'
+import { authSelector } from '@/stores/selector'
 import { handleError } from '@/utils/handleError'
 import { confirm, max, min, regexp, required } from '@/utils/validate'
 import omit from 'lodash/omit'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const PASSWORD_MIN_LENGTH = 6
@@ -16,6 +20,9 @@ const PASSWORD_MAX_LENGTH = 32
 
 export default function Account() {
   useBodyClass('bg-light')
+  const dispatch = useDispatch()
+  const loginService = useSelector(authSelector)
+  const navigate = useNavigate()
 
   const registerForm = useForm(
     {
@@ -55,12 +62,6 @@ export default function Account() {
     limitDuration: 1000,
   })
 
-  const loginService = useQuery({
-    queryFn: () => authenticationService.login(loginForm.values),
-    enabled: false,
-    limitDuration: 1000,
-  })
-
   async function handleOnRegister(ev) {
     ev.preventDefault()
     if (registerForm.isValid() === true) {
@@ -79,10 +80,8 @@ export default function Account() {
     ev.preventDefault()
     if (loginForm.isValid() === true) {
       try {
-        const response = await loginService.refetch()
-        if (response.success === true) {
-          toast.success(response.message)
-        }
+        await dispatch(loginAction(loginForm.values)).unwrap()
+        navigate(PATH.homePage)
       } catch (err) {
         handleError(err)
       }
@@ -131,7 +130,7 @@ export default function Account() {
                     </div>
                     <div className="col-12">
                       {/* Button */}
-                      <Button>Sign In</Button>
+                      <Button loading={loginService.status === SERVICE_STATUS.pending}>Sign In</Button>
                     </div>
                     <div className="col-12">
                       <p className="font-size-sm text-muted mb-2 mt-5 font-light">

@@ -1,4 +1,9 @@
+import { logoutAction } from '@/stores/authSlice'
+import { useDispatch } from 'react-redux'
+
 export default function Profile() {
+  const dispatch = useDispatch()
+
   return (
     <section className="pb-12 pt-7">
       <div className="container">
@@ -34,9 +39,12 @@ export default function Profile() {
                 <a className="list-group-item list-group-item-action dropright-toggle " href="account-payment.html">
                   Sổ thanh toán
                 </a>
-                <a className="list-group-item list-group-item-action dropright-toggle" href="#!">
+                <button
+                  className="list-group-item list-group-item-action dropright-toggle"
+                  onClick={() => dispatch(logoutAction())}
+                >
                   Đăng xuất
-                </a>
+                </button>
               </div>
             </nav>
           </div>

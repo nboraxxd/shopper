@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getTokenFromLS } from './token'
 
 export const http = axios.create()
 
@@ -6,6 +7,11 @@ export const http = axios.create()
 http.interceptors.request.use(
   function (config) {
     // Làm gì đó trước khi request dược gửi đi
+    const token = getTokenFromLS()
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token.accessToken}`
+    }
+
     return config
   },
   function (error) {
