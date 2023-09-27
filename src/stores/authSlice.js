@@ -1,7 +1,7 @@
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { authenticationService } from '@/services/authentication.service'
 import { userService } from '@/services/user.service'
-import { clearUserFromLS, clearTokenFromLS, getUserFromLS, setUserToLS, setTokenToLS } from '@/utils/token'
+import { clearUserFromLS, clearTokenFromLS, getUserFromLS, setUserToLS, setTokenToLS } from '@/utils'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {

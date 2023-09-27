@@ -9,8 +9,8 @@ import useSearchParamsObj from '@/hooks/useSearchParamsObj'
 import { userService } from '@/services/user.service'
 import { loginAction, loginByCodeAction } from '@/stores/authSlice'
 import { authSelector } from '@/stores/selector'
-import { handleError } from '@/utils/handleError'
-import { confirm, max, min, regexp, required } from '@/utils/validate'
+import { copyToClipboard, handleError, confirm, max, min, regexp, required } from '@/utils'
+import { message } from 'antd'
 import omit from 'lodash/omit'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -98,6 +98,11 @@ export default function Account() {
     }
   }
 
+  function _copyToClipboard(ev) {
+    copyToClipboard(ev.target.innerText)
+    message.info('Copied')
+  }
+
   return (
     <section className="py-12">
       <div className="container">
@@ -144,7 +149,24 @@ export default function Account() {
                     </div>
                     <div className="col-12">
                       <p className="font-size-sm text-muted mb-2 mt-5 font-light">
-                        Tài khoản demo: <b className="text-black">demo@spacedev.com / Spacedev@123</b>
+                        Tài khoản demo:{' '}
+                        <b className="text-black">
+                          <span
+                            className="cursor-pointer underline underline-offset-1"
+                            title="email"
+                            onClick={_copyToClipboard}
+                          >
+                            demo@spacedev.com
+                          </span>{' '}
+                          /{' '}
+                          <span
+                            className="cursor-pointer underline underline-offset-1"
+                            title="password"
+                            onClick={_copyToClipboard}
+                          >
+                            Spacedev@123
+                          </span>
+                        </b>
                       </p>
                       <p className="font-size-sm text-muted mb-2 mt-5 text-justify font-light">
                         Chúng tôi cung cấp cho bạn tài khoản demo vì mục đích học tập, để đảm bảo những người khác có

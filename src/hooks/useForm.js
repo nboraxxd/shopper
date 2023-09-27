@@ -1,4 +1,4 @@
-import { validate } from '@/utils/validate'
+import { validate } from '@/utils'
 import { useState } from 'react'
 
 /**
