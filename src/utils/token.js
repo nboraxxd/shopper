@@ -12,15 +12,15 @@ export function clearTokenFromLS() {
   localStorage.removeItem(TOKEN_KEY)
 }
 
-export function setProfileToLS(data) {
+export function setUserToLS(data) {
   localStorage.setItem(USER_KEY, JSON.stringify(data))
 }
 
-export function getProfileFromLS() {
+export function getUserFromLS() {
   return JSON.parse(localStorage.getItem(USER_KEY))
 }
 
-export function clearProfileFromLS() {
+export function clearUserFromLS() {
   localStorage.removeItem(USER_KEY)
 }
 

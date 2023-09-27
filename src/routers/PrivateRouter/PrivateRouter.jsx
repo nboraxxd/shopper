@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux'
 import { authSelector } from '@/stores/selector'
 
 export default function PrivateRouter({ redirect = PATH.account }) {
-  const { profile } = useSelector(authSelector)
-  console.log('🔥 ~ PrivateRouter ~ profile:', profile)
+  const { user } = useSelector(authSelector)
 
-  return Boolean(profile) === true ? <Outlet /> : <Navigate to={redirect} />
+  return Boolean(user) === true ? <Outlet /> : <Navigate to={redirect} />
 }

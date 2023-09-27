@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux'
 import { authSelector } from '@/stores/selector'
 
 export default function GuestRouter({ redirect = PATH.homePage }) {
-  const { profile } = useSelector(authSelector)
-  console.log(profile)
+  const { user } = useSelector(authSelector)
 
-  return Boolean(profile) === false ? <Outlet /> : <Navigate to={redirect} />
+  return Boolean(user) === false ? <Outlet /> : <Navigate to={redirect} />
 }

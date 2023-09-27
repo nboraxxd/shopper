@@ -1,7 +1,10 @@
+import { PATH } from '@/config'
 import { logoutAction } from '@/stores/authSlice'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 export default function Profile() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   return (
@@ -41,7 +44,10 @@ export default function Profile() {
                 </a>
                 <button
                   className="list-group-item list-group-item-action dropright-toggle"
-                  onClick={() => dispatch(logoutAction())}
+                  onClick={() => {
+                    dispatch(logoutAction())
+                    navigate(PATH.homePage)
+                  }}
                 >
                   Đăng xuất
                 </button>

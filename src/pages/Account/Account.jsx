@@ -5,12 +5,14 @@ import { SERVICE_STATUS } from '@/config/serviceStatus'
 import useBodyClass from '@/hooks/useBodyClass'
 import useForm from '@/hooks/useForm'
 import useQuery from '@/hooks/useQuery'
+import useSearchParamsObj from '@/hooks/useSearchParamsObj'
 import { userService } from '@/services/user.service'
-import { loginAction } from '@/stores/authSlice'
+import { loginAction, loginByCodeAction } from '@/stores/authSlice'
 import { authSelector } from '@/stores/selector'
 import { handleError } from '@/utils/handleError'
 import { confirm, max, min, regexp, required } from '@/utils/validate'
 import omit from 'lodash/omit'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -20,9 +22,11 @@ const PASSWORD_MAX_LENGTH = 32
 
 export default function Account() {
   useBodyClass('bg-light')
+  const { code } = useSearchParamsObj()
+  const navigate = useNavigate()
+
   const dispatch = useDispatch()
   const loginService = useSelector(authSelector)
-  const navigate = useNavigate()
 
   const registerForm = useForm(
     {
@@ -55,6 +59,13 @@ export default function Account() {
     ],
   })
 
+  useEffect(() => {
+    if (Boolean(code) === true) {
+      dispatch(loginByCodeAction(code))
+      navigate(PATH.homePage)
+    }
+  }, [code, dispatch, navigate])
+
   const registerService = useQuery({
     queryFn: () =>
       userService.register({ ...omit(registerForm.values, ['confirmPassword']), redirect: window.location.href }),
@@ -81,7 +92,6 @@ export default function Account() {
     if (loginForm.isValid() === true) {
       try {
         await dispatch(loginAction(loginForm.values)).unwrap()
-        navigate(PATH.homePage)
       } catch (err) {
         handleError(err)
       }

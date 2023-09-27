@@ -1,11 +1,11 @@
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { authenticationService } from '@/services/authentication.service'
 import { userService } from '@/services/user.service'
-import { clearProfileFromLS, clearTokenFromLS, getProfileFromLS, setProfileToLS, setTokenToLS } from '@/utils/token'
+import { clearUserFromLS, clearTokenFromLS, getUserFromLS, setUserToLS, setTokenToLS } from '@/utils/token'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  profile: getProfileFromLS(),
+  user: getUserFromLS(),
   status: SERVICE_STATUS.idle,
 }
 
@@ -14,10 +14,26 @@ export const loginAction = createAsyncThunk('auth/login', async (data) => {
     const response = await authenticationService.login(data)
     setTokenToLS(response.data)
 
-    const profile = await userService.getProfile()
-    setProfileToLS(profile.data)
+    const user = await userService.getUser()
+    setUserToLS(user.data)
 
-    return profile.data
+    return user.data
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err)
+    throw err.response.data
+  }
+})
+
+export const loginByCodeAction = createAsyncThunk('auth/loginByCode', async (code) => {
+  try {
+    const response = await authenticationService.loginByCode({ code })
+    setTokenToLS(response.data)
+
+    const user = await userService.getUser()
+    setUserToLS(user.data)
+
+    return user.data
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err)
@@ -28,7 +44,7 @@ export const loginAction = createAsyncThunk('auth/login', async (data) => {
 export const logoutAction = createAsyncThunk('auth/logout', (_, thunkAPI) => {
   thunkAPI.dispatch(authSlice.actions.logout())
   clearTokenFromLS()
-  clearProfileFromLS()
+  clearUserFromLS()
 })
 
 export const authSlice = createSlice({
@@ -36,24 +52,30 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.profile = null
+      state.user = null
     },
-    setProfile: (state, action) => {
-      state.profile = action.payload
+
+    setUser: (state, action) => {
+      state.user = action.payload
     },
   },
+
   extraReducers: (builder) => {
     builder.addCase(loginAction.pending, (state) => {
       state.status = SERVICE_STATUS.pending
+    })
+
+    builder.addCase(loginAction.fulfilled, (state, action) => {
+      state.status = SERVICE_STATUS.successful
+      state.user = action.payload
     })
 
     builder.addCase(loginAction.rejected, (state) => {
       state.status = SERVICE_STATUS.rejected
     })
 
-    builder.addCase(loginAction.fulfilled, (state, action) => {
-      state.status = SERVICE_STATUS.success
-      state.profile = action.payload
+    builder.addCase(loginByCodeAction.fulfilled, (state, action) => {
+      state.user = action.payload
     })
   },
 })
