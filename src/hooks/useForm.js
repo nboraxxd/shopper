@@ -1,5 +1,5 @@
 import { validate } from '@/utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
  *
@@ -9,6 +9,11 @@ import { useState } from 'react'
 export default function useForm(rules, { initialValue = {}, dependencies = {} } = {}) {
   const [values, setValues] = useState(initialValue)
   const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    setValues(initialValue)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(initialValue)])
 
   function register(name) {
     return {

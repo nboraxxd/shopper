@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { ENV } from '@/config'
 import { counterReducer } from '@/stores/counterSlice'
-import { authReducer } from '@/stores/authSlice'
+import { authReducer, getUserAction } from '@/stores/authSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,3 +10,5 @@ export const store = configureStore({
   },
   devTools: ENV === 'development',
 })
+
+store.dispatch(getUserAction())

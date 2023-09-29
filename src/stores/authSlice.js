@@ -1,7 +1,7 @@
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { authenticationService } from '@/services/authentication.service'
 import { userService } from '@/services/user.service'
-import { clearUserFromLS, clearTokenFromLS, getUserFromLS, setUserToLS, setTokenToLS } from '@/utils'
+import { clearUserFromLS, clearTokenFromLS, getUserFromLS, setUserToLS, setTokenToLS, getTokenFromLS } from '@/utils'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -44,6 +44,21 @@ export const loginByCodeAction = createAsyncThunk('auth/loginByCode', async (cod
 export const setUserAction = createAsyncThunk('auth/setUser', (user, thunkAPI) => {
   setUserToLS(user)
   thunkAPI.dispatch(authActions.setUser(user))
+})
+
+export const getUserAction = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
+  try {
+    if (Boolean(getTokenFromLS()) === true) {
+      const response = await userService.getUser()
+      setUserToLS(response.data)
+
+      thunkAPI.dispatch(authActions.setUser(response.data))
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err)
+    throw err.response.data
+  }
 })
 
 export const logoutAction = createAsyncThunk('auth/logout', (_, thunkAPI) => {
