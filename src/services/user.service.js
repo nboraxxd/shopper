@@ -7,6 +7,10 @@ export const userService = {
   },
 
   getUser() {
-    return http.get(`${USER_API}`)
+    return http.get(USER_API)
+  },
+
+  updateProfile(body) {
+    return http.patch(USER_API, body)
   },
 }

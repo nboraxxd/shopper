@@ -7,7 +7,7 @@ export default function App() {
   return (
     <>
       {element}
-      <Toaster richColors position="top-center" duration={3000} />
+      <Toaster duration={3000} />
     </>
   )
 }

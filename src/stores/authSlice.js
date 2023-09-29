@@ -41,13 +41,18 @@ export const loginByCodeAction = createAsyncThunk('auth/loginByCode', async (cod
   }
 })
 
+export const setUserAction = createAsyncThunk('auth/setUser', (user, thunkAPI) => {
+  setUserToLS(user)
+  thunkAPI.dispatch(authActions.setUser(user))
+})
+
 export const logoutAction = createAsyncThunk('auth/logout', (_, thunkAPI) => {
-  thunkAPI.dispatch(authSlice.actions.logout())
+  thunkAPI.dispatch(authActions.logout())
   clearTokenFromLS()
   clearUserFromLS()
 })
 
-export const authSlice = createSlice({
+export const { actions: authActions, reducer: authReducer } = createSlice({
   name: 'auth',
   initialState,
   reducers: {

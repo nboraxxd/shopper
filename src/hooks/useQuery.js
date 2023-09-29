@@ -3,7 +3,6 @@ import { delay, localStorageCache, sessionStorageCache } from '@/utils'
 import { SERVICE_STATUS } from '@/config/serviceStatus'
 import { CanceledError } from 'axios'
 
-
 const _asyncFunction = {
   // key: Promise,
 }
@@ -74,7 +73,7 @@ export default function useQuery({
     }
   }
 
-  async function fetchData() {
+  async function fetchData(...args) {
     // Mỗi lần fetchData thực thi chúng ta sẽ gọi abort trong controllerRef để cancel request cũ đi
     // Nếu không để giá trị mặc định lúc khởi tạo controllerRef thì phải kiểm tra controllerRef.current có giá trị hay không. Có giá trị thì mới tiến hành gọi đến abort để không gây ra lỗi. Trong trường hợp này đã có giá trị mặc định.
     // Khi fetchData được gọi lần đầu tiên thì abort sẽ là new AbortController() mà chưa được gán vào axios nên nó không có ý nghĩa gì
@@ -96,7 +95,7 @@ export default function useQuery({
       // Sau khi đã lấy data từ trong cache hoặc dataRef ra thì kiểm tra lại response
       // Nếu response vẫn không có data thì gọi hàm queryFn để lấy dữ liệu từ server
       if (Boolean(response) === false) {
-        response = queryFn({ signal: controllerRef.current.signal })
+        response = queryFn({ signal: controllerRef.current.signal, params: args })
 
         if (cacheName) {
           _asyncFunction[cacheName] = response

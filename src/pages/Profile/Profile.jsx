@@ -1,11 +1,46 @@
+import { Button } from '@/components/Button'
+import { Field } from '@/components/Field'
 import { PATH } from '@/config'
-import { logoutAction } from '@/stores/authSlice'
-import { useDispatch } from 'react-redux'
+import { SERVICE_STATUS } from '@/config/serviceStatus'
+import useForm from '@/hooks/useForm'
+import useQuery from '@/hooks/useQuery'
+import { userService } from '@/services/user.service'
+import { logoutAction, setUserAction } from '@/stores/authSlice'
+import { authSelector } from '@/stores/selector'
+import { handleError, regexp, required } from '@/utils'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
+
+const profileRules = {
+  name: [required('Vui lòng nhập họ tên của bạn')],
+  phone: [required('Vui lòng nhập số điện thoại của bạn'), regexp('phone', 'Số điện thoại chưa đúng định dạng')],
+}
 
 export default function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { user } = useSelector(authSelector)
+  const profileForm = useForm(profileRules, { initialValue: user })
+
+  const profileService = useQuery({
+    queryFn: ({ params }) => userService.updateProfile(...params),
+    enabled: false,
+  })
+
+  async function onSubmit(ev) {
+    ev.preventDefault()
+
+    if (profileForm.isValid() === true) {
+      try {
+        const response = await profileService.refetch(profileForm.values)
+        dispatch(setUserAction(response.data))
+        toast.success('Bạn đã cập nhật thông tin thành công')
+      } catch (err) {
+        handleError(err)
+      }
+    }
+  }
 
   return (
     <section className="pb-12 pt-7">
@@ -56,7 +91,7 @@ export default function Profile() {
           </div>
           <div className="col-12 col-md-9 col-lg-8 offset-lg-1">
             {/* Form */}
-            <form>
+            <form noValidate onSubmit={onSubmit}>
               <div className="row">
                 <div className="col-12">
                   <div className="profile-avatar">
@@ -68,110 +103,79 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
+                {/* Full Name */}
                 <div className="col-12">
-                  {/* Email */}
-                  <div className="form-group">
-                    <label htmlFor="accountFirstName">Full Name *</label>
-                    <input
-                      className="form-control form-control-sm"
-                      id="accountFirstName"
-                      type="text"
-                      placeholder="Full Name *"
-                      defaultValue="Daniel"
-                      required
-                    />
-                  </div>
+                  <Field label="Họ và tên *" placeholder="Họ và tên của bạn" {...profileForm.register('name')} />
                 </div>
+                {/* Phone Number */}
                 <div className="col-md-6">
-                  {/* Email */}
-                  <div className="form-group">
-                    <label htmlFor="accountEmail">Phone Number *</label>
-                    <input
-                      className="form-control form-control-sm"
-                      id="accountEmail"
-                      type="email"
-                      placeholder="Phone Number *"
-                      required
-                    />
-                  </div>
+                  <Field
+                    label="Số điện thoại *"
+                    placeholder="Số điện thoại của bạn"
+                    {...profileForm.register('phone')}
+                  />
                 </div>
+                {/* Email */}
                 <div className="col-md-6">
-                  {/* Email */}
-                  <div className="form-group">
-                    <label htmlFor="accountEmail">Email Address *</label>
-                    <input
-                      disabled
-                      className="form-control form-control-sm"
-                      id="accountEmail"
-                      type="email"
-                      placeholder="Email Address *"
-                      defaultValue="support@spacedev.com"
-                      required
-                    />
-                  </div>
+                  <Field
+                    label="Địa chỉ Email"
+                    type="email"
+                    placeholder="Email Address"
+                    defaultValue={user.username}
+                    disabled
+                  />
                 </div>
+                {/* Password */}
                 <div className="col-12 col-md-12">
-                  {/* Password */}
-                  <div className="form-group">
-                    <label htmlFor="accountPassword">Current Password</label>
-                    <input
-                      className="form-control form-control-sm"
-                      id="accountPassword"
-                      type="password"
-                      placeholder="Current Password"
-                      required
-                    />
-                  </div>
+                  <Field
+                    label="Mật khẩu hiện tại"
+                    type="password"
+                    placeholder="Mật khẩu hiện tại của bạn"
+                    {...profileForm.register('currentPassword')}
+                  />
                 </div>
+                {/* New Password */}
                 <div className="col-12 col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="AccountNewPassword">New Password</label>
-                    <input
-                      className="form-control form-control-sm"
-                      id="AccountNewPassword"
-                      type="password"
-                      placeholder="New Password"
-                      required
-                    />
-                  </div>
+                  <Field
+                    label="Mật khẩu mới"
+                    type="password"
+                    placeholder="Mật khẩu mới của bạn"
+                    {...profileForm.register('newPassword')}
+                  />
                 </div>
+                {/* Confirm Password */}
                 <div className="col-12 col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="AccountNewPassword">Conform Password</label>
-                    <input
-                      className="form-control form-control-sm"
-                      id="AccountNewPassword"
-                      type="password"
-                      placeholder="Conform Password"
-                      required
-                    />
-                  </div>
+                  <Field
+                    label="Xác nhận mật khẩu"
+                    type="password"
+                    placeholder="Xác nhận lại mật khẩu của bạn"
+                    {...profileForm.register('confirmPassword')}
+                  />
                 </div>
+                {/* Date of Birth */}
                 <div className="col-12 col-lg-6">
                   <div className="form-group">
-                    <label>Date of Birth</label>
+                    <label>Ngày sinh</label>
                     <input className="form-control form-control-sm" type="date" placeholder="dd/mm/yyyy" required />
                   </div>
                 </div>
                 <div className="col-12 col-lg-6">
                   {/* Gender */}
                   <div className="form-group mb-8">
-                    <label>Gender</label>
+                    <label>Giới tính</label>
                     <div className="btn-group-toggle" data-toggle="buttons">
                       <label className="btn btn-sm btn-outline-border active">
-                        <input type="radio" name="gender" defaultChecked /> Male
+                        <input type="radio" name="gender" defaultChecked /> Nam
                       </label>
                       <label className="btn btn-sm btn-outline-border">
-                        <input type="radio" name="gender" /> Female
+                        <input type="radio" name="gender" /> Nữ
                       </label>
                     </div>
                   </div>
                 </div>
+                {/* Button */}
                 <div className="col-12">
-                  {/* Button */}
-                  <button className="btn btn-dark" type="submit">
-                    Save Changes
-                  </button>
+                  <Button loading={profileService.status === SERVICE_STATUS.pending}>Lưu thay đổi</Button>
                 </div>
               </div>
             </form>

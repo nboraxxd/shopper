@@ -10,7 +10,7 @@ export default function Field({ label, type = 'text', error, onChange, ...props 
 
   return (
     <>
-      <label className="sr-only" htmlFor={id}>
+      <label className={twJoin(Boolean(label === false) && 'sr-only')} htmlFor={id}>
         {label}
       </label>
       <input
