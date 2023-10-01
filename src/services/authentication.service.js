@@ -5,7 +5,12 @@ export const authenticationService = {
   loginByCode(body) {
     return http.post(`${AUTHENTICATION_API}/login-by-code`, body)
   },
+
   login(body) {
-    return http.post(`${AUTHENTICATION_API}/login`, body)
+    return http.post(`${AUTHENTICATION_API}/login-test`, body)
+  },
+
+  refreshToken(body) {
+    return http.post(`${AUTHENTICATION_API}/refresh-token`, body)
   },
 }
