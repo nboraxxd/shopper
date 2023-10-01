@@ -22,6 +22,14 @@ export function validate(rules, forms) {
 
   for (const key in rules) {
     for (const rule of rules[key]) {
+      if (typeof rule === 'function') {
+        const err = rule(forms[key], forms)
+        if (err) {
+          errorObject[key] = err
+          break
+        }
+      }
+
       if (rule.required) {
         if (
           // typeof forms[key] === 'boolean' là để check cho những trường hợp là checkbox input

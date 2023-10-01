@@ -13,4 +13,8 @@ export const userService = {
   updateProfile(body) {
     return http.patch(USER_API, body)
   },
+
+  changePassword(body) {
+    return http.post(`${USER_API}/change-password`, body)
+  },
 }

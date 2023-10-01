@@ -118,13 +118,24 @@ export default function Account() {
                   <div className="row">
                     <div className="col-12">
                       {/* Email */}
-                      <Field type="email" placeholder="Email Address *" {...loginForm.register('username')} />
+                      <Field
+                        type="email"
+                        placeholder="Email Address *"
+                        autoComplete="email"
+                        {...loginForm.register('username')}
+                      />
                     </div>
                     <div className="col-12">
                       {/* Password */}
-                      <Field type="password" placeholder="Password *" {...loginForm.register('password')} />
+                      <Field
+                        type="password"
+                        placeholder="Password *"
+                        autoComplete="current-password"
+                        {...loginForm.register('password')}
+                      />
                     </div>
                     <div className="col-12 col-md">
+                      {/* // TODO: Handle remember me feature later */}
                       {/* Remember */}
                       <div className="form-group">
                         <div className="custom-control custom-checkbox">
@@ -199,17 +210,28 @@ export default function Account() {
                     </div>
                     <div className="col-12">
                       {/* Email */}
-                      <Field type="email" placeholder="Email Address *" {...registerForm.register('username')} />
+                      <Field
+                        type="email"
+                        placeholder="Email Address *"
+                        autoComplete="email"
+                        {...registerForm.register('username')}
+                      />
                     </div>
                     <div className="col-12">
                       {/* Password */}
-                      <Field type="password" placeholder="Password *" {...registerForm.register('password')} />
+                      <Field
+                        type="password"
+                        placeholder="Password *"
+                        autoComplete="new-password"
+                        {...registerForm.register('password')}
+                      />
                     </div>
                     <div className="col-12">
                       {/* Password */}
                       <Field
                         type="password"
                         placeholder="Confirm Password *"
+                        autoComplete="new-password"
                         {...registerForm.register('confirmPassword')}
                       />
                     </div>

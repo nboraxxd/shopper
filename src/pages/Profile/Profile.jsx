@@ -7,24 +7,89 @@ import useQuery from '@/hooks/useQuery'
 import { userService } from '@/services/user.service'
 import { logoutAction, setUserAction } from '@/stores/authSlice'
 import { authSelector } from '@/stores/selector'
-import { handleError, regexp, required } from '@/utils'
+import { confirm, different, handleError, max, min, regexp, required, validate } from '@/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
+const PASSWORD_MIN_LENGTH = 6
+const PASSWORD_MAX_LENGTH = 32
+
 const profileRules = {
   name: [required('Vui lòng nhập họ tên của bạn')],
   phone: [required('Vui lòng nhập số điện thoại của bạn'), regexp('phone', 'Số điện thoại chưa đúng định dạng')],
+  currentPassword: [
+    (_, forms) => {
+      if (forms.newPassword?.trim()?.length >= PASSWORD_MIN_LENGTH) {
+        const errorObj = validate(
+          {
+            currentPassword: [required('Vui lòng nhập mật khẩu hiện tại')],
+          },
+          forms,
+        )
+        return errorObj.currentPassword
+      }
+      return
+    },
+    min(PASSWORD_MIN_LENGTH, `Mật khẩu phải có tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`),
+    max(PASSWORD_MAX_LENGTH, `Mật khẩu chỉ được phép có tối đa ${PASSWORD_MAX_LENGTH} ký tự`),
+  ],
+  newPassword: [
+    (_, forms) => {
+      if (forms.currentPassword?.trim().length >= PASSWORD_MIN_LENGTH) {
+        const errorObj = validate(
+          {
+            newPassword: [required('Vui lòng nhập mật khẩu mới')],
+          },
+          forms,
+        )
+        return errorObj.newPassword
+      }
+      return
+    },
+    min(PASSWORD_MIN_LENGTH, `Mật khẩu phải có tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`),
+    max(PASSWORD_MAX_LENGTH, `Mật khẩu chỉ được phép có tối đa ${PASSWORD_MAX_LENGTH} ký tự`),
+    different('currentPassword', 'Mật khẩu mới phải khác với mật khẩu hiện tại'),
+  ],
+  confirmPassword: [
+    (_, forms) => {
+      if (
+        forms.newPassword?.trim().length >= PASSWORD_MIN_LENGTH &&
+        forms.newPassword?.trim() !== forms?.currentPassword
+      ) {
+        const errObj = validate(
+          {
+            confirmPassword: [required('Vui lòng xác nhận lại mật khẩu')],
+          },
+          forms,
+        )
+        return errObj.confirmPassword
+      }
+      return
+    },
+    confirm('newPassword', 'Mật khẩu nhập lại chưa chính xác'),
+  ],
 }
 
 export default function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector(authSelector)
-  const profileForm = useForm(profileRules, { initialValue: user })
+  const profileForm = useForm(profileRules, {
+    dependencies: {
+      currentPassword: ['newPassword'],
+      newPassword: ['confirmPassword'],
+    },
+    initialValue: user,
+  })
 
   const profileService = useQuery({
     queryFn: ({ params }) => userService.updateProfile(...params),
+    enabled: false,
+  })
+
+  const changePasswordService = useQuery({
+    queryFn: ({ params }) => userService.changePassword(...params),
     enabled: false,
   })
 
@@ -33,9 +98,15 @@ export default function Profile() {
 
     if (profileForm.isValid() === true) {
       try {
+        if (profileForm.values.newPassword) {
+          await changePasswordService.refetch({
+            currentPassword: profileForm.values.currentPassword,
+            newPassword: profileForm.values.newPassword,
+          })
+        }
         const response = await profileService.refetch(profileForm.values)
         dispatch(setUserAction(response.data))
-        toast.success('Bạn đã cập nhật thông tin thành công')
+        toast.success('Cập nhật thông tin tài khoản thành công')
       } catch (err) {
         handleError(err)
       }
@@ -121,6 +192,7 @@ export default function Profile() {
                     label="Địa chỉ Email"
                     type="email"
                     placeholder="Email Address"
+                    autoComplete="email"
                     defaultValue={user.username}
                     disabled
                   />
@@ -131,6 +203,7 @@ export default function Profile() {
                     label="Mật khẩu hiện tại"
                     type="password"
                     placeholder="Mật khẩu hiện tại của bạn"
+                    autoComplete="current-password"
                     {...profileForm.register('currentPassword')}
                   />
                 </div>
@@ -140,6 +213,7 @@ export default function Profile() {
                     label="Mật khẩu mới"
                     type="password"
                     placeholder="Mật khẩu mới của bạn"
+                    autoComplete="new-password"
                     {...profileForm.register('newPassword')}
                   />
                 </div>
@@ -149,6 +223,7 @@ export default function Profile() {
                     label="Xác nhận mật khẩu"
                     type="password"
                     placeholder="Xác nhận lại mật khẩu của bạn"
+                    autoComplete="new-password"
                     {...profileForm.register('confirmPassword')}
                   />
                 </div>
@@ -175,7 +250,14 @@ export default function Profile() {
                 </div>
                 {/* Button */}
                 <div className="col-12">
-                  <Button loading={profileService.status === SERVICE_STATUS.pending}>Lưu thay đổi</Button>
+                  <Button
+                    loading={
+                      profileService.status === SERVICE_STATUS.pending ||
+                      changePasswordService.status === SERVICE_STATUS.pending
+                    }
+                  >
+                    Lưu thay đổi
+                  </Button>
                 </div>
               </div>
             </form>
