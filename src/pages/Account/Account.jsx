@@ -10,7 +10,6 @@ import { userService } from '@/services/user.service'
 import { loginAction, loginByCodeAction } from '@/stores/authSlice'
 import { authSelector } from '@/stores/selector'
 import { copyToClipboard, handleError, confirm, max, min, regexp, required } from '@/utils'
-import { message } from 'antd'
 import omit from 'lodash/omit'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -100,7 +99,7 @@ export default function Account() {
 
   function _copyToClipboard(ev) {
     copyToClipboard(ev.target.innerText)
-    message.info('Copied')
+    toast.success('Đã sao chép')
   }
 
   return (

@@ -12,7 +12,7 @@ export default function useForm(rules, { initialValue = {}, dependencies = {} } 
 
   useEffect(() => {
     setValues(initialValue)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(initialValue)])
 
   function register(name) {
@@ -53,6 +53,7 @@ export default function useForm(rules, { initialValue = {}, dependencies = {} } 
 
   return {
     values,
+    setValues,
     errors,
     register,
     isValid,

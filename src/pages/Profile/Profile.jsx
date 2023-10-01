@@ -7,7 +7,7 @@ import useQuery from '@/hooks/useQuery'
 import { userService } from '@/services/user.service'
 import { logoutAction, setUserAction } from '@/stores/authSlice'
 import { authSelector } from '@/stores/selector'
-import { confirm, different, handleError, max, min, regexp, required, validate } from '@/utils'
+import { areObjectsEqual, confirm, different, handleError, max, min, regexp, required, validate } from '@/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -95,21 +95,40 @@ export default function Profile() {
 
   async function onSubmit(ev) {
     ev.preventDefault()
+    const isEqual = areObjectsEqual(user, profileForm.values, 'name', 'phone')
+
+    if (Boolean(profileForm.values.newPassword) === false && isEqual === true) {
+      toast.error('Nhập thông tin mới để cập nhật')
+      return
+    }
 
     if (profileForm.isValid() === true) {
-      try {
-        if (profileForm.values.newPassword) {
-          await changePasswordService.refetch({
+      if (profileForm.values.newPassword) {
+        changePasswordService
+          .refetch({
             currentPassword: profileForm.values.currentPassword,
             newPassword: profileForm.values.newPassword,
           })
-        }
-        const response = await profileService.refetch(profileForm.values)
-        dispatch(setUserAction(response.data))
-        toast.success('Cập nhật thông tin tài khoản thành công')
-      } catch (err) {
-        handleError(err)
+          .then(() => {
+            profileForm.setValues({
+              ...profileForm.values,
+              currentPassword: '',
+              newPassword: '',
+              confirmPassword: '',
+            })
+            toast.success('Thay đổi mật khẩu thành công')
+          })
+          .catch(handleError)
       }
+
+      isEqual === false &&
+        profileService
+          .refetch(profileForm.values)
+          .then((response) => {
+            dispatch(setUserAction(response.data))
+            toast.success('Cập nhật thông tin tài khoản thành công')
+          })
+          .catch(handleError)
     }
   }
 
