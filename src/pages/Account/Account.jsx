@@ -120,7 +120,7 @@ export default function Account() {
                       <Field
                         type="email"
                         placeholder="Email Address *"
-                        autoComplete="email"
+                        autoComplete="username"
                         {...loginForm.register('username')}
                       />
                     </div>

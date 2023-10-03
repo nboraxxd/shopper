@@ -11,6 +11,9 @@ import { areObjectsEqual, confirm, different, handleError, max, min, regexp, req
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { avatarDefault } from '@/config/assets'
+import { useRef } from 'react'
+import { fileService } from '@/services/file.service'
 
 const PASSWORD_MIN_LENGTH = 6
 const PASSWORD_MAX_LENGTH = 32
@@ -72,6 +75,8 @@ const profileRules = {
 }
 
 export default function Profile() {
+  const fileRef = useRef()
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector(authSelector)
@@ -97,7 +102,16 @@ export default function Profile() {
     ev.preventDefault()
     const isEqual = areObjectsEqual(user, profileForm.values, 'name', 'phone')
 
-    if (Boolean(profileForm.values.newPassword) === false && isEqual === true) {
+    let avatar
+    if (fileRef.current.files[0]) {
+      const response = await fileService.uploadFile(fileRef.current.files[0])
+
+      if (response.success === true) {
+        avatar = response.link
+      }
+    }
+
+    if (Boolean(profileForm.values.newPassword) === false && isEqual === true && Boolean(avatar) === false) {
       toast.error('Nhập thông tin mới để cập nhật')
       return
     }
@@ -121,9 +135,9 @@ export default function Profile() {
           .catch(handleError)
       }
 
-      isEqual === false &&
+      ;(Boolean(avatar) === true || isEqual === false) &&
         profileService
-          .refetch(profileForm.values)
+          .refetch({ ...profileForm.values, avatar })
           .then((response) => {
             dispatch(setUserAction(response.data))
             toast.success('Cập nhật thông tin tài khoản thành công')
@@ -184,9 +198,10 @@ export default function Profile() {
             <form noValidate onSubmit={onSubmit}>
               <div className="row">
                 <div className="col-12">
+                  <input type="file" hidden ref={fileRef} />
                   <div className="profile-avatar">
-                    <div className="wrap">
-                      <img src="./img/avt.png" />
+                    <div className="wrap" onClick={() => fileRef.current.click()}>
+                      <img src={user.avatar || avatarDefault} />
                       <i className="icon">
                         <img src="./img/icons/icon-camera.svg" />
                       </i>
