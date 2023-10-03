@@ -12,8 +12,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { avatarDefault } from '@/config/assets'
-import { useRef } from 'react'
 import { fileService } from '@/services/file.service'
+import { UploadImage } from '@/components/UploadImage'
+import { useRef } from 'react'
 
 const PASSWORD_MIN_LENGTH = 6
 const PASSWORD_MAX_LENGTH = 32
@@ -103,8 +104,8 @@ export default function Profile() {
     const isEqual = areObjectsEqual(user, profileForm.values, 'name', 'phone')
 
     let avatar
-    if (fileRef.current.files[0]) {
-      const response = await fileService.uploadFile(fileRef.current.files[0])
+    if (fileRef.current) {
+      const response = await fileService.uploadFile(fileRef.current)
 
       if (response.success === true) {
         avatar = response.link
@@ -135,14 +136,16 @@ export default function Profile() {
           .catch(handleError)
       }
 
-      ;(Boolean(avatar) === true || isEqual === false) &&
+      if (Boolean(avatar) === true || isEqual === false) {
         profileService
           .refetch({ ...profileForm.values, avatar })
           .then((response) => {
-            dispatch(setUserAction(response.data))
+            dispatch(setUserAction(response?.data))
+            fileRef.current = null
             toast.success('Cập nhật thông tin tài khoản thành công')
           })
           .catch(handleError)
+      }
     }
   }
 
@@ -198,15 +201,20 @@ export default function Profile() {
             <form noValidate onSubmit={onSubmit}>
               <div className="row">
                 <div className="col-12">
-                  <input type="file" hidden ref={fileRef} />
-                  <div className="profile-avatar">
-                    <div className="wrap" onClick={() => fileRef.current.click()}>
-                      <img src={user.avatar || avatarDefault} />
-                      <i className="icon">
-                        <img src="./img/icons/icon-camera.svg" />
-                      </i>
-                    </div>
-                  </div>
+                  <UploadImage onChange={(file) => (fileRef.current = file)}>
+                    {(previewLink, trigger) => {
+                      return (
+                        <div className="profile-avatar">
+                          <div className="wrap" onClick={trigger}>
+                            <img src={previewLink || user.avatar || avatarDefault} />
+                            <i className="icon">
+                              <img src="./img/icons/icon-camera.svg" />
+                            </i>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </UploadImage>
                 </div>
                 {/* Full Name */}
                 <div className="col-12">
