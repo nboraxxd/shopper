@@ -15,13 +15,16 @@ import { avatarDefault } from '@/config/assets'
 import { fileService } from '@/services/file.service'
 import { UploadImage } from '@/components/UploadImage'
 import { useRef } from 'react'
+import { DatePicker } from 'antd'
+import dayjs from 'dayjs'
+import { Radio } from '@/components/Radio'
 
 const PASSWORD_MIN_LENGTH = 6
 const PASSWORD_MAX_LENGTH = 32
 
 const profileRules = {
   name: [required('Vui lòng nhập họ tên của bạn')],
-  phone: [required('Vui lòng nhập số điện thoại của bạn'), regexp('phone', 'Số điện thoại chưa đúng định dạng')],
+  phone: [regexp('phone', 'Số điện thoại chưa đúng định dạng')],
   currentPassword: [
     (_, forms) => {
       if (forms.newPassword?.trim()?.length >= PASSWORD_MIN_LENGTH) {
@@ -101,7 +104,7 @@ export default function Profile() {
 
   async function onSubmit(ev) {
     ev.preventDefault()
-    const isEqual = areObjectsEqual(user, profileForm.values, 'name', 'phone')
+    const isEqual = areObjectsEqual(user, profileForm.values, 'name', 'phone', 'birthday', 'gender')
 
     let avatar
     if (fileRef.current) {
@@ -222,11 +225,7 @@ export default function Profile() {
                 </div>
                 {/* Phone Number */}
                 <div className="col-md-6">
-                  <Field
-                    label="Số điện thoại *"
-                    placeholder="Số điện thoại của bạn"
-                    {...profileForm.register('phone')}
-                  />
+                  <Field label="Số điện thoại" placeholder="Số điện thoại của bạn" {...profileForm.register('phone')} />
                 </div>
                 {/* Email */}
                 <div className="col-md-6">
@@ -271,24 +270,38 @@ export default function Profile() {
                 </div>
                 {/* Date of Birth */}
                 <div className="col-12 col-lg-6">
-                  <div className="form-group">
-                    <label>Ngày sinh</label>
-                    <input className="form-control form-control-sm" type="date" placeholder="dd/mm/yyyy" required />
-                  </div>
+                  <Field
+                    label="Ngày sinh"
+                    {...profileForm.register('birthday')}
+                    renderField={({ value, onChange, ...props }) => (
+                      <DatePicker
+                        format="DD/MM/YYYY"
+                        value={value ? dayjs(value) : ''}
+                        onChange={(_date, dateString) => {
+                          const birthday = dayjs(dateString).format('DD/MM/YYYY')
+
+                          return onChange?.(birthday === 'Invalid Date' ? '' : birthday)
+                        }}
+                        className="form-control form-control-sm transition-all hover:border-[#e5e5e5]"
+                        {...props}
+                      />
+                    )}
+                  />
                 </div>
                 <div className="col-12 col-lg-6">
                   {/* Gender */}
-                  <div className="form-group mb-8">
-                    <label>Giới tính</label>
-                    <div className="btn-group-toggle" data-toggle="buttons">
-                      <label className="btn btn-sm btn-outline-border active">
-                        <input type="radio" name="gender" defaultChecked /> Nam
-                      </label>
-                      <label className="btn btn-sm btn-outline-border">
-                        <input type="radio" name="gender" /> Nữ
-                      </label>
-                    </div>
-                  </div>
+                  <Field
+                    label="Giới tính"
+                    {...profileForm.register('gender')}
+                    renderField={({ value, onChange }) => (
+                      <div className="btn-group-toggle">
+                        <Radio defaultValue={value} handleChangeRadio={(value) => onChange?.(value)}>
+                          <Radio.Gender value="male">Nam</Radio.Gender>
+                          <Radio.Gender value="female">Nữ</Radio.Gender>
+                        </Radio>
+                      </div>
+                    )}
+                  />
                 </div>
                 {/* Button */}
                 <div className="col-12">

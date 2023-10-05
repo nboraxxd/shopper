@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react'
+import { twJoin } from 'tailwind-merge'
 
 // 1. Create a context
 const RadioContext = createContext({})
@@ -35,5 +36,17 @@ function Content({ children, ...props }) {
   )
 }
 
+function Gender({ children, ...props }) {
+  const { value, onChange } = useContext(RadioContext)
+
+  return (
+    <label className={twJoin('btn btn-sm btn-outline-border', value === props.value && 'active')}>
+      <input type="radio" name="gender" checked={value === props.value} onChange={() => onChange(props.value)} />
+      {children}
+    </label>
+  )
+}
+
 // 4. Add child components as properties to parent component
 Radio.Content = Content
+Radio.Gender = Gender

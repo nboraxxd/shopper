@@ -7,7 +7,7 @@ export const authenticationService = {
   },
 
   login(body) {
-    return http.post(`${AUTHENTICATION_API}/login-test`, body)
+    return http.post(`${AUTHENTICATION_API}/login`, body)
   },
 
   refreshToken(body) {
