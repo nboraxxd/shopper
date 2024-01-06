@@ -14,9 +14,9 @@ module.exports = {
   plugins: ['react-refresh', 'prettier', '@tanstack/query'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'warn',
-    "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/no-rest-destructuring": "warn",
-    "@tanstack/query/stable-query-client": "error",
+    '@tanstack/query/exhaustive-deps': 'error',
+    '@tanstack/query/no-rest-destructuring': 'warn',
+    '@tanstack/query/stable-query-client': 'error',
     'prettier/prettier': [
       'warn',
       {
