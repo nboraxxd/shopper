@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .border-secondary3_dark3 {
+    @apply border-secondary-3 dark:border-dark-3;
+  }
+
+  .border-secondary3_dark2 {
+    @apply border-secondary-3 dark:border-dark-2;
+  }
+
+  .background-light3_dark1 {
+    @apply bg-light-3 dark:bg-dark-1;
+  }
+
+  .background-light2_dark1 {
+    @apply bg-light-2 dark:bg-dark-1;
+  }
+
+  .background-light2_dark2 {
+    @apply bg-light-2 dark:bg-dark-2;
+  }
+
+  .background-light1_dark1 {
+    @apply bg-light-1 dark:bg-dark-1;
+  }
+
+  .background-light1_dark2 {
+    @apply bg-light-1 dark:bg-dark-2;
+  }
+
+  .background-secondary6_dark1 {
+    @apply bg-secondary-6 dark:bg-dark-1;
+  }
+
+  .text-secondary1_light1 {
+    @apply text-secondary-1 dark:text-light-1;
+  }
+
+  .text-secondary1_light3 {
+    @apply text-secondary-1 dark:text-light-3;
+  }
+
+  .text-secondary1_dark3 {
+    @apply text-secondary-1 dark:text-dark-3;
+  }
+
+  .text-secondary2_light3 {
+    @apply text-secondary-2 dark:text-light-3;
+  }
+
+  .text-secondary3_light3 {
+    @apply text-secondary-3 dark:text-light-3;
+  }
+
+  .bold-42 {
+    @apply text-[2.625rem] font-bold leading-[142.857%]; 
+  }
+
+  .medium-42 {
+    @apply text-[2.625rem] font-medium leading-[142.857%]; 
+  }
+
+  .bold-36 {
+    @apply text-4xl font-bold leading-[138.889%]; 
+  }
+
+  .medium-36 {
+    @apply text-4xl font-medium leading-normal;
+  }
+
+  .bold-30 {
+    @apply text-3xl font-bold leading-[146.667%]; 
+  }
+
+  .medium-30 {
+    @apply text-3xl font-medium leading-[146.667%]; 
+  }
+
+  .bold-26 {
+    @apply text-[1.625rem] font-bold leading-[138.462%]; 
+  }
+
+  .medium-26 {
+    @apply text-[1.625rem] font-medium leading-[138.462%]; 
+  }
+
+  .bold-22 {
+    @apply text-[1.375rem] font-bold leading-[145.455%]; 
+  }
+
+  .medium-22 {
+    @apply text-[1.375rem] font-medium leading-[145.455%]; 
+  }
+
+  .regular-22 {
+    @apply text-[1.375rem] font-normal leading-[145.455%]; 
+  }
+
+  .bold-18 {
+    @apply text-lg font-bold leading-[144.444%]; 
+  }
+
+  .medium-18 {
+    @apply text-lg font-medium leading-[144.444%]; 
+  }
+
+  .regular-18 {
+    @apply text-lg font-normal leading-[144.444%]; 
+  }
+
+  .bold-16 {
+    @apply text-base font-bold leading-normal; 
+  }
+
+  .medium-16 {
+    @apply text-base font-medium leading-normal; 
+  }
+
+  .regular-16 {
+    @apply text-base font-normal leading-normal; 
+  }
+
+  .bold-15 {
+    @apply text-[0.9375rem] font-bold leading-[146.667%]; 
+  }
+
+  .medium-15 {
+    @apply text-[0.9375rem] font-medium leading-[146.667%]; 
+  }
+
+  .regular-15 {
+    @apply text-[0.9375rem] font-normal leading-[146.667%]; 
+  }
+
+  .bold-14 {
+    @apply text-[0.875rem] font-bold leading-[142.857%]; 
+  }
+
+  .medium-14 {
+    @apply text-[0.875rem] font-medium leading-[142.857%]; 
+  }
+
+  .regular-14 {
+    @apply text-[0.875rem] font-normal leading-[142.857%]; 
+  }
+}
