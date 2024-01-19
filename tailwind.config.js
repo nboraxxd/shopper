@@ -3,6 +3,7 @@ import { default as flattenColorPalette } from 'tailwindcss/lib/util/flattenColo
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     container: {
@@ -46,6 +47,7 @@ export default {
       },
       boxShadow: {
         1: '0px 20px 60px 10px rgba(237, 237, 246, 0.20)',
+        2: '0px 40px 90px 20px rgba(23, 28, 40, 0.4)',
       },
       screens: {
         xs: '480px',

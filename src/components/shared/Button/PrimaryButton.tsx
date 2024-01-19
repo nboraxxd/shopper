@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react'
 import { cn } from '@/utils'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -6,10 +6,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
 }
 
-export default function PrimaryButton({ children, className, ...rest }: Props) {
+const PrimaryButton = forwardRef<HTMLButtonElement, Props>(({ children, className, ...props }, ref) => {
   return (
-    <button className={cn('focus-primary transition-colors', className)} {...rest}>
+    <button ref={ref} className={cn('focus-primary', className)} {...props}>
       {children}
     </button>
   )
-}
+})
+
+export default PrimaryButton

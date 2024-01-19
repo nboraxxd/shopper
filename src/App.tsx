@@ -1,11 +1,8 @@
+import { Header } from '@/components/shared/Header'
+
 import '@/globals.css'
-import { useGetProducts } from '@/lib/react-query/queriesAndMutations'
-import { Header } from './components/shared/Header'
 
 function App() {
-  const { data } = useGetProducts()
-  console.log('🔥 ~ App ~ data:', data)
-
   return (
     <>
       <Header />
