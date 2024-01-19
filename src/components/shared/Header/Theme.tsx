@@ -1,5 +1,14 @@
 import { useRef, useState, useEffect } from 'react'
-import { useFloating, useInteractions, arrow, shift, flip, offset, useClick } from '@floating-ui/react'
+import {
+  useFloating,
+  useInteractions,
+  arrow,
+  shift,
+  flip,
+  offset,
+  useClick,
+  useTransitionStyles,
+} from '@floating-ui/react'
 
 import { THEMES } from '@/constants'
 import { cn } from '@/utils'
@@ -11,23 +20,24 @@ export default function Theme() {
   const [isOpen, setIsOpen] = useState(false)
   const { theme, setTheme } = useTheme()
 
-  const { refs, context, floatingStyles, elements } = useFloating({
+  const { refs, context, floatingStyles, elements, x, y, middlewareData } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: 'bottom-end',
-    middleware: [
-      offset({ crossAxis: 15, mainAxis: 15 }),
-      shift(),
-      flip(),
-      arrow({
-        element: arrowRef,
-      }),
-    ],
+    middleware: [offset({ crossAxis: 15, mainAxis: 15 }), shift(), flip(), arrow({ element: arrowRef })],
   })
 
   const click = useClick(context)
 
   const { getReferenceProps, getFloatingProps } = useInteractions([click])
+
+  const { styles, isMounted } = useTransitionStyles(context, {
+    duration: 300,
+    initial: {
+      opacity: 0,
+      transform: 'scale(0)',
+    },
+  })
 
   useEffect(() => {
     function handler(ev: MouseEvent) {
@@ -46,6 +56,8 @@ export default function Theme() {
       document.removeEventListener('click', handler)
     }
   }, [elements.domReference, elements.floating])
+
+  console.log(middlewareData.arrow?.alignmentOffset)
 
   return (
     <>
@@ -72,11 +84,20 @@ export default function Theme() {
       </PrimaryButton>
 
       {/* Popover */}
-      {isOpen && (
+      {isMounted && (
         <div
           className="background-light1_dark2 relative z-30 w-32 rounded-lg py-1.5 shadow-1 dark:shadow-2"
           ref={refs.setFloating}
-          style={floatingStyles}
+          style={{
+            ...floatingStyles,
+            ...styles,
+            // Phải set lại left và top vì nó bị ghi đè bởi styles
+            left: x,
+            top: y,
+            // 72 là khoảng cách từ góc trên bên trái của floating đến góc trên bên trái của arrow
+            // 15.5 là nửa chiều rộng của arrow
+            transformOrigin: `${(middlewareData.arrow?.x || 72) + 15.5}px top`,
+          }}
           {...getFloatingProps()}
         >
           {/* Arrow */}
