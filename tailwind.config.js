@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import defaultTheme from 'tailwindcss/defaultTheme'
 import { default as flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette'
 
@@ -6,13 +7,7 @@ export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    container: {
-      center: true,
-      padding: '1rem',
-      screens: {
-        '2xl': 'calc(1340px + 1rem * 2)',
-      },
-    },
+    container: false,
     extend: {
       colors: {
         primary: {
@@ -45,19 +40,22 @@ export default {
       fontFamily: {
         sans: ['Gordita', ...defaultTheme.fontFamily.sans],
       },
+      fontSize: {
+        // Reference: https://tailwindcss.com/docs/font-size#font-size-scale
+        /** 42px size / 142.857% height / bold */
+        // 'bold-42': ['2.625rem', { lineHeight: '142.857%', fontWeight: 'bold' }],
+      },
       boxShadow: {
         1: '0px 20px 60px 10px rgba(237, 237, 246, 0.20)',
         2: '0px 40px 90px 20px rgba(23, 28, 40, 0.4)',
       },
       screens: {
         xs: '480px',
+        '2xl': '1400px',
       },
     },
   },
-  plugins: [
-    addVariablesForColors,
-    // require('./tailwind-plugin.cjs')
-  ],
+  plugins: [addVariablesForColors, require('@tailwindcss/forms'), require('./tailwind-plugin.cts')],
 }
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
