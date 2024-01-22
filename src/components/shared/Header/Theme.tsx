@@ -57,8 +57,6 @@ export default function Theme() {
     }
   }, [elements.domReference, elements.floating])
 
-  console.log(middlewareData.arrow?.alignmentOffset)
-
   return (
     <>
       {/* Theme button */}

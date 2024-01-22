@@ -1,5 +1,4 @@
 import { Header } from '@/components/shared/Header'
-
 import '@/globals.css'
 
 function App() {
