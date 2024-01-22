@@ -14,8 +14,8 @@ export default function Header() {
     <>
       <MobileNav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <header className="background-light1_dark1 md:background-light3_dark1 flex-center fixed inset-x-0 top-0 z-20 h-[82px] shadow-1 dark:shadow-none lg:h-[90px]">
-        <div className="flex-center container">
+      <header className="background-light1_dark1 md:background-light3_dark1 fixed inset-x-0 top-0 z-20 h-[82px] shadow-1 flex-center dark:shadow-none lg:h-[90px]">
+        <div className="container flex-center">
           {/* Open sidebar button */}
           <PrimaryButton
             className="rounded-md py-2.5 pl-0.5 pr-2.5 shadow-1 hover:bg-light-2/50 dark:shadow-none dark:hover:bg-dark-2/15 md:mr-6 lg:hidden"
@@ -30,13 +30,13 @@ export default function Header() {
           <Navbar />
 
           {/* Action */}
-          <div className="flex-center gap-5 md:ml-auto">
+          <div className="gap-5 flex-center md:ml-auto">
             {/* Search */}
             <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-1 hover:bg-light-2/50 dark:shadow-none dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
               <img src="/assets/icons/search.svg" alt="Search" className="icon-filter h-6 w-6" />
             </PrimaryButton>
 
-            <div className="flex-center background-light1_dark2 rounded-md shadow-1 dark:shadow-none max-md:hidden lg:rounded-lg">
+            <div className="background-light1_dark2 rounded-md shadow-1 flex-center dark:shadow-none max-md:hidden lg:rounded-lg">
               {/* Favorites */}
               <ActionLink to={PATH.HOMEPAGE} imgSrc="/assets/icons/heart.svg" imgAlt="Heart" count={3} />
               <div className="h-8 w-px bg-secondary-4"></div>

@@ -1,6 +1,13 @@
 import plugin from 'tailwindcss/plugin'
 
-module.exports = plugin(function ({ addComponents, theme: _theme }) {
+module.exports = plugin(function ({ addComponents, addUtilities, theme: _theme }) {
+  addUtilities({
+    '.flex-center': {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  })
+
   addComponents({
     '.container': {
       maxWidth: '100%',

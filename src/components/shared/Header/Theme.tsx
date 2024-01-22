@@ -110,7 +110,7 @@ export default function Theme() {
             {THEMES.map((item) => (
               <li key={item.value} className="hover:bg-light-2/60 dark:hover:bg-dark-3/5">
                 <PrimaryButton
-                  className="flex-center flex w-full gap-2 px-2.5 py-2"
+                  className="flex w-full gap-2 px-2.5 py-2 flex-center"
                   onClick={() => {
                     setTheme(item.value)
                     setIsOpen(false)

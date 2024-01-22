@@ -14,7 +14,7 @@ export default function ActionLink({ to, imgSrc, imgAlt, count, className }: Pro
     <Link
       to={to}
       className={cn(
-        'focus-primary flex-center gap-2.5 rounded-md p-2.5 hover:bg-light-2/60 dark:hover:bg-dark-3/5 lg:rounded-lg lg:px-5 lg:py-3.5',
+        'focus-primary gap-2.5 rounded-md p-2.5 flex-center hover:bg-light-2/60 dark:hover:bg-dark-3/5 lg:rounded-lg lg:px-5 lg:py-3.5',
         className
       )}
     >
