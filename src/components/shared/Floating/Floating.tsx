@@ -94,6 +94,7 @@ function Root({ children, isOpen, setIsOpen, placement }: IRootPops) {
     },
   })
 
+  // Close floating when click outside
   useEffect(() => {
     function handler(ev: MouseEvent) {
       const target = ev.target
@@ -111,6 +112,19 @@ function Root({ children, isOpen, setIsOpen, placement }: IRootPops) {
       document.removeEventListener('click', handler)
     }
   }, [elements.domReference, elements.floating, setIsOpen])
+
+  // Close floating when resize
+  useEffect(() => {
+    function handler() {
+      setIsOpen(false)
+    }
+
+    window.addEventListener('resize', handler)
+
+    return () => {
+      window.removeEventListener('resize', handler)
+    }
+  }, [setIsOpen])
 
   const value = {
     getReferenceProps,
