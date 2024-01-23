@@ -12,7 +12,7 @@ export default function Theme() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <Floating.Root isOpen={isOpenFloating} setIsOpen={setIsOpenFloating}>
+    <Floating.Root isOpen={isOpenFloating} setIsOpen={setIsOpenFloating} placement="bottom-end">
       <Floating.Reference
         as={PrimaryButton}
         className="background-light1_dark2 relative rounded-lg p-3.5 shadow-1 hover:bg-light-2/60 dark:shadow-none dark:hover:bg-dark-3/5"
@@ -32,9 +32,8 @@ export default function Theme() {
           className="active-theme absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
         />
       </Floating.Reference>
-      {/* 72 là khoảng cách từ góc trên bên trái của floating đến góc trên bên trái của arrow */}
-      {/* 15.5 là nửa chiều rộng của arrow */}
-      <Floating arrowImg="/assets/images/arrow-up.png" arrowWidth={15.5} floatingToArrowDistance={72}>
+
+      <Floating arrowImg="/assets/images/dropdown-arrow.png" arrowWidth={32} arrowClassName="-top-2.5">
         <ul>
           {THEMES.map((item) => (
             <li key={item.value} className="hover:bg-light-2/60 dark:hover:bg-dark-3/5">

@@ -11,6 +11,7 @@ import {
   useTransitionStyles,
   ReferenceType,
   MiddlewareData,
+  Placement,
 } from '@floating-ui/react'
 
 import { cn } from '@/utils'
@@ -33,6 +34,7 @@ interface IRootPops {
   children: React.ReactNode
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  placement?: Placement
 }
 
 interface IReferenceProps {
@@ -46,7 +48,6 @@ interface IFloatingProps {
   children: React.ReactNode
   arrowImg: string
   arrowWidth: number
-  floatingToArrowDistance: number
   wrapperClassName?: string
   arrowClassName?: string
   arrowYOffsetKeyword?: 'top' | 'bottom'
@@ -68,13 +69,14 @@ const INITIAL_STATE: IFloatingContext = {
 
 const PopoverContext = createContext<IFloatingContext>(INITIAL_STATE)
 
-function Root({ children, isOpen, setIsOpen }: IRootPops) {
+function Root({ children, isOpen, setIsOpen, placement }: IRootPops) {
   const arrowRef = useRef<HTMLImageElement>(null)
 
   const { refs, context, floatingStyles, elements, x, y, middlewareData } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement: 'bottom-end',
+    placement,
+    // crossAxis là chiều ngang từ trái qua phải, mainAxis là chiều dọc từ trên xuống dưới
     middleware: [offset({ crossAxis: 15, mainAxis: 15 }), shift(), flip(), arrow({ element: arrowRef })],
   })
 
@@ -140,15 +142,7 @@ function Reference(props: IReferenceProps) {
 }
 
 function Floating(props: IFloatingProps) {
-  const {
-    children,
-    wrapperClassName,
-    arrowImg,
-    arrowClassName,
-    arrowWidth,
-    floatingToArrowDistance,
-    arrowYOffsetKeyword = 'top',
-  } = props
+  const { children, wrapperClassName, arrowImg, arrowClassName, arrowWidth, arrowYOffsetKeyword = 'top' } = props
 
   const { getFloatingProps, styles, isMounted, setFloating, floatingStyles, x, y, middlewareData, arrowRef } =
     useContext(PopoverContext)
@@ -163,12 +157,11 @@ function Floating(props: IFloatingProps) {
       style={{
         ...floatingStyles,
         ...styles,
-        // Phải set lại left và top vì nó bị ghi đè bởi styles
+        // Phải set lại left và top vì nó bị ghi đè bởi styles.
+        // Nếu đặt floatingStyles ở sau styles thì sẽ không có animation
         left: x,
         top: y,
-        // `floatingToArrowDistance` là khoảng cách từ góc trên bên trái của floating đến góc trên bên trái của arrow
-        // `arrowWidth` là chiều rộng của arrow
-        transformOrigin: `${(middlewareData.arrow?.x || floatingToArrowDistance) + arrowWidth / 2}px ${arrowYOffsetKeyword}`,
+        transformOrigin: `${(middlewareData.arrow?.x ?? 0) + arrowWidth / 2}px ${arrowYOffsetKeyword}`,
       }}
       {...getFloatingProps()}
     >
@@ -176,7 +169,9 @@ function Floating(props: IFloatingProps) {
       <img
         ref={arrowRef}
         src={arrowImg}
-        className={cn('dropdown-arrow absolute -top-2.5 right-6 z-0 h-3', arrowClassName)}
+        width={arrowWidth}
+        className={cn('dropdown-arrow absolute -z-10', arrowClassName)}
+        style={{ left: `${middlewareData.arrow?.x ?? 0}px` }}
       />
 
       {/* Floating content */}
