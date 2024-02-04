@@ -12,3 +12,8 @@ export function capitalizeFirstLetter(string: string) {
 export function clamp(num: number, min: number, max: number) {
   return Math.min(Math.max(num, min), max)
 }
+
+export function extractCategorySlug(inputString: string) {
+  const parts = inputString.split(/-id[^-]*$/)
+  return parts[0]
+}

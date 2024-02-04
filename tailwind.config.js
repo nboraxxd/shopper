@@ -41,7 +41,7 @@ export default {
         sans: ['Gordita', ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
-        // Reference: https://tailwindcss.com/docs/font-size#font-size-scale
+        // Reference: https://github.com/tailwindlabs/tailwindcss/issues/11529
         /** 42px size / 142.857% height / bold */
         // 'bold-42': ['2.625rem', { lineHeight: '142.857%', fontWeight: 'bold' }],
       },

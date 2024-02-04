@@ -12,6 +12,8 @@ import {
   ReferenceType,
   MiddlewareData,
   Placement,
+  useHover,
+  safePolygon,
 } from '@floating-ui/react'
 
 import { cn } from '@/utils'
@@ -35,6 +37,9 @@ interface IRootPops {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   placement?: Placement
+  interaction?: 'click' | 'hover'
+  crossAxis?: number
+  mainAxis?: number
 }
 
 interface IReferenceProps {
@@ -48,7 +53,7 @@ interface IFloatingProps {
   children: React.ReactNode
   arrowImg: string
   arrowWidth: number
-  wrapperClassName?: string
+  wrapperClassName: string
   arrowClassName?: string
   arrowYOffsetKeyword?: 'top' | 'bottom'
 }
@@ -67,9 +72,11 @@ const INITIAL_STATE: IFloatingContext = {
   arrowRef: { current: null },
 }
 
-const PopoverContext = createContext<IFloatingContext>(INITIAL_STATE)
+const FloatingContext = createContext<IFloatingContext>(INITIAL_STATE)
 
-function Root({ children, isOpen, setIsOpen, placement }: IRootPops) {
+function Root(props: IRootPops) {
+  const { children, isOpen, setIsOpen, placement = 'bottom', interaction, crossAxis = 0, mainAxis = 0 } = props
+
   const arrowRef = useRef<HTMLImageElement>(null)
 
   const { refs, context, floatingStyles, elements, x, y, middlewareData } = useFloating({
@@ -77,14 +84,21 @@ function Root({ children, isOpen, setIsOpen, placement }: IRootPops) {
     onOpenChange: setIsOpen,
     placement,
     // crossAxis là chiều ngang từ trái qua phải, mainAxis là chiều dọc từ trên xuống dưới
-    middleware: [offset({ crossAxis: 15, mainAxis: 15 }), shift(), flip(), arrow({ element: arrowRef })],
+    middleware: [offset({ crossAxis, mainAxis }), shift(), flip(), arrow({ element: arrowRef })],
   })
 
   const { setReference, setFloating } = refs
 
-  const click = useClick(context)
+  const hover = useHover(context, {
+    handleClose: safePolygon({
+      blockPointerEvents: true,
+    }),
+    enabled: interaction === 'hover',
+  })
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([click])
+  const click = useClick(context, { enabled: interaction !== 'hover' })
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, click])
 
   const { styles, isMounted } = useTransitionStyles(context, {
     duration: 300,
@@ -140,13 +154,13 @@ function Root({ children, isOpen, setIsOpen, placement }: IRootPops) {
     arrowRef,
   }
 
-  return <PopoverContext.Provider value={value}>{children}</PopoverContext.Provider>
+  return <FloatingContext.Provider value={value}>{children}</FloatingContext.Provider>
 }
 
 function Reference(props: IReferenceProps) {
   const { children, className, to, as: Element = 'button' } = props
 
-  const { getReferenceProps, setReference } = useContext(PopoverContext)
+  const { getReferenceProps, setReference } = useContext(FloatingContext)
 
   return (
     <Element to={to} className={className} ref={setReference} {...getReferenceProps()}>
@@ -159,14 +173,11 @@ function Floating(props: IFloatingProps) {
   const { children, wrapperClassName, arrowImg, arrowClassName, arrowWidth, arrowYOffsetKeyword = 'top' } = props
 
   const { getFloatingProps, styles, isMounted, setFloating, floatingStyles, x, y, middlewareData, arrowRef } =
-    useContext(PopoverContext)
+    useContext(FloatingContext)
 
   return isMounted ? (
     <div
-      className={cn(
-        'relative z-30 w-32 rounded-lg bg-light-1 py-1.5 shadow-1 dark:bg-dark-2 dark:shadow-2',
-        wrapperClassName
-      )}
+      className={cn('z-30', wrapperClassName)}
       ref={setFloating}
       style={{
         ...floatingStyles,
@@ -175,7 +186,7 @@ function Floating(props: IFloatingProps) {
         // Nếu đặt floatingStyles ở sau styles thì sẽ không có animation
         left: x,
         top: y,
-        transformOrigin: `${(middlewareData.arrow?.x ?? 0) + arrowWidth / 2}px ${arrowYOffsetKeyword}`,
+        transformOrigin: `${Math.round(middlewareData.arrow?.x ?? 0) + arrowWidth / 2}px ${arrowYOffsetKeyword}`,
       }}
       {...getFloatingProps()}
     >
@@ -184,8 +195,9 @@ function Floating(props: IFloatingProps) {
         ref={arrowRef}
         src={arrowImg}
         width={arrowWidth}
-        className={cn('dropdown-arrow absolute -z-10', arrowClassName)}
-        style={{ left: `${middlewareData.arrow?.x ?? 0}px` }}
+        className={cn('dropdown-arrow absolute z-10', arrowClassName)}
+        // Dùng thêm Math.round để tránh hiện tượng xê dịch arrow khi floating xuất hiện
+        style={{ left: `${Math.round(middlewareData.arrow?.x ?? 0)}px` }}
       />
 
       {/* Floating content */}

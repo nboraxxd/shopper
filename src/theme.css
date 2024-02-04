@@ -166,4 +166,12 @@
   .regular-14 {
     @apply text-[0.875rem] font-normal leading-[142.857%];
   }
+
+  .shadow1_dark-shadow2 {
+    @apply shadow-1 dark:shadow-2;
+  }
+
+  .shadow1_dark-shadow0 {
+    @apply shadow-1 dark:shadow-none;
+  }
 }
