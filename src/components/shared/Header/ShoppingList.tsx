@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom'
+import { Link, To } from 'react-router-dom'
 import { cn } from '@/utils'
 
 interface Props {
-  to: string
+  to: To
   imgSrc: string
   imgAlt: string
   count: number
   className?: string
 }
 
-export default function ActionLink({ to, imgSrc, imgAlt, count, className }: Props) {
+export default function ShoppingList({ to, imgSrc, imgAlt, count, className }: Props) {
   return (
     <Link
       to={to}
@@ -19,7 +19,7 @@ export default function ActionLink({ to, imgSrc, imgAlt, count, className }: Pro
       )}
     >
       <img src={imgSrc} alt={imgAlt} className="icon-filter h-6 w-6" />
-      <span className="medium-15 text-secondary1_light1 ">{count.toString().padStart(2, '0')}</span>
+      <span className="medium-15 text-secondary1_light1">{count.toString().padStart(2, '0')}</span>
     </Link>
   )
 }

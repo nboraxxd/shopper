@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { NAVBAR } from '@/constants'
 import { Floating } from '@/components/shared/Floating'
-import { NavItemContent } from '@/components/shared/Navbar'
+import { NavCategories, NavCollections } from '@/components/shared/Navbar'
 
 export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
   const [isOpenFloating, setIsOpenFloating] = useState(false)
@@ -36,9 +36,15 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
           arrowImg="/assets/images/dropdown-arrow.png"
           arrowWidth={50}
           arrowClassName="-top-4"
-          wrapperClassName="background-light1_dark2 shadow1_dark-shadow2 w-[min(1024px,90%)] rounded-[20px]"
+          wrapperClassName="background-light1_dark2 shadow-light20_dark20 w-[min(1024px,90%)] rounded-[20px]"
         >
-          <NavItemContent />
+          <div className="grid-col grid grid-cols-[repeat(2,minmax(405px,1fr))] items-center gap-10 p-8">
+            {/* Categories */}
+            <NavCategories />
+
+            {/* Collections */}
+            <NavCollections />
+          </div>
         </Floating>
       </Floating.Root>
     </li>

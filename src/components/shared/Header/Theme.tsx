@@ -21,7 +21,7 @@ export default function Theme() {
     >
       <Floating.Reference
         as={PrimaryButton}
-        className="background-light1_dark2 shadow1_dark-shadow0 relative rounded-lg p-3.5 hover:bg-light-2/60 dark:hover:bg-dark-3/5"
+        className="background-light1_dark2 relative rounded-lg p-3.5 hover:bg-light-2/60 dark:hover:bg-dark-3/5"
       >
         <img
           src="/assets/icons/sun.svg"
@@ -41,7 +41,7 @@ export default function Theme() {
 
       <Floating
         arrowImg="/assets/images/dropdown-arrow.png"
-        wrapperClassName="w-32 rounded-lg bg-light-1 py-1.5 shadow1_dark-shadow2 dark:bg-dark-2"
+        wrapperClassName="w-32 rounded-lg bg-light-1 py-1.5 shadow-light20_dark20 dark:bg-dark-2"
         arrowWidth={32}
         arrowClassName="-top-2.5"
       >

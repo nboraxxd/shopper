@@ -46,8 +46,10 @@ export default {
         // 'bold-42': ['2.625rem', { lineHeight: '142.857%', fontWeight: 'bold' }],
       },
       boxShadow: {
-        1: '0px 20px 60px 10px rgba(237, 237, 246, 0.20)',
-        2: '0px 40px 90px 20px rgba(23, 28, 40, 0.4)',
+        light10: '  rgb(237 237 246 / 0.2)',
+        light20: '0px 40px 90px 20px rgb(200 200 200 / 0.4)',
+        dark10: '0px 20px 60px 10px rgb(23 28 40 / 0.2)',
+        dark20: '0px 40px 90px 20px rgb(23 28 40 / 0.4)',
       },
       screens: {
         xs: '480px',
@@ -55,7 +57,13 @@ export default {
       },
     },
   },
-  plugins: [addVariablesForColors, require('@tailwindcss/forms'), require('./tailwind-plugin.cts')],
+  plugins: [
+    addVariablesForColors,
+    require('@tailwindcss/forms'),
+    require('./tailwind-plugin.cts'),
+    require('tailwind-scrollbar-hide'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).

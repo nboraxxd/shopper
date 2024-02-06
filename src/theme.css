@@ -167,11 +167,19 @@
     @apply text-[0.875rem] font-normal leading-[142.857%];
   }
 
-  .shadow1_dark-shadow2 {
-    @apply shadow-1 dark:shadow-2;
+  .shadow-light10_dark10 {
+    @apply shadow-light10 dark:shadow-dark10;
   }
 
-  .shadow1_dark-shadow0 {
-    @apply shadow-1 dark:shadow-none;
+  .shadow-light20_dark20 {
+    @apply shadow-light20 dark:shadow-dark20;
+  }
+
+  .shadow-light10_dark0 {
+    @apply shadow-light10 dark:shadow-none;
+  }
+
+  .shadow-light20_dark0 {
+    @apply shadow-light20 dark:shadow-none;
   }
 }
