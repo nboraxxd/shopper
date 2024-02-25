@@ -1,4 +1,5 @@
 import { Header } from '@/components/shared/Header'
+import { Hero } from '@/components/Home'
 import '@/globals.css'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
       <Header />
 
       <div className="text-secondary1_light1 medium-26 background-light2_dark2 pt-[var(--header-height)]">
+        <Hero />
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa ea praesentium voluptatum modi vitae
         voluptate, ex laborum voluptas aspernatur autem! Fuga sapiente provident, porro autem sit est consectetur nulla
         nesciunt unde dolore recusandae libero, laudantium sunt odio! Veniam, accusantium? Beatae omnis, asperiores non
