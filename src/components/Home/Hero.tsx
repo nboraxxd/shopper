@@ -1,61 +1,39 @@
+import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
+
+import { HERO_SLIDES } from '@/constants'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
 export default function Hero() {
   return (
     <Swiper
-      className="mySwiper mx-auto h-[460px] w-[1340px] object-cover"
+      className="mySwiper"
       loop={true}
       slidesPerView={1}
+      spaceBetween={20}
       autoplay={{
-        delay: 10000,
+        delay: 5000,
         disableOnInteraction: false,
+        pauseOnMouseEnter: true,
       }}
       pagination={{ clickable: true }}
       modules={[Autoplay, Pagination]}
     >
-      <SwiperSlide
-        style={{
-          backgroundImage: 'url(/assets/images/cover-4.jfif)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}
-        className=" h-full w-full"
-      ></SwiperSlide>
-      <SwiperSlide
-        style={{
-          backgroundImage: 'url(/assets/images/cover-5.jfif)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}
-        className=" h-full w-full"
-      ></SwiperSlide>
-      <SwiperSlide
-        style={{
-          backgroundImage: 'url(/assets/images/cover-6.jfif)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}
-        className=" h-full w-full"
-      ></SwiperSlide>
-      <SwiperSlide
-        style={{
-          backgroundImage: 'url(/assets/images/cover-7.jfif)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}
-        className=" h-full w-full"
-      ></SwiperSlide>
-      <SwiperSlide
-        style={{
-          backgroundImage: 'url(/assets/images/cover-8.jfif)',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}
-        className=" h-full w-full"
-      ></SwiperSlide>
+      {HERO_SLIDES.map((slide, index) => (
+        <SwiperSlide key={index} className="relative w-full pt-[26%]">
+          <Link to={slide.to}>
+            <picture>
+              <img
+                src={slide.img}
+                alt={slide.alt}
+                className="absolute left-0 top-0 h-full w-full rounded-[20px] object-cover"
+              />
+            </picture>
+          </Link>
+        </SwiperSlide>
+      ))}
     </Swiper>
   )
 }

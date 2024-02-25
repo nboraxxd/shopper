@@ -40,3 +40,31 @@ export const THEMES = [
   { value: Theme.DARK, label: capitalizeFirstLetter(Theme.DARK), icon: '/assets/icons/moon.svg' },
   { value: Theme.SYSTEM, label: capitalizeFirstLetter(Theme.SYSTEM), icon: '/assets/icons/computer.svg' },
 ] as const
+
+export const HERO_SLIDES = [
+  {
+    to: PATH.HOMEPAGE,
+    img: '/assets/images/cover-4.jfif',
+    alt: 'Cover 4',
+  },
+  {
+    to: PATH.HOMEPAGE,
+    img: '/assets/images/cover-5.jfif',
+    alt: 'Cover 5',
+  },
+  {
+    to: PATH.HOMEPAGE,
+    img: '/assets/images/cover-6.jfif',
+    alt: 'Cover 6',
+  },
+  {
+    to: PATH.HOMEPAGE,
+    img: '/assets/images/cover-7.jfif',
+    alt: 'Cover 7',
+  },
+  {
+    to: PATH.HOMEPAGE,
+    img: '/assets/images/cover-8.jfif',
+    alt: 'Cover 8',
+  },
+]

@@ -17,14 +17,6 @@
   }
 }
 
-.swiper-pagination-bullet {
-  @apply w-5 rounded-none bg-secondary;
-}
-
-.swiper-pagination-bullet-active {
-  @apply w-8 bg-primary-red;
-}
-
 @layer utilities {
   .focus-primary {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary;
@@ -38,4 +30,16 @@
     filter: brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(464%) hue-rotate(155deg) brightness(102%)
       contrast(95%) !important;
   }
+}
+
+.swiper-pagination-bullet {
+  @apply w-4 rounded-md max-md:h-1;
+}
+
+.swiper-pagination-bullet-active {
+  @apply w-8 bg-primary-red;
+}
+
+.swiper-pagination-horizontal {
+  @apply max-md:!bottom-0;
 }
