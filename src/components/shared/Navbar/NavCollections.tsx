@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { Link, createSearchParams } from 'react-router-dom'
 
 import { ProductParameters } from '@/types/product.type'
@@ -11,9 +12,9 @@ export default function NavCollections() {
         const sortParameterObject: Pick<ProductParameters, 'sort'> = { sort: collection.sortValue }
 
         return (
-          <>
+          <Fragment key={collection._id}>
             {/* Mobile & tablet */}
-            <div className="aspect-h-1 aspect-w-1 group relative overflow-hidden rounded-md bg-gray-100 lg:hidden">
+            <div className="group aspect-h-1 aspect-w-1 relative overflow-hidden rounded-md bg-gray-100 lg:hidden">
               <img
                 src={collection.img}
                 alt={collection.title}
@@ -47,7 +48,7 @@ export default function NavCollections() {
               </Link>
               <p className="regular-14 text-secondary1_dark3 mt-1">Mua ngay</p>
             </div>
-          </>
+          </Fragment>
         )
       })}
     </div>

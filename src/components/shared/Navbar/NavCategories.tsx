@@ -25,7 +25,7 @@ export default function NavCategories() {
 
       <nav className="ml-8 mt-2.5 lg:ml-0 lg:border-t lg:border-secondary-3 lg:pt-2.5 lg:dark:border-dark-3">
         <ul className="grid lg:grid-cols-2 lg:gap-x-3.5">
-          {categoriesData.data.map((category) => {
+          {categoriesData.data.data.map((category) => {
             const slug = extractCategorySlug(category.slug)
             const categoryPath = generatePath(PATH.CATEGORY, { slug, id: category.id })
             return (
