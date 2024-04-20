@@ -4,16 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --grid-gutter-x: 2rem;
-  --grid-gutter-y: 0;
-  --header-height: 82px;
-  --mobile-nav-height: 72px;
-}
-
-@media (min-width: 1024px) {
+@layer base {
   :root {
-    --header-height: 90px;
+    --grid-gutter-x: 2rem;
+    --grid-gutter-y: 0;
+    --header-height: 82px;
+    --mobile-nav-height: 72px;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --header-height: 90px;
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import plugin from 'tailwindcss/plugin'
 
-module.exports = plugin(function ({ addComponents, addUtilities, theme: _theme }) {
+module.exports = plugin(function ({ addComponents, addUtilities }) {
   addUtilities({
     '.flex-center': {
       display: 'flex',

@@ -6,8 +6,9 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'eslint-config-prettier',
-    'prettier',
     'plugin:@tanstack/eslint-plugin-query/recommended',
+    'plugin:tailwindcss/recommended',
+    'prettier',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
@@ -31,5 +32,11 @@ module.exports = {
         jsxSingleQuote: false,
       },
     ],
+  },
+  settings: {
+    tailwindcss: {
+      callees: ['cn', 'className'],
+      classRegex: '.*[Cc]lass[Nn]ame.*',
+    },
   },
 }

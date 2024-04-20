@@ -8,16 +8,16 @@ export default function NavCategories() {
   return (
     <div>
       <div className="flex items-center gap-x-2">
-        <div className="relative h-6 w-6 lg:h-9 lg:w-9">
+        <div className="relative size-6 lg:size-9">
           <img
             src="/assets/icons/category-1.svg"
             alt="category background"
-            className="h-5 w-5 object-cover lg:h-[30px] lg:w-[30px]"
+            className="size-5 object-cover lg:size-[30px]"
           />
           <img
             src="/assets/icons/category-2.svg"
             alt="category foreground"
-            className="icon-filter absolute bottom-0 right-0 z-10 h-4 w-4 object-cover lg:h-6 lg:w-6"
+            className="icon-filter absolute bottom-0 right-0 z-10 size-4 object-cover lg:size-6"
           />
         </div>
         <p className="medium-15 lg:medium-16 text-secondary1_dark3">Danh mục sản phẩm</p>

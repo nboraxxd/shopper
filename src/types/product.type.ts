@@ -75,7 +75,7 @@ export type Product = {
   badges: Badge[]
   categories: number
   configurable_options: ConfigurableOption[]
-  configurable_products: ConfigurableProduct[] // You may replace `any` with a specific type if you know the structure of `configurable_products`
+  configurable_products: ConfigurableProduct[]
   description: string
   discount: number
   discount_rate: number

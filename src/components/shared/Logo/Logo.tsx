@@ -17,7 +17,7 @@ export default function Logo(props: Props) {
 
   return (
     <Link to={to} className={cn('focus-primary gap-2.5 flex-center lg:gap-3.5', wrapperClassName)}>
-      <img src="/assets/icons/logo.svg" alt="Shopper" className={cn('h-6 w-6 lg:h-8 lg:w-8', imageClassName)} />
+      <img src="/assets/icons/logo.svg" alt="Shopper" className={cn('size-6 lg:size-8', imageClassName)} />
       <BrandTag className={cn('lg:bold-22 text-secondary1_light1 bold-18', brandClassName)}>Shopper</BrandTag>
     </Link>
   )

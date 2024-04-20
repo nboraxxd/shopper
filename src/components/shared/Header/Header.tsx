@@ -22,10 +22,10 @@ export default function Header() {
             onClick={() => setSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
-            <img src="/assets/icons/more.svg" alt="More" className="icon-filter h-6 w-6" aria-hidden="true" />
+            <img src="/assets/icons/more.svg" alt="More" className="icon-filter size-6" aria-hidden="true" />
           </PrimaryButton>
 
-          <Logo wrapperClassName="max-md:mx-auto px-1.5 py-[0.5625rem] lg:py-2.5 lg:px-2" />
+          <Logo wrapperClassName="px-1.5 py-[0.5625rem] max-md:mx-auto lg:px-2 lg:py-2.5" />
 
           <Navbar />
 
@@ -33,7 +33,7 @@ export default function Header() {
           <div className="gap-5 flex-center md:ml-auto">
             {/* Search */}
             <PrimaryButton className="md:background-light1_dark2 shadow-10 rounded-md p-2.5 hover:bg-light-2/50 dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
-              <img src="/assets/icons/search.svg" alt="Search" className="icon-filter h-6 w-6" />
+              <img src="/assets/icons/search.svg" alt="Search" className="icon-filter size-6" />
             </PrimaryButton>
 
             <div className="background-light1_dark2 shadow-10 rounded-md flex-center dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] max-md:hidden lg:rounded-lg">
@@ -54,7 +54,7 @@ export default function Header() {
               <img
                 src="/assets/images/avatar-test.jpg"
                 alt="Avatar"
-                className="h-[44px] w-[44px] object-cover lg:h-[52px] lg:w-[52px]"
+                className="size-[44px] object-cover lg:size-[52px]"
               />
             </PrimaryButton>
           </div>

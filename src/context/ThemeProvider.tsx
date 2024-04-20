@@ -31,6 +31,7 @@ export function ThemeProvider({
     const root = window.document.documentElement
 
     root.classList.remove(Theme.LIGHT, Theme.DARK)
+    root.style.removeProperty('color-scheme')
 
     if (theme === Theme.SYSTEM) {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? Theme.DARK : Theme.LIGHT
@@ -40,6 +41,7 @@ export function ThemeProvider({
     }
 
     root.classList.add(theme)
+    root.style.colorScheme = theme
   }, [theme])
 
   const value = {

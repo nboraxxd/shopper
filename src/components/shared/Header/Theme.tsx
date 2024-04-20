@@ -41,7 +41,7 @@ export default function Theme() {
 
       <Floating
         arrowImg="/assets/images/dropdown-arrow.png"
-        wrapperClassName="w-32 rounded-lg bg-light-1 py-1.5 shadow-light20_dark20 dark:bg-dark-2"
+        wrapperClassName="shadow-light20_dark20 w-32 rounded-lg bg-light-1 py-1.5 dark:bg-dark-2"
         arrowWidth={32}
         arrowClassName="-top-2.5"
       >

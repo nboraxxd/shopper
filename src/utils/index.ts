@@ -17,3 +17,7 @@ export function extractCategorySlug(inputString: string) {
   const parts = inputString.split(/-id[^-]*$/)
   return parts[0]
 }
+
+export function formatCurrency(currency: number) {
+  return Intl.NumberFormat('de-DE').format(currency)
+}
