@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { PATH } from '@/constants/path'
-import { MainLayout } from '@/layout/MainLayout'
-import { ProductsLayout } from '@/layout/ProductsLayout'
-import { NotFound } from '@/page/NotFound'
-import { Homepage } from '@/page/Homepage'
-import { Products } from '@/page/Products'
+import { MainLayout } from '@/layouts/main-layout'
+import { ProductsLayout } from '@/layouts/products-layout'
+import { NotFound } from '@/pages/not-found'
+import { Home } from '@/pages/home'
+import { Products } from '@/pages/products'
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Homepage />,
+        element: <Home />,
       },
       {
         path: PATH.PRODUCTS,

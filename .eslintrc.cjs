@@ -18,6 +18,7 @@ module.exports = {
     '@tanstack/query/exhaustive-deps': 'error',
     '@tanstack/query/no-rest-destructuring': 'warn',
     '@tanstack/query/stable-query-client': 'error',
+    'tailwindcss/no-custom-classname': ['warn', { whitelist: ['mySwiper'] }],
     'prettier/prettier': [
       'warn',
       {
