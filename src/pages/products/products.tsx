@@ -3,8 +3,9 @@ import keyBy from 'lodash/keyBy'
 
 import { FieldUnion } from '@/types'
 import { Product } from '@/types/product.type'
-import { useCategories, useProducts } from '@/lib/react-query'
 import { formatCurrency } from '@/utils'
+import { useCategories, useProducts } from '@/lib/react-query'
+import { StarIcon } from '@/components/icons'
 
 const fields =
   'name,real_price,price,categories,slug,_id,images,rating_average,review_count,discount_rate,configurable_products'
@@ -19,14 +20,6 @@ export default function Products() {
 
   const { data: categoriesData } = useCategories()
   const categories = keyBy(categoriesData?.data?.data, 'id')
-  console.log('🔥 ~ Products ~ categories:', categories)
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     const res = await axios.get('https://cfdshop.cfdcircle.vn/api/v1/products')
-  //     console.log(' ~ res:', res?.data?.data)
-  //   })()
-  // }, [])
 
   if (!data) return <div>Loading...</div>
   return (
@@ -46,12 +39,12 @@ export default function Products() {
                 <img
                   src={product?.images[1]?.thumbnail_url || product.images[0].thumbnail_url}
                   alt={product.name}
-                  className="inline-block size-full object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  className="inline-block size-full object-cover opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                 />
                 <img
                   src={product.images[0].thumbnail_url}
                   alt={product.name}
-                  className="ml-[-100%] inline-block size-full object-contain transition-opacity duration-200 group-hover:opacity-0"
+                  className="ml-[-100%] inline-block size-full object-cover transition-opacity duration-200 group-hover:opacity-0"
                 />
               </Link>
             </div>
@@ -65,7 +58,7 @@ export default function Products() {
                 </div>
                 {product.rating_average > 0 && (
                   <>
-                    <img src="/assets/icons/star.svg" alt="Star" className="ml-auto size-6" />
+                    <StarIcon className="ml-auto size-6" />
                     <span className="ml-1.5">{product.rating_average}</span>
                   </>
                 )}

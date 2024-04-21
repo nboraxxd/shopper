@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { PrimaryButton } from '@/components/shared/button'
 import { NavCategories, NavCollections } from '@/components/navbar/index'
 import { MobileShoppingList } from '@/components/mobile-nav'
+import { ArrowLeftIcon } from '@/components/icons'
 
 interface Props {
   sidebarOpen: boolean
@@ -44,13 +45,7 @@ export default function MobileNav({ sidebarOpen, setSidebarOpen }: Props) {
                 <div className="flex h-[var(--mobile-nav-height)] items-center px-4">
                   <PrimaryButton className="mt-1.5 p-2.5" onClick={() => setSidebarOpen(false)}>
                     <span className="sr-only">Close sidebar</span>
-                    <img
-                      src="/assets/icons/arrow-left.svg"
-                      alt="Arrow left"
-                      width={24}
-                      height={24}
-                      className="icon-filter"
-                    />
+                    <ArrowLeftIcon className="size-6" />
                   </PrimaryButton>
                 </div>
 

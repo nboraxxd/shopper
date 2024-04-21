@@ -6,6 +6,7 @@ import { Navbar } from '@/components/navbar/index'
 import { ShoppingList, Theme } from '@/components/header'
 import { PrimaryButton } from '@/components/shared/button'
 import { MobileNav } from '@/components/mobile-nav'
+import { BuyIcon, HeartIcon, MoreIcon, SearchIcon } from '@/components/icons'
 
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -22,7 +23,7 @@ export default function Header() {
             onClick={() => setSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
-            <img src="/assets/icons/more.svg" alt="More" className="icon-filter size-6" aria-hidden="true" />
+            <MoreIcon className="size-6" />
           </PrimaryButton>
 
           <Logo wrapperClassName="px-1.5 py-[0.5625rem] max-md:mx-auto lg:px-2 lg:py-2.5" />
@@ -33,17 +34,17 @@ export default function Header() {
           <div className="gap-5 flex-center md:ml-auto">
             {/* Search */}
             <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-light10 hover:bg-light-2/50 dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
-              <img src="/assets/icons/search.svg" alt="Search" className="icon-filter size-6" />
+              <SearchIcon className="size-6" />
             </PrimaryButton>
 
             <div className="background-light1_dark2 rounded-md shadow-light10 flex-center dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] max-md:hidden lg:rounded-lg">
               {/* Favorites */}
-              {/* TODO: Bổ sung to prop */}
-              <ShoppingList to={PATH.HOMEPAGE} imgSrc="/assets/icons/heart.svg" imgAlt="Heart" count={3} />
+              {/* TODO: Bổ sung `to` prop */}
+              <ShoppingList to={PATH.HOMEPAGE} icon={<HeartIcon className="size-6" />} count={3} />
               <div className="h-8 w-px bg-secondary-4"></div>
               {/* Cart */}
-              {/* TODO: Bổ sung to prop */}
-              <ShoppingList to={PATH.HOMEPAGE} imgSrc="/assets/icons/buy.svg" imgAlt="Buy" count={3} />
+              {/* TODO: Bổ sung `to` prop */}
+              <ShoppingList to={PATH.HOMEPAGE} icon={<BuyIcon className="size-6" />} count={3} />
               {/* TODO: Dời Theme component xuống Footer, tạm thời để đây để test dark mode */}
               <div className="h-8 w-px bg-secondary-4"></div>
               <Theme />

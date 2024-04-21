@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 
 import { NAVBAR } from '@/constants'
 import { Floating } from '@/components/shared/floating'
-import { NavCategories, NavCollections } from '@/components/navbar/index'
+import { NavCategories, NavCollections } from '@/components/navbar'
+import { ArrowDownIcon } from '@/components/icons'
 
 export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
   const [isOpenFloating, setIsOpenFloating] = useState(false)
@@ -23,13 +24,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
           className="medium-15 text-secondary1_light1 focus-primary px-4 py-2 flex-center"
         >
           <span>{item.label}</span>
-          <img
-            src="/assets/icons/arrow-down.svg"
-            alt={item.label}
-            width={12}
-            height={12}
-            className="icon-filter ml-1.5"
-          />
+          <ArrowDownIcon className="ml-1.5 size-3" />
         </Floating.Reference>
 
         <Floating

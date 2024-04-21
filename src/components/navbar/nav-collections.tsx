@@ -18,7 +18,7 @@ export default function NavCollections() {
               <img
                 src={collection.img}
                 alt={collection.title}
-                className="object-cover object-center group-hover:opacity-80"
+                className="object-cover object-center transition-opacity group-hover:opacity-80"
               />
               <div className="flex flex-col justify-end">
                 <div className="bg-light-1/60 p-4">
@@ -36,7 +36,7 @@ export default function NavCollections() {
 
             {/* Desktop */}
             <div key={collection._id} className="group relative max-lg:hidden">
-              <div className="overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-80">
+              <div className="overflow-hidden rounded-lg bg-gray-100 transition-opacity group-hover:opacity-80">
                 <img src={collection.img} alt={collection.title} className="object-cover object-center" />
               </div>
               <Link

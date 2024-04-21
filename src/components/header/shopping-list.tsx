@@ -4,13 +4,12 @@ import { cn } from '@/utils'
 
 interface Props {
   to: To
-  imgSrc: string
-  imgAlt: string
+  icon: JSX.Element
   count: number
   className?: string
 }
 
-export default function ShoppingList({ to, imgSrc, imgAlt, count, className }: Props) {
+export default function ShoppingList({ to, icon: Icon, count, className }: Props) {
   return (
     <Link
       to={to}
@@ -19,7 +18,7 @@ export default function ShoppingList({ to, imgSrc, imgAlt, count, className }: P
         className
       )}
     >
-      <img src={imgSrc} alt={imgAlt} className="icon-filter size-6" />
+      {Icon}
       <span className="medium-15 text-secondary1_light1">{count.toString().padStart(2, '0')}</span>
     </Link>
   )

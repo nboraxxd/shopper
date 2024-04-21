@@ -1,6 +1,7 @@
 import { PATH } from '@/constants/path'
 import { ProductFilter, Theme } from '@/constants/enums'
 import { capitalizeFirstLetter } from '@/utils'
+import { ComputerIcon, MoonIcon, SunIcon } from '@/components/icons'
 
 export const NAVBAR = [
   {
@@ -33,12 +34,12 @@ export const COLLECTIONS = [
     sortValue: ProductFilter.DISCOUNT_DESC,
     img: '/assets/images/mega-menu-2.webp',
   },
-]
+] as const
 
 export const THEMES = [
-  { value: Theme.LIGHT, label: capitalizeFirstLetter(Theme.LIGHT), icon: '/assets/icons/sun.svg' },
-  { value: Theme.DARK, label: capitalizeFirstLetter(Theme.DARK), icon: '/assets/icons/moon.svg' },
-  { value: Theme.SYSTEM, label: capitalizeFirstLetter(Theme.SYSTEM), icon: '/assets/icons/computer.svg' },
+  { value: Theme.LIGHT, label: capitalizeFirstLetter(Theme.LIGHT), icon: SunIcon },
+  { value: Theme.DARK, label: capitalizeFirstLetter(Theme.DARK), icon: MoonIcon },
+  { value: Theme.SYSTEM, label: capitalizeFirstLetter(Theme.SYSTEM), icon: ComputerIcon },
 ] as const
 
 export const HERO_SLIDES = [
