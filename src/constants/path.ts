@@ -1,5 +1,7 @@
 export const PATH = {
   HOMEPAGE: '/',
-  PRODUCTS: '/san-pham',
+  PRODUCTS: '/products',
   CATEGORY: '/:slug/:id',
+  LOGIN: '/login',
+  REGISTER: '/register',
 }

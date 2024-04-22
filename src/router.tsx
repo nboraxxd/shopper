@@ -5,7 +5,10 @@ import { MainLayout } from '@/layouts/main-layout'
 import { ProductsLayout } from '@/layouts/products-layout'
 import { NotFound } from '@/pages/not-found'
 import { Home } from '@/pages/home'
+import { Register } from '@/pages/register'
 import { Products } from '@/pages/products'
+import { AuthLayout } from '@/layouts/auth-layout'
+import { Login } from '@/pages/login'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +29,19 @@ export const router = createBrowserRouter([
             element: <Products />,
           },
         ],
+      },
+    ],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: PATH.REGISTER,
+        element: <Register />,
+      },
+      {
+        path: PATH.LOGIN,
+        element: <Login />,
       },
     ],
   },

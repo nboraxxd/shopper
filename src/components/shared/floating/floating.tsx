@@ -44,6 +44,7 @@ interface IRootPops {
 
 interface IReferenceProps {
   children?: React.ReactNode
+  onClick?: () => void
   as?: React.ElementType
   to?: To
   className?: string
@@ -94,6 +95,7 @@ function Root(props: IRootPops) {
       blockPointerEvents: true,
     }),
     enabled: interaction === 'hover',
+    delay: { open: 300 },
   })
 
   const click = useClick(context, { enabled: interaction !== 'hover' })
@@ -158,12 +160,12 @@ function Root(props: IRootPops) {
 }
 
 function Reference(props: IReferenceProps) {
-  const { children, className, to, as: Element = 'button' } = props
+  const { children, onClick, className, to, as: Element = 'button' } = props
 
   const { getReferenceProps, setReference } = useContext(FloatingContext)
 
   return (
-    <Element to={to} className={className} ref={setReference} {...getReferenceProps()}>
+    <Element to={to} className={className} ref={setReference} onClick={onClick} {...getReferenceProps()}>
       {children}
     </Element>
   )

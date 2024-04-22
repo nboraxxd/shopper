@@ -71,8 +71,16 @@
     @apply text-secondary-2 dark:text-light-3;
   }
 
+  .text-secondary2_dark3 {
+    @apply text-secondary-2 dark:text-dark-3;
+  }
+
   .text-secondary3_light3 {
     @apply text-secondary-3 dark:text-light-3;
+  }
+
+  .text-secondary3_dark3 {
+    @apply text-secondary-3 dark:text-dark-3;
   }
 
   .bold-42 {

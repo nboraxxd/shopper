@@ -21,6 +21,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
         <Floating.Reference
           as={Link}
           to={item.route}
+          onClick={() => setIsOpenFloating(false)}
           className="medium-15 text-secondary1_light1 focus-primary px-4 py-2 flex-center"
         >
           <span>{item.label}</span>
