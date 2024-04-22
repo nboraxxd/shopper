@@ -183,6 +183,10 @@
     @apply text-[0.875rem] font-normal leading-[142.857%];
   }
 
+  .medium-12 {
+    @apply text-xs font-medium leading-4;
+  }
+
   .shadow-light10_dark10 {
     @apply shadow-light10 dark:shadow-dark10;
   }

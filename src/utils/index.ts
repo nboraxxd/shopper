@@ -21,3 +21,11 @@ export function extractCategorySlug(inputString: string) {
 export function formatCurrency(currency: number) {
   return Intl.NumberFormat('de-DE').format(currency)
 }
+
+export function formatSecondsToMMSS(seconds: number): string {
+  const minutes = Math.floor(seconds / 60)
+  const remainingSecs = seconds % 60
+  const formattedMinutes = String(minutes).padStart(2, '0')
+  const formattedSeconds = String(remainingSecs).padStart(2, '0')
+  return `${formattedMinutes}:${formattedSeconds}`
+}

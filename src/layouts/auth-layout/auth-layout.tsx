@@ -14,7 +14,7 @@ export default function AuthLayout() {
       </div>
 
       {/* Content */}
-      <div className="background-light1_dark2 px-7">
+      <div className="background-light1_dark2 px-5 sm:px-7">
         <div className="mx-auto w-[min(460px,100%)] flex-col justify-center py-14 text-center flex-center">
           <Logo
             BrandTag="h2"

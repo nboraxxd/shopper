@@ -1,17 +1,49 @@
 import { Link } from 'react-router-dom'
 import { PATH } from '@/constants/path'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
+import { LoginSchemaType, loginSchema } from '@/lib/schemas/auth.schema'
 import { LockIcon, MessageIcon } from '@/components/icons'
 import { AuthInput } from '@/components/shared/input'
 import { ButtonWithLoading } from '@/components/shared/button'
 
 export default function LoginForm() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<LoginSchemaType>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { username: '', password: '' },
+  })
+
+  function onValid(data: LoginSchemaType) {
+    console.log(data)
+  }
+
   return (
-    <form className="mt-14 flex w-full flex-col">
+    <form className="mt-8 flex w-full flex-col lg:mt-14" onSubmit={handleSubmit(onValid)}>
       {/* Email */}
-      <AuthInput Icon={MessageIcon} type="email" autoFocus placeholder="Email" autoComplete="email" />
+      <AuthInput
+        register={register('username')}
+        errorMessage={errors.username?.message}
+        Icon={MessageIcon}
+        type="email"
+        autoFocus
+        placeholder="Email"
+        autoComplete="email"
+      />
       {/* Password */}
-      <AuthInput Icon={LockIcon} type="password" placeholder="Password" autoComplete="new-password" />
+      <AuthInput
+        register={register('password')}
+        errorMessage={errors.password?.message}
+        Icon={LockIcon}
+        type="password"
+        placeholder="Password"
+        autoComplete="new-password"
+      />
       <div className="justify-between flex-center">
         {/* Remember */}
         <label className="gap-2.5 flex-center">
@@ -28,13 +60,6 @@ export default function LoginForm() {
       <ButtonWithLoading className="medium-18 mt-12 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1">
         Login
       </ButtonWithLoading>
-      {/* Redirect link */}
-      <div className="mt-28 justify-center gap-2.5 flex-center">
-        <span className="regular-15 sm:regular-18 text-secondary2_dark3">Don't have an account yet?</span>
-        <Link to={PATH.REGISTER} className="medium-15 sm:medium-18 focus-primary text-primary-blue">
-          Sign Up
-        </Link>
-      </div>
     </form>
   )
 }

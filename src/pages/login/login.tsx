@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+
+import { PATH } from '@/constants/path'
 import { LoginForm } from '@/components/shared/form'
 
 export default function Login() {
@@ -8,6 +11,13 @@ export default function Login() {
         Welcome back to sign in. As a returning customer, you have access to your previously saved all information.
       </p>
       <LoginForm />
+      {/* Redirect link */}
+      <div className="mt-14 justify-center gap-2.5 flex-center lg:mt-24">
+        <span className="regular-15 sm:regular-18 text-secondary2_dark3">Don't have an account yet?</span>
+        <Link to={PATH.REGISTER} className="medium-15 sm:medium-18 focus-primary text-primary-blue">
+          Sign Up
+        </Link>
+      </div>
     </>
   )
 }

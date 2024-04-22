@@ -19,6 +19,7 @@ export default {
         },
         secondary: {
           DEFAULT: '#77DAE6',
+          green: '#00F375',
           1: '#1A162E',
           2: '#9E9DA8',
           3: '#D2D1D6',

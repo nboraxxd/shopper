@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+
+import { PATH } from '@/constants/path'
 import { RegisterForm } from '@/components/shared/form'
 
 export default function Register() {
@@ -8,6 +11,13 @@ export default function Register() {
         Let's create your account and Shop like a pro and save money.
       </p>
       <RegisterForm />
+      {/* Redirect link */}
+      <div className="mt-14 justify-center gap-2.5 flex-center lg:mt-24">
+        <span className="regular-15 sm:regular-18 text-secondary2_dark3">You have an account yet?</span>
+        <Link to={PATH.LOGIN} className="medium-15 sm:medium-18 focus-primary text-primary-blue">
+          Sign In
+        </Link>
+      </div>
     </>
   )
 }
