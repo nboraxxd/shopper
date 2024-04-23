@@ -4,4 +4,5 @@ export const PATH = {
   CATEGORY: '/:slug/:id',
   LOGIN: '/login',
   REGISTER: '/register',
+  PROFILE: '/profile',
 }
