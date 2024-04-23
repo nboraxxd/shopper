@@ -8,7 +8,7 @@ interface Props extends ComponentPropsWithRef<'button'> {
 
 const PrimaryButton = forwardRef<HTMLButtonElement, Props>(({ children, className, ...props }, ref) => {
   return (
-    <button ref={ref} className={cn('focus-primary', className)} {...props}>
+    <button ref={ref} className={cn('focus-primary line-clamp-1 whitespace-nowrap', className)} {...props}>
       {children}
     </button>
   )

@@ -39,3 +39,7 @@ export function useLogin() {
 export function useLoginByCode() {
   return useMutation({ mutationFn: authsApi.loginByCode })
 }
+
+export function useGetProfile(enabled: boolean) {
+  return useQuery({ queryKey: [QUERY_KEYS.PROFILE], queryFn: ({ signal }) => usersApi.getProfile(signal), enabled })
+}

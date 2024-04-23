@@ -1,10 +1,9 @@
-import { HttpStatusCode } from 'axios'
 import { Link } from 'react-router-dom'
 
 import { useCategories } from '@/lib/react-query'
 
 export default function Categories() {
-  const { data: categoriesResponse, isLoading, isError } = useCategories()
+  const { data: categoriesResponse, isLoading, isSuccess, isError } = useCategories()
 
   if (isLoading) return <p>Loading...</p>
 
@@ -12,8 +11,7 @@ export default function Categories() {
 
   return (
     <div className="space-y-2">
-      {categoriesResponse &&
-        categoriesResponse.status === HttpStatusCode.Ok &&
+      {isSuccess &&
         categoriesResponse.data.data.map((category) => (
           <Link
             key={category.id}

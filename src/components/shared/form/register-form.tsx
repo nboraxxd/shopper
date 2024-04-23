@@ -131,7 +131,7 @@ export default function RegisterForm() {
         {/* Button */}
         {registerMutation.isSuccess ? (
           <CountdownButton
-            className="medium-18 mt-5 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 disabled:bg-primary-yellow/50 disabled:opacity-100"
+            className="medium-18 mt-5 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85 disabled:bg-primary-yellow/50 disabled:opacity-100"
             type="button"
             timer={60}
             onClick={handleResendEmail}
@@ -142,7 +142,7 @@ export default function RegisterForm() {
           </CountdownButton>
         ) : (
           <ButtonWithLoading
-            className="medium-18 mt-5 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1"
+            className="medium-18 mt-5 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
             isLoading={registerMutation.isPending}
           >
             Sign Up

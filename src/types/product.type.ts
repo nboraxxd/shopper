@@ -1,5 +1,3 @@
-import { HttpStatusCode } from 'axios'
-
 import { ProductFilter } from '@/constants/enums'
 
 type Badge =
@@ -102,10 +100,8 @@ export type Product = {
 }
 
 export type ProductsResponse<P> = {
-  data: {
-    data: P[]
-    paginate: Paginate
-  }
+  data: P[]
+  paginate: Paginate
 }
 
 export type Category = {
@@ -120,8 +116,5 @@ export type Category = {
 }
 
 export type CategoriesResponse = {
-  data: {
-    data: Category[]
-  }
-  status: HttpStatusCode
+  data: Category[]
 }

@@ -43,7 +43,10 @@ export default function MobileNav({ sidebarOpen, setSidebarOpen }: Props) {
               <div className="shadow-light20_dark20 background-light1_dark2 w-full rounded-r-[20px] pb-12">
                 {/* Close button */}
                 <div className="flex h-[var(--mobile-nav-height)] items-center px-4">
-                  <PrimaryButton className="mt-1.5 p-2.5" onClick={() => setSidebarOpen(false)}>
+                  <PrimaryButton
+                    className="mt-1.5 p-2.5 transition-opacity hover:opacity-85"
+                    onClick={() => setSidebarOpen(false)}
+                  >
                     <span className="sr-only">Close sidebar</span>
                     <ArrowLeftIcon className="size-6" />
                   </PrimaryButton>

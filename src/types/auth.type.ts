@@ -5,9 +5,7 @@ export type LoginReqBody = {
 
 export type LoginResponse = {
   data: {
-    data: {
-      accessToken: string
-      refreshToken: string
-    }
+    accessToken: string
+    refreshToken: string
   }
 }

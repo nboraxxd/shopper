@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -8,6 +8,7 @@ import { ErrorResponse } from '@/types'
 import { PATH } from '@/constants/path'
 import { VALIDATION_MESSAGES } from '@/constants/message'
 import { isAxiosBadRequestError, isAxiosForbiddenError } from '@/utils/error'
+import { useAuthStore } from '@/stores/auth-store'
 import { useLogin, useLoginByCode } from '@/lib/react-query/queries-and-mutations'
 import { LoginSchemaType, loginSchema } from '@/lib/schemas/auth.schema'
 import { LockIcon, MessageIcon } from '@/components/icons'
@@ -17,6 +18,10 @@ import { ButtonWithLoading } from '@/components/shared/button'
 export default function LoginForm() {
   const [searchParams] = useSearchParams()
   const code = searchParams.get('code')
+
+  const navigate = useNavigate()
+
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
 
   const {
     register,
@@ -35,8 +40,9 @@ export default function LoginForm() {
   useEffect(() => {
     if (code) {
       loginByCodeMutation.mutate(code, {
-        onSuccess: (response) => {
-          console.log('🔥 ~ useEffect ~ response:', response)
+        onSuccess: () => {
+          setIsAuthenticated(true)
+          navigate(PATH.HOMEPAGE)
         },
         onError: (error) => {
           if (isAxiosBadRequestError<ErrorResponse<{ code: string }>>(error)) {
@@ -56,8 +62,9 @@ export default function LoginForm() {
     loginMutation.mutate(
       { username, password },
       {
-        onSuccess: (response) => {
-          console.log('🔥 ~ onValid ~ response:', response)
+        onSuccess: () => {
+          setIsAuthenticated(true)
+          navigate(PATH.HOMEPAGE)
         },
         onError: (error) => {
           if (isAxiosBadRequestError<ErrorResponse<LoginSchemaType>>(error)) {
@@ -119,7 +126,7 @@ export default function LoginForm() {
       </div>
       {/* Button */}
       <ButtonWithLoading
-        className="medium-18 mt-12 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1"
+        className="medium-18 mt-12 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
         isLoading={loginMutation.isPending}
       >
         Login

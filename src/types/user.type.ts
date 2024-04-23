@@ -1,3 +1,14 @@
+export type User = {
+  _id: string
+  username: string
+  name: string
+  avatar: string | null
+  fb: string | null
+  birthday: string | null
+  gender: string | null
+  phone: string | null
+}
+
 export type RegisterReqBody = {
   name: string
   username: string
@@ -5,14 +16,14 @@ export type RegisterReqBody = {
 }
 
 export type RegisterResponse = {
-  data: {
-    success: boolean
-    message: string
-  }
+  success: boolean
+  message: string
 }
 
 export type ResendEmailResponse = {
-  data: {
-    message: string
-  }
+  message: string
+}
+
+export type UserResponse = {
+  data: User
 }

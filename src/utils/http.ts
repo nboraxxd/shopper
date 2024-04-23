@@ -1,7 +1,16 @@
 import { toast } from 'sonner'
 import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios'
 
+import { LoginResponse } from '@/types/auth.type'
 import { envConfig } from '@/constants/config'
+import { getAccessTokenFromLS, setAccessTokenToLS } from '@/utils/auth'
+import { LOGIN_API_URL, LOGIN_BY_CODE_API_URL } from '@/apis/auths.api'
+
+let accessToken: string | null = getAccessTokenFromLS()
+
+export function clearTokenInHttp() {
+  accessToken = null
+}
 
 const http: AxiosInstance = axios.create({
   baseURL: envConfig.serverUrl,
@@ -10,11 +19,32 @@ const http: AxiosInstance = axios.create({
   },
 })
 
+http.interceptors.request.use(
+  (config) => {
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
+    }
+
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
 http.interceptors.response.use(
-  function (response) {
+  (response) => {
+    const { url } = response.config
+
+    if (url === LOGIN_API_URL || url === LOGIN_BY_CODE_API_URL) {
+      accessToken = (response.data as LoginResponse).data.accessToken
+
+      setAccessTokenToLS(accessToken)
+    }
+
     return response
   },
-  function (error) {
+  (error) => {
     if (error instanceof AxiosError) {
       const excludedStatusCodes = [HttpStatusCode.Forbidden, HttpStatusCode.BadRequest]
 

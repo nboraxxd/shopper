@@ -1,15 +1,31 @@
 import { useState } from 'react'
 
 import { PATH } from '@/constants/path'
-import { Logo } from '@/components/shared/logo'
-import { Navbar } from '@/components/navbar/index'
+import { useAuthStore } from '@/stores/auth-store'
+import { clearLS } from '@/utils/auth'
+import { clearTokenInHttp } from '@/utils/http'
 import { ShoppingList, Theme } from '@/components/header'
-import { PrimaryButton } from '@/components/shared/button'
+import { Navbar } from '@/components/navbar'
 import { MobileNav } from '@/components/mobile-nav'
 import { BuyIcon, HeartIcon, MoreIcon, SearchIcon } from '@/components/icons'
+import { Logo } from '@/components/shared/logo'
+import { LinkButton, PrimaryButton } from '@/components/shared/button'
 
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
+  const user = useAuthStore((state) => state.user)
+  const setUser = useAuthStore((state) => state.setUser)
+  console.log('🔥 ~ Header ~ user:', user)
+
+  function handleLogout() {
+    setIsAuthenticated(false)
+    setUser(null)
+    clearLS()
+    clearTokenInHttp()
+  }
 
   return (
     <>
@@ -30,35 +46,58 @@ export default function Header() {
 
           <Navbar />
 
-          {/* Action */}
-          <div className="gap-5 flex-center md:ml-auto">
-            {/* Search */}
-            <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-light10 hover:bg-light-2/50 dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
-              <SearchIcon className="size-6" />
-            </PrimaryButton>
+          {isAuthenticated ? (
+            <div className="gap-5 flex-center md:ml-auto">
+              {/* Search */}
+              <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-light10 hover:bg-light-2/50 dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
+                <SearchIcon className="size-6" />
+              </PrimaryButton>
+              <div className="background-light1_dark2 rounded-md shadow-light10 flex-center dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] max-md:hidden lg:rounded-lg">
+                {/* Favorites */}
+                {/* TODO: Bổ sung `to` prop */}
+                <ShoppingList to={PATH.HOMEPAGE} icon={<HeartIcon className="size-6" />} count={3} />
+                <div className="h-8 w-px bg-secondary-4"></div>
+                {/* Cart */}
+                {/* TODO: Bổ sung `to` prop */}
+                <ShoppingList to={PATH.HOMEPAGE} icon={<BuyIcon className="size-6" />} count={3} />
+                {/* TODO: Dời Theme component xuống Footer, tạm thời để đây để test dark mode */}
+                <div className="h-8 w-px bg-secondary-4"></div>
+                <Theme />
+              </div>
 
-            <div className="background-light1_dark2 rounded-md shadow-light10 flex-center dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] max-md:hidden lg:rounded-lg">
-              {/* Favorites */}
-              {/* TODO: Bổ sung `to` prop */}
-              <ShoppingList to={PATH.HOMEPAGE} icon={<HeartIcon className="size-6" />} count={3} />
-              <div className="h-8 w-px bg-secondary-4"></div>
-              {/* Cart */}
-              {/* TODO: Bổ sung `to` prop */}
-              <ShoppingList to={PATH.HOMEPAGE} icon={<BuyIcon className="size-6" />} count={3} />
-              {/* TODO: Dời Theme component xuống Footer, tạm thời để đây để test dark mode */}
-              <div className="h-8 w-px bg-secondary-4"></div>
-              <Theme />
+              {/* User */}
+              <PrimaryButton className="overflow-hidden rounded-md lg:rounded-lg" onClick={handleLogout}>
+                <img
+                  src="/assets/images/avatar-test.jpg"
+                  alt="Avatar"
+                  className="size-[44px] object-cover lg:size-[52px]"
+                />
+              </PrimaryButton>
             </div>
+          ) : (
+            <div className="gap-5 flex-center md:ml-auto">
+              {/* Search */}
+              <PrimaryButton className="size-9 justify-center rounded-md transition-opacity flex-center hover:opacity-85 lg:size-11">
+                <SearchIcon className="size-6" />
+              </PrimaryButton>
 
-            {/* User */}
-            <PrimaryButton className="overflow-hidden rounded-md lg:rounded-lg">
-              <img
-                src="/assets/images/avatar-test.jpg"
-                alt="Avatar"
-                className="size-[44px] object-cover lg:size-[52px]"
-              />
-            </PrimaryButton>
-          </div>
+              {/* Login */}
+              <LinkButton
+                to={PATH.LOGIN}
+                className="medium-15 lg:medium-18 md:text-secondary1_light1 h-9 justify-center rounded-md px-5 text-secondary-1 flex-center max-md:bg-primary-yellow lg:h-11"
+              >
+                Login
+              </LinkButton>
+
+              {/* Sign Up */}
+              <LinkButton
+                to={PATH.REGISTER}
+                className="medium-15 lg:medium-18 ml-4 hidden h-9 items-center justify-center rounded-md bg-primary-yellow px-5 text-secondary-1 md:flex lg:h-11"
+              >
+                Sign Up
+              </LinkButton>
+            </div>
+          )}
         </div>
       </header>
     </>

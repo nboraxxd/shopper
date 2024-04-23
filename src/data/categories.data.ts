@@ -1,9 +1,7 @@
-import { HttpStatusCode } from 'axios'
-
+import { SuccessResponse } from '@/types'
 import { CategoriesResponse } from '@/types/product.type'
 
-const CATEGORIES_DATA: CategoriesResponse = {
-  status: HttpStatusCode.Ok,
+const CATEGORIES_DATA: SuccessResponse<CategoriesResponse> = {
   data: {
     data: [
       {
