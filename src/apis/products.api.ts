@@ -1,5 +1,5 @@
+import http from '@/utils/http'
 import { CategoriesResponse, ProductParameters, ProductsResponse } from '@/types/product.type'
-import { http } from '@/utils/http'
 
 const PRODUCTS_URL = '/product'
 

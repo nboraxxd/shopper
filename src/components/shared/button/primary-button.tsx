@@ -1,15 +1,17 @@
-import { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { ComponentPropsWithRef, ReactNode, forwardRef } from 'react'
 import { cn } from '@/utils'
 
-interface Props extends ComponentPropsWithoutRef<'button'> {
+interface Props extends ComponentPropsWithRef<'button'> {
   children: ReactNode
   className?: string
 }
 
-export default function PrimaryButton({ children, className, ...props }: Props) {
+const PrimaryButton = forwardRef<HTMLButtonElement, Props>(({ children, className, ...props }, ref) => {
   return (
-    <button className={cn('focus-primary', className)} {...props}>
+    <button ref={ref} className={cn('focus-primary', className)} {...props}>
       {children}
     </button>
   )
-}
+})
+
+export default PrimaryButton

@@ -25,7 +25,7 @@ export default function RegisterForm() {
     getValues,
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: '', username: '', password: '', confirm_password: '' },
+    defaultValues: { name: '', username: '', password: '', confirmPassword: '' },
   })
 
   const registerMutation = useRegister()
@@ -42,14 +42,14 @@ export default function RegisterForm() {
           setIsWaiting(true)
         },
         onError: (error) => {
-          if (isAxiosBadRequestError<ErrorResponse<Omit<RegisterSchemaType, 'confirm_password'>>>(error)) {
+          if (isAxiosBadRequestError<ErrorResponse<Omit<RegisterSchemaType, 'confirmPassword'>>>(error)) {
             const isValidateError = error.response?.data.error === VALIDATION_MESSAGES.ERROR
             const formErrors = error.response?.data.detail
 
             if (isValidateError && formErrors) {
               Object.keys(formErrors).forEach((key) => {
                 const formError = formErrors[key as keyof typeof formErrors]
-                setError(key as keyof Omit<RegisterSchemaType, 'confirm_password'>, {
+                setError(key as keyof Omit<RegisterSchemaType, 'confirmPassword'>, {
                   type: 'server',
                   message: formError,
                 })
@@ -121,8 +121,8 @@ export default function RegisterForm() {
         />
         {/* Confirm Password */}
         <AuthInput
-          register={register('confirm_password')}
-          errorMessage={errors.confirm_password?.message}
+          register={register('confirmPassword')}
+          errorMessage={errors.confirmPassword?.message}
           Icon={LockIcon}
           type="password"
           placeholder="Confirm Password"

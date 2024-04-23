@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import productsApi from '@/apis/products.api'
 import categoriesData from '@/data/categories.data'
 import usersApi from '@/apis/users.api'
+import authsApi from '@/apis/auths.api'
 import { ProductParameters } from '@/types/product.type'
 import { QUERY_KEYS } from '@/constants/query-key'
 
@@ -29,4 +30,12 @@ export function useRegister() {
 
 export function useResendEmail() {
   return useMutation({ mutationFn: usersApi.resendEmail })
+}
+
+export function useLogin() {
+  return useMutation({ mutationFn: authsApi.login })
+}
+
+export function useLoginByCode() {
+  return useMutation({ mutationFn: authsApi.loginByCode })
 }

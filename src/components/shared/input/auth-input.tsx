@@ -26,7 +26,9 @@ export default function AuthInput<T extends string>(props: Props<T>) {
         />
         {Icon && <Icon className="ml-3 size-6" />}
       </div>
-      <p className="medium-12 sm:medium-14 my-1 min-h-7 text-left text-primary-red">{errorMessage}</p>
+      <p className="medium-12 sm:medium-14 mb-1.5 mt-0.5 min-h-5 text-left text-primary-red sm:min-h-6">
+        {errorMessage}
+      </p>
     </div>
   )
 }

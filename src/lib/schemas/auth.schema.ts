@@ -10,15 +10,15 @@ export const registerSchema = z
     name,
     username,
     password,
-    confirm_password: password,
+    confirmPassword: password,
   })
   .strict()
-  .superRefine(({ password, confirm_password }, ctx) => {
-    if (password !== confirm_password) {
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
       ctx.addIssue({
         code: 'custom',
         message: AUTH_MESSAGES.PASSWORD_NOT_MATCH,
-        path: ['confirm_password'],
+        path: ['confirmPassword'],
       })
     }
   })

@@ -1,6 +1,6 @@
+import http from '@/utils/http'
 import { RegisterReqBody, RegisterResponse, ResendEmailResponse } from '@/types/user.type'
 import { envConfig } from '@/constants/config'
-import { http } from '@/utils/http'
 
 const USERS_URL = '/users'
 

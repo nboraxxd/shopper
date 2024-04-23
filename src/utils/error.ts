@@ -7,3 +7,7 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
 export function isAxiosBadRequestError<FormError>(error: unknown): error is AxiosError<FormError> {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.BadRequest
 }
+
+export function isAxiosForbiddenError<FormError>(error: unknown): error is AxiosError<FormError> {
+  return isAxiosError(error) && error.response?.status === HttpStatusCode.Forbidden
+}

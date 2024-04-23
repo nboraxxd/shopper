@@ -1,5 +1,5 @@
 export const VALIDATION_MESSAGES = {
-  ERROR: 'Validation error',
+  ERROR: 'VALIDATE:1',
 } as const
 
 export const AUTH_MESSAGES = {

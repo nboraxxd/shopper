@@ -2,6 +2,6 @@ export type FieldUnion<T extends string> = T extends `${infer U},${infer Rest}` 
 
 export interface ErrorResponse<Data = undefined> {
   message: string
-  error?: string
+  error?: string | number
   detail?: Data
 }
