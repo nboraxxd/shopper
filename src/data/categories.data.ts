@@ -1,7 +1,7 @@
 import { SuccessResponse } from '@/types'
 import { CategoriesResponse } from '@/types/product.type'
 
-const CATEGORIES_DATA: SuccessResponse<CategoriesResponse> = {
+export const CATEGORIES_DATA: SuccessResponse<CategoriesResponse> = {
   data: {
     data: [
       {
@@ -158,4 +158,65 @@ const CATEGORIES_DATA: SuccessResponse<CategoriesResponse> = {
   },
 }
 
-export default CATEGORIES_DATA
+export const CATEGORIES_IMAGE = [
+  {
+    _id: '5ff8037c36eb321988e59fb1',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb1.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb2',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb2.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb3',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb3.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb4',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb4.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb5',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb5.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb6',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb6.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb7',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb7.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb8',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb8.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fb9',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fb9.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fba',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fba.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fbb',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fbb.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fbc',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fbc.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fbd',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fbd.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fbe',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fbe.png',
+  },
+  {
+    _id: '5ff8037c36eb321988e59fbf',
+    image: '/assets/images/categories/5ff8037c36eb321988e59fbf.png',
+  },
+]

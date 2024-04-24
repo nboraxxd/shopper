@@ -2,7 +2,7 @@ import ms from 'ms'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 import productsApi from '@/apis/products.api'
-import categoriesData from '@/data/categories.data'
+import { CATEGORIES_DATA } from '@/data/categories.data'
 import usersApi from '@/apis/users.api'
 import authsApi from '@/apis/auths.api'
 import { ProductParameters } from '@/types/product.type'
@@ -13,7 +13,7 @@ export function useCategories() {
     queryKey: [QUERY_KEYS.CATEGORIES],
     queryFn: ({ signal }) => productsApi.getCategories(signal),
     staleTime: ms('5m'),
-    initialData: categoriesData,
+    initialData: CATEGORIES_DATA,
   })
 }
 

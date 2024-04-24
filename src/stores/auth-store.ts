@@ -11,10 +11,13 @@ type AuthState = {
 }
 
 export const useAuthStore = create<AuthState>()(
-  devtools((set) => ({
-    isAuthenticated: Boolean(getAccessTokenFromLS()),
-    setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-    user: getUserFromLS(),
-    setUser: (user) => set({ user }),
-  }))
+  devtools(
+    (set) => ({
+      isAuthenticated: Boolean(getAccessTokenFromLS()),
+      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+      user: getUserFromLS(),
+      setUser: (user) => set({ user }),
+    }),
+    { enabled: process.env.NODE_ENV === 'development', name: 'Auth' }
+  )
 )

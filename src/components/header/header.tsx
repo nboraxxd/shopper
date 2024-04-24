@@ -18,7 +18,6 @@ export default function Header() {
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
   const user = useAuthStore((state) => state.user)
   const setUser = useAuthStore((state) => state.setUser)
-  console.log('🔥 ~ Header ~ user:', user)
 
   function handleLogout() {
     setIsAuthenticated(false)
@@ -68,7 +67,7 @@ export default function Header() {
               {/* User */}
               <PrimaryButton className="overflow-hidden rounded-md lg:rounded-lg" onClick={handleLogout}>
                 <img
-                  src="/assets/images/avatar-test.jpg"
+                  src={user?.avatar || '/assets/images/default-avatar.webp'}
                   alt="Avatar"
                   className="size-[44px] object-cover lg:size-[52px]"
                 />
