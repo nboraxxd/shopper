@@ -1,72 +1,83 @@
-import { Link } from 'react-router-dom'
 import keyBy from 'lodash/keyBy'
+import pick from 'lodash/pick'
 
 import { FieldUnion } from '@/types'
 import { Product } from '@/types/product.type'
-import { formatCurrency } from '@/utils'
+import { PRODUCT_PLACEHOLDER_IMG } from '@/constants'
 import { useCategories, useProducts } from '@/lib/react-query'
-import { StarIcon } from '@/components/icons'
+import { FilterIcon } from '@/components/icons'
+import { PrimaryButton } from '@/components/shared/button'
+import { ProductCard, ProductCardSkeleton } from '@/components/products/product-card'
 
 const fields =
   'name,real_price,price,categories,slug,_id,images,rating_average,review_count,discount_rate,configurable_products'
 type Fields = FieldUnion<typeof fields>
 
 export default function Products() {
-  const { data } = useProducts<Pick<Product, Fields>>({
+  const {
+    data: productsRes,
+    isLoading,
+    isSuccess,
+  } = useProducts<Pick<Product, Fields>>({
     fields,
     page: 1,
     limit: 24,
   })
 
-  const { data: categoriesData } = useCategories()
-  const categories = keyBy(categoriesData?.data?.data, 'id')
+  const { data: categoriesRes } = useCategories()
+  const categories = keyBy(categoriesRes?.data?.data, 'id')
 
-  if (!data) return <div>Loading...</div>
   return (
-    <div className="mt-10 grid gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-      {data.data.data.map((product) => {
-        const image = product.images[0]
-        if (image.thumbnail_url === 'https://salt.tikicdn.com/assets/img/image.svg') {
-          image.thumbnail_url = product.configurable_products[1].images[0].medium_url
-        }
+    <div className="mb-14 max-lg:mt-5">
+      <div className="justify-between flex-center">
+        <h2 className="medium-18 md:bold-24 text-secondary1_light1">Tất cả sản phẩm</h2>
+        <PrimaryButton className="background-light1_dark1 h-9 justify-center gap-3.5 rounded-md px-3 flex-center">
+          <span className="medium-16 text-secondary1_secondary3">Filter</span>
+          <FilterIcon className="size-6" />
+        </PrimaryButton>
+      </div>
+      <div className="mt-8 grid gap-4 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        {isLoading && Array.from(Array(24)).map((_, i) => <ProductCardSkeleton key={i} />)}
 
-        const category = categories[product.categories]
+        {isSuccess && productsRes.data.data.length > 0 ? (
+          productsRes.data.data.map((product) => {
+            const category = categories[product.categories]
 
-        return (
-          <div key={product._id} className="background-light1_dark1 overflow-hidden rounded-lg">
-            <div className="group relative pt-[100%]">
-              <Link to={`/products/${product.slug}`} className="absolute left-0 top-0 size-full">
-                <img
-                  src={product?.images[1]?.thumbnail_url || product.images[0].thumbnail_url}
-                  alt={product.name}
-                  className="inline-block size-full object-cover opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                />
-                <img
-                  src={product.images[0].thumbnail_url}
-                  alt={product.name}
-                  className="ml-[-100%] inline-block size-full object-cover transition-opacity duration-200 group-hover:opacity-0"
-                />
-              </Link>
-            </div>
-            <div className="p-4">
-              <h3 className="medium-16 text-secondary1_light1 line-clamp-2">{product.name}</h3>
-              <h4 className="regular-15 line-clamp-1 text-secondary-2">{category.title}</h4>
-              <div className="flex-center">
-                <div className="text-secondary1_light1 medium-16">
-                  {formatCurrency(product.price)}
-                  <sup>₫</sup>
-                </div>
-                {product.rating_average > 0 && (
-                  <>
-                    <StarIcon className="ml-auto size-6" />
-                    <span className="ml-1.5">{product.rating_average}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        )
-      })}
+            let primaryImage = product.images[0].medium_url
+
+            if (
+              primaryImage === PRODUCT_PLACEHOLDER_IMG &&
+              product.configurable_products &&
+              product.configurable_products.length > 0
+            ) {
+              primaryImage =
+                product.configurable_products[1]?.images[0]?.medium_url ||
+                product.configurable_products[0]?.images[0]?.medium_url
+            }
+
+            let secondaryImage = product.configurable_products?.[0]?.images?.[0]?.medium_url
+
+            if (!secondaryImage) {
+              secondaryImage = product?.images[1]?.medium_url || primaryImage
+            }
+
+            return (
+              <ProductCard
+                key={product._id}
+                category={pick(category, ['id', 'title', 'slug'])}
+                name={product.name}
+                price={product.price}
+                primaryImage={primaryImage}
+                secondaryImage={secondaryImage}
+                rating_average={product.rating_average}
+                slug={product.slug}
+              />
+            )
+          })
+        ) : (
+          <div>[[hehe]]</div>
+        )}
+      </div>
     </div>
   )
 }

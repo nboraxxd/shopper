@@ -1,9 +1,8 @@
-import { useState } from 'react'
-
 import { PATH } from '@/constants/path'
-import { useAuthStore } from '@/stores/auth-store'
 import { clearLS } from '@/utils/auth'
 import { clearTokenInHttp } from '@/utils/http'
+import { useAuthStore } from '@/stores/auth-store'
+import { useFloatingStore } from '@/stores/floating-store'
 import { ShoppingList, Theme } from '@/components/header'
 import { Navbar } from '@/components/navbar'
 import { MobileNav } from '@/components/mobile-nav'
@@ -12,7 +11,7 @@ import { Logo } from '@/components/shared/logo'
 import { LinkButton, PrimaryButton } from '@/components/shared/button'
 
 export default function Header() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const setIsSidebarOpen = useFloatingStore((state) => state.setIsSidebarOpen)
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
@@ -28,14 +27,14 @@ export default function Header() {
 
   return (
     <>
-      <MobileNav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <MobileNav />
 
       <header className="background-light1_dark1 md:background-light3_dark1 shadow-light10_dark10 fixed inset-x-0 top-0 z-20 h-[var(--header-height)] flex-center">
         <div className="container flex-center">
           {/* Open sidebar button */}
           <PrimaryButton
             className="shadow-light10_dark0 rounded-md py-2.5 pl-0.5 pr-2.5 hover:bg-light-2/50 dark:hover:bg-dark-2/15 md:mr-6 lg:hidden"
-            onClick={() => setSidebarOpen(true)}
+            onClick={() => setIsSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
             <MoreIcon className="size-6" />

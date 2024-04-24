@@ -1,6 +1,9 @@
+const PRODUCTS = '/products'
+
 export const PATH = {
   HOMEPAGE: '/',
-  PRODUCTS: '/products',
+  PRODUCTS: PRODUCTS,
+  productDetail: PRODUCTS + '/:slug',
   CATEGORY: '/:slug/:id',
   LOGIN: '/login',
   REGISTER: '/register',

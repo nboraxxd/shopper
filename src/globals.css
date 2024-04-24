@@ -12,6 +12,12 @@
     --mobile-nav-height: 72px;
   }
 
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   @media (min-width: 1024px) {
     :root {
       --header-height: 90px;

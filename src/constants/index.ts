@@ -69,3 +69,5 @@ export const HERO_SLIDES = [
     alt: 'Cover 8',
   },
 ]
+
+export const PRODUCT_PLACEHOLDER_IMG = 'https://salt.tikicdn.com/assets/img/image.svg'

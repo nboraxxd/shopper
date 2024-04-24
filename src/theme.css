@@ -63,6 +63,10 @@
     @apply text-secondary-1 dark:text-light-3;
   }
 
+  .text-secondary1_secondary3 {
+    @apply text-secondary-1 dark:text-secondary-3;
+  }
+
   .text-secondary1_dark3 {
     @apply text-secondary-1 dark:text-dark-3;
   }

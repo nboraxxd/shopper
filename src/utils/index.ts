@@ -13,8 +13,8 @@ export function clamp(num: number, min: number, max: number) {
   return Math.min(Math.max(num, min), max)
 }
 
-export function extractCategorySlug(inputString: string) {
-  const parts = inputString.split(/-id[^-]*$/)
+export function extractCategorySlug(categorySlugInput: string) {
+  const parts = categorySlugInput.split(/-id[^-]*$/)
   return parts[0]
 }
 

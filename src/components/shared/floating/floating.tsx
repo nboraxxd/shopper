@@ -32,10 +32,10 @@ interface IFloatingContext {
   arrowRef: MutableRefObject<HTMLImageElement | null>
 }
 
-interface IRootPops {
+interface IRootProps {
   children: React.ReactNode
   isOpen: boolean
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpen: (isOpen: boolean) => void
   placement?: Placement
   interaction?: 'click' | 'hover'
   crossAxis?: number
@@ -75,7 +75,7 @@ const INITIAL_STATE: IFloatingContext = {
 
 const FloatingContext = createContext<IFloatingContext>(INITIAL_STATE)
 
-function Root(props: IRootPops) {
+function Root(props: IRootProps) {
   const { children, isOpen, setIsOpen, placement = 'bottom', interaction, crossAxis = 0, mainAxis = 0 } = props
 
   const arrowRef = useRef<HTMLImageElement>(null)

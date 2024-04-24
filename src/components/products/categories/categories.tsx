@@ -10,14 +10,10 @@ import { cn } from '@/utils'
 export default function Categories() {
   const categoriesImage = keyBy(CATEGORIES_IMAGE, '_id')
 
-  const { data: categoriesResponse, isLoading, isError } = useCategories()
-
-  if (isLoading) return <p>Loading...</p>
-
-  if (isError) return <p>Error</p>
+  const { data: categoriesResponse } = useCategories()
 
   return (
-    <div>
+    <div className="mt-5 max-lg:flex max-lg:gap-2.5 max-lg:overflow-x-auto">
       <Category to={PATH.PRODUCTS} imgSrc="/assets/images/categories/all.png" title="Tất cả sản phẩm" />
       {categoriesResponse.data.data.map((category) => {
         const categoryImage = categoriesImage[category._id]
@@ -39,12 +35,24 @@ interface CategoryProps extends ComponentPropsWithoutRef<typeof Link> {
 function Category({ imgSrc, title, linkClassName, imageClassName, titleClassName, ...rest }: CategoryProps) {
   return (
     <Link
-      className={cn('h-14 gap-2 rounded-[10px] transition-opacity flex-center hover:opacity-80', linkClassName)}
+      className={cn(
+        'shrink-0 gap-2 transition-opacity flex-center hover:opacity-80 max-lg:w-24 max-lg:flex-col lg:h-14',
+        linkClassName
+      )}
       title={title}
       {...rest}
     >
-      <img src={imgSrc} alt={title} className={cn('h-9 object-cover', imageClassName)} />
-      <h3 className={cn('text-secondary1_light1 medium-15 capitalize', titleClassName)}>{title}</h3>
+      <div className="max-lg:overflow-hidden max-lg:rounded-[35%] max-lg:border max-lg:border-secondary-3/30">
+        <img src={imgSrc} alt={title} className={cn('size-12 object-contain lg:size-9', imageClassName)} />
+      </div>
+      <h3
+        className={cn(
+          'text-secondary1_light1 medium-12 lg:medium-15 capitalize max-lg:text-balance max-lg:text-center',
+          titleClassName
+        )}
+      >
+        {title}
+      </h3>
     </Link>
   )
 }

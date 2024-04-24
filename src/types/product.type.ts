@@ -72,8 +72,8 @@ export type Product = {
   sku: string
   badges: Badge[]
   categories: number
-  configurable_options: ConfigurableOption[]
-  configurable_products: ConfigurableProduct[]
+  configurable_options: ConfigurableOption[] | null
+  configurable_products: ConfigurableProduct[] | null
   description: string
   discount: number
   discount_rate: number

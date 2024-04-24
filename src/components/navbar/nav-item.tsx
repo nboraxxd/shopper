@@ -1,19 +1,20 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { NAVBAR } from '@/constants'
+import { useFloatingStore } from '@/stores/floating-store'
 import { Floating } from '@/components/shared/floating'
 import { NavCategories, NavCollections } from '@/components/navbar'
 import { ArrowDownIcon } from '@/components/icons'
 
 export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
-  const [isOpenFloating, setIsOpenFloating] = useState(false)
+  const isFloatingOpen = useFloatingStore((state) => state.isFloatingOpen)
+  const setIsFloatingOpen = useFloatingStore((state) => state.setIsFloatingOpen)
 
   return item.isDropdown === true ? (
     <li key={item.route}>
       <Floating.Root
-        isOpen={isOpenFloating}
-        setIsOpen={setIsOpenFloating}
+        isOpen={isFloatingOpen}
+        setIsOpen={setIsFloatingOpen}
         interaction="hover"
         mainAxis={35}
         crossAxis={200}
@@ -21,7 +22,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
         <Floating.Reference
           as={Link}
           to={item.route}
-          onClick={() => setIsOpenFloating(false)}
+          onClick={() => setIsFloatingOpen(false)}
           className="medium-15 text-secondary1_light1 focus-primary px-4 py-2 flex-center"
         >
           <span>{item.label}</span>

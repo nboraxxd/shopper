@@ -1,11 +1,17 @@
 import { Fragment } from 'react'
 import { Link, createSearchParams } from 'react-router-dom'
 
-import { ProductParameters } from '@/types/product.type'
-import { COLLECTIONS } from '@/constants'
 import { PATH } from '@/constants/path'
+import { COLLECTIONS } from '@/constants'
+import { ProductParameters } from '@/types/product.type'
+import { useFloatingStore } from '@/stores/floating-store'
 
 export default function NavCollections() {
+  const isSidebarOpen = useFloatingStore((state) => state.isSidebarOpen)
+  const setIsSidebarOpen = useFloatingStore((state) => state.setIsSidebarOpen)
+  const isFloatingOpen = useFloatingStore((state) => state.isFloatingOpen)
+  const setIsFloatingOpen = useFloatingStore((state) => state.setIsFloatingOpen)
+
   return (
     <div className="grid gap-5 lg:grid-cols-2">
       {COLLECTIONS.map((collection) => {
@@ -25,6 +31,10 @@ export default function NavCollections() {
                   <Link
                     to={{ pathname: PATH.PRODUCTS, search: createSearchParams(sortParameterObject).toString() }}
                     className="medium-16 text-secondary-1"
+                    onClick={() => {
+                      if (isSidebarOpen) setIsSidebarOpen(false)
+                      if (isFloatingOpen) setIsFloatingOpen(false)
+                    }}
                   >
                     <span className="absolute inset-0 z-10"></span>
                     {collection.title}
@@ -42,6 +52,10 @@ export default function NavCollections() {
               <Link
                 to={{ pathname: PATH.PRODUCTS, search: createSearchParams(sortParameterObject).toString() }}
                 className="medium-16 text-secondary1_dark3 mt-6 inline-block"
+                onClick={() => {
+                  if (isSidebarOpen) setIsSidebarOpen(false)
+                  if (isFloatingOpen) setIsFloatingOpen(false)
+                }}
               >
                 <span className="absolute inset-0 z-10"></span>
                 {collection.title}
