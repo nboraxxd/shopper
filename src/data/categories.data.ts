@@ -1,7 +1,7 @@
-import { SuccessResponse } from '@/types'
 import { CategoriesResponse } from '@/types/product.type'
+import { AxiosResponse } from 'axios'
 
-export const CATEGORIES_DATA: SuccessResponse<CategoriesResponse> = {
+export const CATEGORIES_DATA: AxiosResponse<CategoriesResponse> = {
   data: {
     data: [
       {
@@ -156,7 +156,7 @@ export const CATEGORIES_DATA: SuccessResponse<CategoriesResponse> = {
       },
     ],
   },
-}
+} as AxiosResponse<CategoriesResponse>
 
 export const CATEGORIES_IMAGE = [
   {

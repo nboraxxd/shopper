@@ -1,12 +1,14 @@
 import { NavLink, generatePath } from 'react-router-dom'
 
-import { CATEGORIES_DATA } from '@/data/categories.data'
 import { PATH } from '@/constants/path'
+import { useCategories } from '@/lib/react-query'
 import { cn, extractCategorySlug } from '@/utils'
 import { useFloatingStore } from '@/stores/floating-store'
 import { Category1Icon, Category2Icon } from '@/components/icons'
 
 export default function NavCategories() {
+  const { data: categoriesResponse } = useCategories()
+
   return (
     <div>
       <div className="flex items-center gap-x-2">
@@ -20,7 +22,7 @@ export default function NavCategories() {
       <nav className="ml-8 mt-2.5 lg:ml-0 lg:border-t lg:border-secondary-3 lg:pt-2.5 lg:dark:border-dark-3">
         <ul className="grid lg:grid-cols-2 lg:gap-x-3.5">
           <NavCategory path={PATH.PRODUCTS} title="Tất cả sản phẩm" />
-          {CATEGORIES_DATA.data.data.map((category) => {
+          {categoriesResponse.data.data.map((category) => {
             const categoryPath = generatePath(PATH.CATEGORY, {
               slug: extractCategorySlug(category.slug),
               id: category.id,
