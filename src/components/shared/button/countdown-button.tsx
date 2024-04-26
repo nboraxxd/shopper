@@ -10,7 +10,7 @@ interface Props extends ComponentPropsWithoutRef<'button'> {
 }
 
 export default function CountdownButton(props: Props) {
-  const { children, timer, triggerCountdown, className, isLoading, disabled, ...rest } = props
+  const { children, timer, triggerCountdown, className: className, isLoading, disabled, ...rest } = props
 
   const [isWaiting, setIsWaiting] = useState(Boolean(triggerCountdown))
   const [countdown, setCountdown] = useState(timer)

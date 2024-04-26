@@ -14,6 +14,7 @@ import {
   Placement,
   useHover,
   safePolygon,
+  UseHoverProps,
 } from '@floating-ui/react'
 
 import { cn } from '@/utils'
@@ -40,6 +41,7 @@ interface IRootProps {
   interaction?: 'click' | 'hover'
   crossAxis?: number
   mainAxis?: number
+  hoverDelay?: UseHoverProps['delay']
 }
 
 interface IReferenceProps {
@@ -76,7 +78,16 @@ const INITIAL_STATE: IFloatingContext = {
 const FloatingContext = createContext<IFloatingContext>(INITIAL_STATE)
 
 function Root(props: IRootProps) {
-  const { children, isOpen, setIsOpen, placement = 'bottom', interaction, crossAxis = 0, mainAxis = 0 } = props
+  const {
+    children,
+    isOpen,
+    setIsOpen,
+    placement = 'bottom',
+    interaction,
+    crossAxis = 0,
+    mainAxis = 0,
+    hoverDelay,
+  } = props
 
   const arrowRef = useRef<HTMLImageElement>(null)
 
@@ -95,7 +106,7 @@ function Root(props: IRootProps) {
       blockPointerEvents: true,
     }),
     enabled: interaction === 'hover',
-    delay: { open: 300 },
+    delay: hoverDelay,
   })
 
   const click = useClick(context, { enabled: interaction !== 'hover' })
@@ -103,7 +114,7 @@ function Root(props: IRootProps) {
   const { getReferenceProps, getFloatingProps } = useInteractions([hover, click])
 
   const { styles, isMounted } = useTransitionStyles(context, {
-    duration: 300,
+    duration: 250,
     initial: {
       opacity: 0,
       transform: 'scale(0)',

@@ -29,7 +29,7 @@ export default function Header() {
     <>
       <MobileNav />
 
-      <header className="background-light1_dark1 md:background-light3_dark1 shadow-light10_dark10 fixed inset-x-0 top-0 z-20 h-[var(--header-height)] flex-center">
+      <header className="background-light1_dark1 md:background-light3_dark1 shadow-light10_dark10 fixed inset-x-0 top-0 z-40 h-[var(--header-height)] flex-center">
         <div className="container flex-center">
           {/* Open sidebar button */}
           <PrimaryButton

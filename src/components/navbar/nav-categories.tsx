@@ -47,7 +47,7 @@ function NavCategory({ path, title }: { path: string; title: string }) {
       <NavLink
         to={path}
         className={({ isActive }) =>
-          cn('text-secondary1_dark3 block py-[7px] transition-colors', {
+          cn('text-secondary1_dark3 focus-primary block py-[7px] transition-colors', {
             'medium-14 text-primary-blue': isActive,
             'regular-14 hover:text-primary-blue': !isActive,
           })

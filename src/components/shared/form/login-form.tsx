@@ -120,13 +120,13 @@ export default function LoginForm() {
         </label>
         {/* Forgot Password */}
         {/* TODO: Update `to` prop */}
-        <Link to={PATH.HOMEPAGE} className="medium-14 sm:medium-15 text-primary-blue">
+        <Link to={PATH.HOMEPAGE} className="medium-14 sm:medium-15 focus-primary text-primary-blue">
           Forgot Password?
         </Link>
       </div>
       {/* Button */}
       <ButtonWithLoading
-        className="medium-18 mt-12 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
+        buttonClassName="medium-18 mt-12 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
         isLoading={loginMutation.isPending}
       >
         Login

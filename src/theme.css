@@ -191,6 +191,10 @@
     @apply text-xs font-medium leading-4;
   }
 
+  .regular-12 {
+    @apply text-xs font-normal leading-4;
+  }
+
   .shadow-light10_dark10 {
     @apply shadow-light10 dark:shadow-dark10;
   }

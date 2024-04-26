@@ -13,7 +13,7 @@ export default function Categories() {
   const { data: categoriesResponse } = useCategories()
 
   return (
-    <div className="mt-5 max-lg:flex max-lg:gap-2.5 max-lg:overflow-x-auto">
+    <div className="mt-3 max-lg:flex max-lg:gap-2.5 max-lg:overflow-x-auto">
       <Category to={PATH.PRODUCTS} imgSrc="/assets/images/categories/all.png" title="Tất cả sản phẩm" />
       {categoriesResponse.data.data.map((category) => {
         const categoryImage = categoriesImage[category._id]
@@ -36,7 +36,7 @@ function Category({ imgSrc, title, linkClassName, imageClassName, titleClassName
   return (
     <Link
       className={cn(
-        'shrink-0 gap-2 transition-opacity flex-center hover:opacity-80 max-lg:w-24 max-lg:flex-col lg:h-14',
+        'focus-primary shrink-0 gap-2 transition-opacity flex-center hover:opacity-80 max-lg:w-24 max-lg:flex-col lg:h-14',
         linkClassName
       )}
       title={title}

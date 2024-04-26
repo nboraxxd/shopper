@@ -15,12 +15,12 @@ export default function AuthInput<T extends string>(props: Props<T>) {
 
   return (
     <div className={cn('', wrapperClassname)}>
-      <div className="border-secondary3_dark3 h-12 rounded-[10px] border-[1.5px] px-3 transition-colors flex-center focus-within:border-secondary">
+      <div className="input-ring h-12 rounded-[10px] px-3 shadow-sm flex-center">
         <input
           {...rest}
           {...register}
           className={cn(
-            'medium-16 sm:medium-18 placeholder:text-secondary3_dark3 no-focus size-full border-none bg-inherit p-0',
+            'medium-16 sm:medium-18 text-secondary1_light1 placeholder:text-secondary3_dark3 no-focus relative -z-0 size-full border-none bg-inherit p-0',
             inputClassname
           )}
         />

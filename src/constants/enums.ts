@@ -4,7 +4,7 @@ export enum Theme {
   SYSTEM = 'system',
 }
 
-export enum ProductFilter {
+export enum ProductSort {
   PRICE_DESC = 'real_price.desc',
   PRICE_ASC = 'real_price.asc',
   DISCOUNT_DESC = 'discount_rate.desc',

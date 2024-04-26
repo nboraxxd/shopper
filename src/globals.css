@@ -18,6 +18,14 @@
     margin: 0;
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: text;
+  }
+
   @media (min-width: 1024px) {
     :root {
       --header-height: 90px;
@@ -32,6 +40,10 @@
 
   .no-focus {
     @apply focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+  }
+
+  .input-ring {
+    @apply ring-1 ring-secondary-3 focus-within:ring-2 focus:ring-2 focus-within:ring-secondary focus:ring-secondary border-none;
   }
 
   .active-theme {

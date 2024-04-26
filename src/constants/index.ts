@@ -1,5 +1,5 @@
 import { PATH } from '@/constants/path'
-import { ProductFilter, Theme } from '@/constants/enums'
+import { ProductSort, Theme } from '@/constants/enums'
 import { capitalizeFirstLetter } from '@/utils'
 import { ComputerIcon, MoonIcon, SunIcon } from '@/components/icons'
 
@@ -25,13 +25,13 @@ export const COLLECTIONS = [
   {
     _id: 'mega-menu-1',
     title: 'Sản phẩm mới nhất',
-    sortValue: ProductFilter.NEWEST,
+    sortValue: ProductSort.NEWEST,
     img: '/assets/images/mega-menu-1.webp',
   },
   {
     _id: 'mega-menu-2',
     title: 'Giảm giá nhiều nhất',
-    sortValue: ProductFilter.DISCOUNT_DESC,
+    sortValue: ProductSort.DISCOUNT_DESC,
     img: '/assets/images/mega-menu-2.webp',
   },
 ] as const

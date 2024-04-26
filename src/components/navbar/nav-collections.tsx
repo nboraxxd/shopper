@@ -30,7 +30,7 @@ export default function NavCollections() {
                 <div className="bg-light-1/60 p-4">
                   <Link
                     to={{ pathname: PATH.PRODUCTS, search: createSearchParams(sortParameterObject).toString() }}
-                    className="medium-16 text-secondary-1"
+                    className="medium-16 focus-primary text-secondary-1 "
                     onClick={() => {
                       if (isSidebarOpen) setIsSidebarOpen(false)
                       if (isFloatingOpen) setIsFloatingOpen(false)
@@ -51,7 +51,7 @@ export default function NavCollections() {
               </div>
               <Link
                 to={{ pathname: PATH.PRODUCTS, search: createSearchParams(sortParameterObject).toString() }}
-                className="medium-16 text-secondary1_dark3 mt-6 inline-block"
+                className="medium-16 text-secondary1_dark3 focus-primary mt-6 inline-block"
                 onClick={() => {
                   if (isSidebarOpen) setIsSidebarOpen(false)
                   if (isFloatingOpen) setIsFloatingOpen(false)

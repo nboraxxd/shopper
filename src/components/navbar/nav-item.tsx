@@ -4,7 +4,7 @@ import { NAVBAR } from '@/constants'
 import { useFloatingStore } from '@/stores/floating-store'
 import { Floating } from '@/components/shared/floating'
 import { NavCategories, NavCollections } from '@/components/navbar'
-import { ArrowDownIcon } from '@/components/icons'
+import { SmallArrowDownIcon } from '@/components/icons'
 
 export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
   const isFloatingOpen = useFloatingStore((state) => state.isFloatingOpen)
@@ -18,6 +18,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
         interaction="hover"
         mainAxis={35}
         crossAxis={200}
+        hoverDelay={{ open: 300 }}
       >
         <Floating.Reference
           as={Link}
@@ -26,7 +27,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
           className="medium-15 text-secondary1_light1 focus-primary px-4 py-2 flex-center"
         >
           <span>{item.label}</span>
-          <ArrowDownIcon className="ml-1.5 size-3" />
+          <SmallArrowDownIcon className="ml-1.5 size-3" />
         </Floating.Reference>
 
         <Floating

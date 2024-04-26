@@ -27,7 +27,7 @@ export default function ProductCard(props: Props) {
   return (
     <div className="background-light1_dark1 overflow-hidden rounded-lg">
       <div className="group relative pt-[100%]">
-        <Link to={productDetailPath} className="absolute left-0 top-0 !bg-light-1">
+        <Link to={productDetailPath} className="focus-primary absolute left-0 top-0 !bg-light-1">
           <img
             src={secondaryImage}
             alt={name}
@@ -42,12 +42,12 @@ export default function ProductCard(props: Props) {
       </div>
       <div className="space-y-4 p-4">
         <h2 className="medium-16 text-secondary1_light1">
-          <Link to={productDetailPath} className="line-clamp-2">
+          <Link to={productDetailPath} className="focus-primary line-clamp-2">
             {name}
           </Link>
         </h2>
         <h3 className="regular-15 text-secondary-2">
-          <Link to={categoryPath} className="line-clamp-1">
+          <Link to={categoryPath} className="focus-primary line-clamp-1">
             {category.title}
           </Link>
         </h3>

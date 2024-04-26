@@ -7,7 +7,7 @@ interface Props extends ComponentPropsWithoutRef<typeof Link> {
   className?: string
 }
 
-export default function LinkButton({ children, className, ...rest }: Props) {
+export default function LinkButton({ children, className: className, ...rest }: Props) {
   return (
     <Link
       className={cn('focus-primary line-clamp-1 whitespace-nowrap transition-opacity hover:opacity-85', className)}
