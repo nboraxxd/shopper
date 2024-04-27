@@ -8,8 +8,7 @@ export default function RatingFilter() {
   return (
     <ul className="mt-3">
       {Array.from(Array(TOTAL_FILTERED_RATING_ROWS)).map((_, starsIndex) => {
-        const starsNumber = MAX_STAR_COUNT - starsIndex
-        console.log('🔥 ~ {Array.from ~ starsNumber:', starsNumber)
+        // const starsNumber = MAX_STAR_COUNT - starsIndex
 
         return (
           <li key={starsIndex}>

@@ -7,6 +7,7 @@ import { PRODUCT_PLACEHOLDER_IMG } from '@/constants'
 import { useCategories, useProducts } from '@/lib/react-query'
 import { ProductCard, ProductCardSkeleton } from '@/components/products/product-card'
 import { Sort } from '@/components/products/sort'
+import { Filter } from '@/components/products/filter'
 
 const fields =
   'name,real_price,price,categories,slug,_id,images,rating_average,review_count,discount_rate,configurable_products'
@@ -28,9 +29,12 @@ export default function Products() {
 
   return (
     <div className="mb-14 max-lg:mt-5">
-      <div className="justify-between flex-center">
+      <div className="flex flex-col justify-between lg:flex-row lg:flex-center">
         <h2 className="medium-18 md:bold-24 text-secondary1_light1">Tất cả sản phẩm</h2>
-        <Sort />
+        <div className="mt-5 justify-between flex-center">
+          <Sort />
+          <Filter />
+        </div>
       </div>
       <div className="mt-8 grid gap-4 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {isLoading && Array.from(Array(24)).map((_, i) => <ProductCardSkeleton key={i} />)}

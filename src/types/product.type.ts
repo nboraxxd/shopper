@@ -1,4 +1,4 @@
-import { ProductFilter } from '@/constants/enums'
+import { ProductSort } from '@/constants/enums'
 
 type Badge =
   | {
@@ -49,7 +49,7 @@ type Specification = {
 }
 
 export type ProductParameters = {
-  sort?: ProductFilter
+  sort?: ProductSort
   name?: string
   fields?: string
   categories?: number
