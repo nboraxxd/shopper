@@ -52,11 +52,11 @@ export type ProductParameters = {
   sort?: ProductSort
   name?: string
   fields?: string
-  categories?: number
   minPrice?: number
   maxPrice?: number
   limit?: number
   page?: number
+  filterRating?: number
 }
 
 export type Paginate = {

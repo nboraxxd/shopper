@@ -1,5 +1,7 @@
 import keyBy from 'lodash/keyBy'
 import pick from 'lodash/pick'
+import queryString from 'query-string'
+import { useLocation } from 'react-router-dom'
 
 import { FieldUnion } from '@/types'
 import { Product } from '@/types/product.type'
@@ -8,12 +10,16 @@ import { useCategories, useProducts } from '@/lib/react-query'
 import { ProductCard, ProductCardSkeleton } from '@/components/products/product-card'
 import { Sort } from '@/components/products/sort'
 import { Filter } from '@/components/products/filter'
+import Pagination from '@/components/products/pagination/pagination'
 
 const fields =
   'name,real_price,price,categories,slug,_id,images,rating_average,review_count,discount_rate,configurable_products'
 type Fields = FieldUnion<typeof fields>
 
 export default function Products() {
+  const { search } = useLocation()
+  const queryParams = queryString.parse(search)
+
   const {
     data: productsRes,
     isLoading,
@@ -22,6 +28,7 @@ export default function Products() {
     fields,
     page: 1,
     limit: 24,
+    ...queryParams,
   })
 
   const { data: categoriesRes } = useCategories()
@@ -36,10 +43,11 @@ export default function Products() {
           <Filter />
         </div>
       </div>
-      <div className="mt-8 grid gap-4 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-4 2xl:grid-cols-5">
         {isLoading && Array.from(Array(24)).map((_, i) => <ProductCardSkeleton key={i} />)}
 
-        {isSuccess && productsRes.data.data.length > 0 ? (
+        {isSuccess &&
+          productsRes.data.data.length > 0 &&
           productsRes.data.data.map((product) => {
             const category = categories[product.categories]
 
@@ -73,11 +81,12 @@ export default function Products() {
                 slug={product.slug}
               />
             )
-          })
-        ) : (
-          <div>[[hehe]]</div>
-        )}
+          })}
       </div>
+
+      {isSuccess && productsRes.data.data.length > 0 && (
+        <Pagination queryParams={queryParams} currentPage={164} totalPage={productsRes.data.paginate.totalPage} />
+      )}
     </div>
   )
 }

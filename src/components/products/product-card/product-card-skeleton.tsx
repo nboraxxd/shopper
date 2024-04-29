@@ -11,15 +11,15 @@ export default function ProductCardSkeleton() {
           </Skeleton>
         </div>
       </div>
-      <div className="space-y-4 p-4">
+      <div className="space-y-2 p-3 xs:space-y-3 md:space-y-4 md:p-4">
         <div>
-          <Skeleton className="h-5" />
-          <Skeleton className="mt-2 h-5" />
+          <Skeleton className="h-4 md:h-5" />
+          <Skeleton className="mt-2 h-4 md:h-5" />
         </div>
-        <Skeleton className="h-4" />
+        <Skeleton className="h-4 md:h-5" />
         <div className="justify-between flex-center">
-          <Skeleton className="h-6 w-1/2" />
-          <Skeleton className="h-6 w-1/3" />
+          <Skeleton className="h-4 w-1/2 md:h-5" />
+          <Skeleton className="h-4 w-1/3 md:h-5" />
         </div>
       </div>
       <span className="sr-only">Loading...</span>

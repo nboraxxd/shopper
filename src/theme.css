@@ -195,6 +195,22 @@
     @apply text-xs font-normal leading-4;
   }
 
+  .medium-11 {
+    @apply text-[0.6875rem] font-medium leading-[0.9375rem];
+  }
+
+  .regular-11 {
+    @apply text-[0.6875rem] font-normal leading-[0.9375rem];
+  }
+
+  .medium-10 {
+    @apply text-[0.625rem] font-medium leading-[0.875rem];
+  }
+
+  .regular-10 {
+    @apply text-[0.625rem] font-normal leading-[0.875rem];
+  }
+
   .shadow-light10_dark10 {
     @apply shadow-light10 dark:shadow-dark10;
   }
