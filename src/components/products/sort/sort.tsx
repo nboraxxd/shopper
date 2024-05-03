@@ -29,8 +29,6 @@ function SortMobile({ selected, setSelected }: SortProps) {
   return (
     <BottomDrawer
       trigger={
-        // TODO
-        // <PrimaryButton className="background-light1_dark1 h-8 justify-center gap-1.5 rounded-md px-2 flex-center lg:hidden">
         <PrimaryButton className="background-light1_dark1 h-9 justify-center gap-2 rounded-md px-3 flex-center lg:hidden">
           <span className="medium-16 text-secondary1_secondary3">{selected?.name || 'Sắp xếp'}</span>
           <MediumArrowDownIcon className="inline-block size-5 stroke-secondary-1 dark:stroke-secondary-3" />

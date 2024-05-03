@@ -1,29 +1,17 @@
-import { StarBlankIcon, StarIcon } from '@/components/icons'
-import { PrimaryButton } from '@/components/shared/button'
+import { useState } from 'react'
 
-const MAX_STAR_COUNT = 5
-const TOTAL_FILTERED_RATING_ROWS = 5
+import { Rating } from '@/components/shared/rating'
 
 export default function RatingFilter() {
-  return (
-    <ul className="mt-3">
-      {Array.from(Array(TOTAL_FILTERED_RATING_ROWS)).map((_, starsIndex) => {
-        // const starsNumber = MAX_STAR_COUNT - starsIndex
+  const [rating, setRating] = useState<number>(0)
 
-        return (
-          <li key={starsIndex}>
-            <PrimaryButton className="w-full gap-1 py-1 flex-center">
-              {Array.from(Array(MAX_STAR_COUNT)).map((_, starIndex) => {
-                if (starIndex < MAX_STAR_COUNT - starsIndex) {
-                  return <StarIcon key={starIndex} className="size-5" />
-                }
-                return <StarBlankIcon key={starIndex} className="size-5" />
-              })}
-              {starsIndex !== 0 && <span className="medium-14 text-secondary1_light1 ml-1">& up</span>}
-            </PrimaryButton>
-          </li>
-        )
-      })}
-    </ul>
+  return (
+    <div>
+      <p className="text-secondary1_light1 medium-22">Rating</p>
+      <div className="mt-2 flex-center">
+        <Rating rating={rating} setRating={setRating} />
+        {<span className="medium-14 text-secondary1_light1 ml-3 select-none">{rating} stars & up</span>}
+      </div>
+    </div>
   )
 }

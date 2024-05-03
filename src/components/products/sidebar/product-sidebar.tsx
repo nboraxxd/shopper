@@ -1,6 +1,4 @@
 import { Categories } from '@/components/products/categories'
-import { PriceFilter } from '@/components/products/price-filter'
-import { RatingFilter } from '@/components/products/rating-filter'
 
 export default function ProductSidebar() {
   return (
@@ -10,7 +8,7 @@ export default function ProductSidebar() {
         <Categories />
       </div>
 
-      <div className="lg:background-light3_dark1 hidden lg:mt-5 lg:flex lg:flex-col lg:rounded-[10px] lg:px-3 lg:py-5">
+      {/* <div className="lg:background-light3_dark1 hidden lg:mt-5 lg:flex lg:flex-col lg:rounded-[10px] lg:px-3 lg:py-5">
         <div>
           <p className="bold-24 text-secondary1_light1">Price</p>
           <PriceFilter />
@@ -22,7 +20,7 @@ export default function ProductSidebar() {
           <p className="bold-24 text-secondary1_light1">Rating</p>
           <RatingFilter />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

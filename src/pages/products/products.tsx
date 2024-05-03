@@ -36,11 +36,11 @@ export default function Products() {
 
   return (
     <div className="mb-14 max-lg:mt-5">
-      <div className="flex flex-col justify-between lg:flex-row lg:flex-center">
+      <div className="flex flex-col justify-between">
         <h2 className="medium-18 md:bold-24 text-secondary1_light1">Tất cả sản phẩm</h2>
-        <div className="mt-5 justify-between flex-center">
-          <Sort />
+        <div className="ml-auto mt-5 gap-5 flex-center">
           <Filter />
+          <Sort />
         </div>
       </div>
       <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-4 2xl:grid-cols-5">
@@ -85,7 +85,7 @@ export default function Products() {
       </div>
 
       {isSuccess && productsRes.data.data.length > 0 && (
-        <Pagination queryParams={queryParams} currentPage={164} totalPage={productsRes.data.paginate.totalPage} />
+        <Pagination queryParams={queryParams} currentPage={1} totalPage={productsRes.data.paginate.totalPage} />
       )}
     </div>
   )
