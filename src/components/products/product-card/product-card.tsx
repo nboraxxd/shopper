@@ -10,7 +10,7 @@ interface Props {
   primaryImage: string
   secondaryImage: string
   name: string
-  category: {
+  category?: {
     id: number
     title: string
     slug: string
@@ -23,12 +23,14 @@ export default function ProductCard(props: Props) {
   const { slug, primaryImage, secondaryImage, name, category, price, rating_average } = props
 
   const productDetailPath = generatePath(PATH.productDetail, { slug })
-  const categoryPath = generatePath(PATH.CATEGORY, { slug: extractCategorySlug(category.slug), id: category.id })
+
+  const categoryPath =
+    category && generatePath(PATH.CATEGORY, { slug: extractCategorySlug(category.slug), id: category.id })
 
   return (
     <div className="background-light1_dark1 flex flex-col overflow-hidden rounded-lg">
       <div className="group relative pt-[100%]">
-        <Link to={productDetailPath} className="focus-primary absolute left-0 top-0 !bg-light-1">
+        <Link to={productDetailPath} className="focus-primary absolute inset-y-0 left-0 !bg-light-1">
           <LazyLoadImage
             src={secondaryImage}
             alt={name}
@@ -47,12 +49,14 @@ export default function ProductCard(props: Props) {
             {name}
           </Link>
         </h2>
-        <h3 className="regular-12 md:regular-15 mt-auto text-secondary-2">
-          <Link to={categoryPath} className="focus-primary line-clamp-1">
-            {category.title}
-          </Link>
-        </h3>
-        <div className="flex-center">
+        {categoryPath ? (
+          <h3 className="regular-12 md:regular-15 mt-auto text-secondary-2">
+            <Link to={categoryPath} className="focus-primary line-clamp-1">
+              {category.title}
+            </Link>
+          </h3>
+        ) : null}
+        <div className="mt-auto flex-center">
           <div className="text-secondary1_light1 medium-11 xs:medium-12 md:medium-14 line-clamp-1">
             {formatCurrency(price)}
             <sup>₫</sup>

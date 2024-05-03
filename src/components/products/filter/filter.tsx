@@ -16,13 +16,7 @@ export default function Filter() {
 
   const [isOpenFloating, setIsOpenFloating] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    formState: { errors },
-  } = useForm<FilterSchemaType>({
+  const { handleSubmit } = useForm<FilterSchemaType>({
     resolver: zodResolver(filterSchema),
   })
 
@@ -31,7 +25,7 @@ export default function Filter() {
   }
 
   return isLargeDevice ? (
-    <Floating.Root isOpen={isOpenFloating} setIsOpen={setIsOpenFloating} placement="bottom" mainAxis={20}>
+    <Floating.Root isOpen={isOpenFloating} setIsOpen={setIsOpenFloating} placement="bottom" mainAxis={22}>
       <Floating.Reference as={PrimaryButton} className="h-9 justify-center gap-1.5 rounded-md px-3 flex-center">
         <FilterIcon className="inline-block size-5" />
         <span className="medium-16 text-secondary1_secondary3">Lọc</span>
@@ -55,7 +49,7 @@ export default function Filter() {
                 type="button"
                 className="regular-15 h-10 rounded-md px-1.5 text-secondary-2 transition-opacity hover:text-opacity-85"
               >
-                Reset
+                Clear
               </PrimaryButton>
               <ButtonWithLoading
                 buttonClassName="medium-15 h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity hover:opacity-85"
@@ -90,7 +84,7 @@ export default function Filter() {
           type="button"
           className="regular-15 h-10 rounded-md px-1.5 text-secondary-2 transition-opacity hover:text-opacity-85"
         >
-          Reset
+          Clear
         </PrimaryButton>
         <ButtonWithLoading
           buttonClassName="medium-15 h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity hover:opacity-85"

@@ -3,7 +3,7 @@ import { Link, createSearchParams } from 'react-router-dom'
 
 import { PATH } from '@/constants/path'
 import { COLLECTIONS } from '@/constants'
-import { ProductParameters } from '@/types/product.type'
+import { ProductSort } from '@/constants/enums'
 import { useFloatingStore } from '@/stores/floating-store'
 
 export default function NavCollections() {
@@ -15,7 +15,7 @@ export default function NavCollections() {
   return (
     <div className="grid gap-5 lg:grid-cols-2">
       {COLLECTIONS.map((collection) => {
-        const sortParameterObject: Pick<ProductParameters, 'sort'> = { sort: collection.sortValue }
+        const sortParameterObject: Record<'sort', ProductSort> = { sort: collection.sortValue }
 
         return (
           <Fragment key={collection._id}>

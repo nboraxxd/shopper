@@ -13,10 +13,11 @@ export default function Rating({ rating, setRating }: Props) {
 
     return (
       <span
+        key={index}
         className="inline-block cursor-pointer p-0.5 transition-transform active:scale-90"
         onClick={() => setRating(currentStar)}
       >
-        <StarBlankIcon key={index} className="size-6" fill={currentStar <= rating ? '#FFB700' : 'none'} />
+        <StarBlankIcon className="size-6" fill={currentStar <= rating ? '#FFB700' : 'none'} />
       </span>
     )
   })

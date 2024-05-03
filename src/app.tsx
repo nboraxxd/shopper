@@ -5,7 +5,7 @@ import { router } from '@/router'
 import { QueryProvider } from '@/lib/react-query'
 import { ThemeProvider } from '@/context/theme-provider'
 import { FormErrorIcon } from '@/components/icons'
-import { AuthProvider } from '@/components/shared/provider'
+import { AuthProvider } from '@/components/provider'
 import '@/globals.css'
 
 export default function App() {

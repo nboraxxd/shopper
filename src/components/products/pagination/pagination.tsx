@@ -1,27 +1,36 @@
 import queryString from 'query-string'
 import { To } from 'react-router-dom'
 
-import { cn } from '@/utils'
+import { QueryConfig } from '@/types'
 import { PATH } from '@/constants/path'
+import { PaginationButton } from '@/components/shared/button'
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
-import { LinkButton } from '@/components/shared/button'
+import { PaginationDot } from '@/components/products/pagination'
 
 interface Props {
-  queryParams: queryString.ParsedQuery<string>
-  currentPage: number
+  queryParams: QueryConfig
   totalPage: number
 }
 
 const RANGE = 2
 
-export default function Pagination({ queryParams: _queryParams, currentPage, totalPage }: Props) {
+export default function Pagination({ queryParams, totalPage }: Props) {
+  const currentPage = Number(queryParams.page) || 1
+
+  function createUrl(page: number): To {
+    return {
+      pathname: PATH.PRODUCTS,
+      search: queryString.stringify({ ...queryParams, page: page.toString() }),
+    }
+  }
+
   function renderPageNumbers() {
     if (currentPage <= RANGE + 1) {
       return Array.from(Array(RANGE * 2 + 2)).map((_, i) => {
         const pageNumber = i + 1
 
         if (pageNumber <= RANGE * 2 + 1) {
-          return <PaginationBtn key={i} to={PATH.PRODUCTS} pageNumber={pageNumber} currentPage={currentPage} />
+          return <PaginationButton key={i} to={createUrl(pageNumber)} currentPage={currentPage} children={pageNumber} />
         }
 
         return <PaginationDot key={i} />
@@ -29,24 +38,24 @@ export default function Pagination({ queryParams: _queryParams, currentPage, tot
     } else if (currentPage > totalPage - RANGE) {
       return Array.from(Array(RANGE * 2 + 3)).map((_, i) => {
         const pageNumber = totalPage - RANGE * 2 - 2 + i
-        if (i === 0) return <PaginationBtn key={i} to={PATH.PRODUCTS} pageNumber={1} />
+        if (i === 0) return <PaginationButton key={i} to={createUrl(1)} children={1} />
 
         if (i === 1) return <PaginationDot key={i} />
 
         if (pageNumber <= totalPage) {
-          return <PaginationBtn key={i} to={PATH.PRODUCTS} pageNumber={pageNumber} currentPage={currentPage} />
+          return <PaginationButton key={i} to={createUrl(pageNumber)} currentPage={currentPage} children={pageNumber} />
         }
       })
     } else {
       return Array.from(Array(RANGE * 2 + 4)).map((_, i) => {
         const pageNumber = i + currentPage - RANGE - 2
 
-        if (i === 0) return <PaginationBtn key={i} to={PATH.PRODUCTS} pageNumber={1} />
+        if (i === 0) return <PaginationButton key={i} to={createUrl(1)} children={1} />
 
         if (pageNumber === currentPage - RANGE - 1 && pageNumber > 1) return <PaginationDot key={i} />
 
         if (pageNumber >= currentPage - RANGE && pageNumber <= currentPage + RANGE && pageNumber <= totalPage) {
-          return <PaginationBtn key={i} to={PATH.PRODUCTS} pageNumber={pageNumber} currentPage={currentPage} />
+          return <PaginationButton key={i} to={createUrl(pageNumber)} currentPage={currentPage} children={pageNumber} />
         }
 
         if (pageNumber <= totalPage && pageNumber === currentPage + RANGE + 1) return <PaginationDot key={i} />
@@ -57,44 +66,19 @@ export default function Pagination({ queryParams: _queryParams, currentPage, tot
   }
 
   return (
-    <ul className="mt-8 gap-2 flex-center">
-      <LinkButton
-        to={PATH.PRODUCTS}
-        className="medium-16 text-secondary1_light1 h-9 justify-center rounded px-2 transition-colors flex-center hover:bg-secondary/50"
-      >
-        <ChevronLeftIcon className="mt-1 size-5 stroke-secondary-1 dark:stroke-light-1" />
-      </LinkButton>
+    <ul className="mt-8 justify-center gap-3 flex-center">
+      <PaginationButton to={currentPage === 1 ? createUrl(1) : createUrl(currentPage - 1)} className="px-2">
+        <ChevronLeftIcon className="mt-0.5 size-5 stroke-secondary-1 dark:stroke-light-1" />
+      </PaginationButton>
 
       {renderPageNumbers()}
 
-      <LinkButton
-        to={PATH.PRODUCTS}
-        className="medium-16 text-secondary1_light1 h-9 justify-center rounded-[4px] px-2 transition-colors flex-center hover:bg-secondary/50"
+      <PaginationButton
+        to={currentPage === totalPage ? createUrl(totalPage) : createUrl(currentPage + 1)}
+        className="px-2"
       >
-        <ChevronRightIcon className="mt-1 size-5 stroke-secondary-1 dark:stroke-light-1" />
-      </LinkButton>
+        <ChevronRightIcon className="mt-0.5 size-5 stroke-secondary-1 dark:stroke-light-1" />
+      </PaginationButton>
     </ul>
-  )
-}
-
-function PaginationBtn({ to, pageNumber, currentPage }: { to: To; pageNumber: number; currentPage?: number }) {
-  return (
-    <LinkButton
-      to={to}
-      className={cn(
-        'medium-16 text-secondary1_light1 h-9 min-w-9 justify-center rounded-[4px] px-3 transition-colors flex-center',
-        pageNumber === currentPage ? 'bg-secondary' : 'hover:bg-secondary/50'
-      )}
-    >
-      {pageNumber}
-    </LinkButton>
-  )
-}
-
-function PaginationDot() {
-  return (
-    <span className="medium-16 text-secondary1_light1 h-9 justify-center rounded-[4px] px-3 transition-colors flex-center">
-      ...
-    </span>
   )
 }

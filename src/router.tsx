@@ -8,6 +8,7 @@ import { ProductsLayout } from '@/layouts/products-layout'
 import { NotFound } from '@/pages/not-found'
 import { Home } from '@/pages/home'
 import { Products } from '@/pages/products'
+import { ScrollTopProvider } from '@/components/provider'
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +22,11 @@ export const router = createBrowserRouter([
       },
       {
         path: PATH.PRODUCTS,
-        element: <ProductsLayout />,
+        element: (
+          <ScrollTopProvider>
+            <ProductsLayout />
+          </ScrollTopProvider>
+        ),
         children: [
           {
             index: true,
