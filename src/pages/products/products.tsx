@@ -1,53 +1,32 @@
-import pick from 'lodash/pick'
-import omitBy from 'lodash/omitBy'
 import keyBy from 'lodash/keyBy'
-import isUndefined from 'lodash/isUndefined'
-import queryString from 'query-string'
-import { useLocation } from 'react-router-dom'
 
-import { FieldUnion, QueryConfig } from '@/types'
-import { Category, Product } from '@/types/product.type'
-import { PRODUCT_PLACEHOLDER_IMAGES } from '@/constants'
-import { ProductSort } from '@/constants/enums'
+import { FieldUnion } from '@/types'
+import { Product as ProductType } from '@/types/product.type'
 import { useCategories, useProducts } from '@/lib/react-query'
+import useMediaQuery from '@/hooks/useMediaQuery'
+import useQueryParamsFiltered from '@/hooks/useQueryParamsFiltered'
 import { Sort } from '@/components/products/sort'
 import { Filter } from '@/components/products/filter'
 import { Pagination } from '@/components/products/pagination'
-import { ProductCard, ProductCardSkeleton } from '@/components/products/product-card'
+import { Product } from '@/components/products/product'
+import { ProductCardSkeleton } from '@/components/products/product-card'
 
 const LIMIT = '60'
 
-const fields =
+export const fields =
   'name,real_price,price,categories,slug,_id,images,rating_average,review_count,discount_rate,configurable_products'
 
-type Fields = FieldUnion<typeof fields>
+export type Fields = FieldUnion<typeof fields>
 
 export default function Products() {
-  const { search } = useLocation()
-  const queryParams = queryString.parse(search)
-
-  const productSortList = Object.values(ProductSort)
-
-  const queryParamsFiltered: QueryConfig = omitBy(
-    {
-      sort:
-        queryParams.sort === 'string' && productSortList.includes(queryParams.sort as ProductSort)
-          ? (queryParams.sort as ProductSort)
-          : undefined,
-      name: queryParams.name,
-      page: Number(queryParams.page) ? queryParams.page : undefined,
-      minPrice: Number(queryParams.minPrice) ? queryParams.minPrice : undefined,
-      maxPrice: Number(queryParams.maxPrice) ? queryParams.maxPrice : undefined,
-      filterRating: Number(queryParams.filterRating) ? queryParams.filterRating : undefined,
-    },
-    isUndefined
-  )
+  const queryParamsFiltered = useQueryParamsFiltered()
+  const isMediumDevice = useMediaQuery({ minWidth: 768 })
 
   const {
     data: productsRes,
     isLoading,
     isSuccess,
-  } = useProducts<Pick<Product, Fields>>({
+  } = useProducts<Pick<ProductType, Fields>>({
     fields,
     limit: LIMIT,
     ...queryParamsFiltered,
@@ -55,6 +34,19 @@ export default function Products() {
 
   const { data: categoriesRes } = useCategories()
   const categories = keyBy(categoriesRes.data.data, 'id')
+
+  const oddProducts: Pick<ProductType, Fields>[] = []
+  const evenProducts: Pick<ProductType, Fields>[] = []
+
+  if (isSuccess && productsRes.data.paginate.currentPage !== null && productsRes.data.data.length > 0) {
+    productsRes.data.data.forEach((product, index) => {
+      if (index % 2 === 0) {
+        evenProducts.push(product)
+      } else {
+        oddProducts.push(product)
+      }
+    })
+  }
 
   return (
     <div className="pb-14 max-lg:mt-5">
@@ -71,40 +63,24 @@ export default function Products() {
         {isSuccess &&
           productsRes.data.paginate.currentPage !== null &&
           productsRes.data.data.length > 0 &&
-          productsRes.data.data.map((product) => {
-            const category = categories[product.categories] as Category | undefined
-
-            let primaryImage = product.images[0].medium_url
-
-            if (
-              PRODUCT_PLACEHOLDER_IMAGES.includes(primaryImage) &&
-              product.configurable_products &&
-              product.configurable_products.length > 0
-            ) {
-              primaryImage =
-                product.configurable_products[1]?.images[0]?.medium_url ||
-                product.configurable_products[0]?.images[0]?.medium_url
-            }
-
-            let secondaryImage = product.configurable_products?.[0]?.images?.[0]?.medium_url
-
-            if (!secondaryImage) {
-              secondaryImage = product?.images[1]?.medium_url || primaryImage
-            }
-
-            return (
-              <ProductCard
-                key={product._id}
-                category={category ? pick(category, ['id', 'title', 'slug']) : undefined}
-                name={product.name}
-                price={product.price}
-                primaryImage={primaryImage}
-                secondaryImage={secondaryImage}
-                rating_average={product.rating_average}
-                slug={product.slug}
-              />
-            )
-          })}
+          (isMediumDevice ? (
+            productsRes.data.data.map((product) => (
+              <Product key={product._id} product={product} categories={categories} />
+            ))
+          ) : (
+            <>
+              <div className="space-y-3">
+                {oddProducts.map((product) => (
+                  <Product key={product._id} product={product} categories={categories} />
+                ))}
+              </div>
+              <div className="space-y-3">
+                {evenProducts.map((product) => (
+                  <Product key={product._id} product={product} categories={categories} />
+                ))}
+              </div>
+            </>
+          ))}
       </div>
 
       {isSuccess && productsRes.data.data.length > 0 && (

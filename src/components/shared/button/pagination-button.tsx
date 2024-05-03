@@ -16,7 +16,7 @@ export default function PaginationButton({ to, className, currentPage, children 
     <LinkButton
       to={to}
       className={cn(
-        'medium-16 text-secondary1_light1 h-9 min-w-9 justify-center rounded-[4px] px-3 transition-colors flex-center hover:opacity-100',
+        'medium-14 md:medium-16 text-secondary1_light1 h-7 justify-center rounded-[4px] px-2.5 transition-colors flex-center hover:opacity-100 md:h-9 md:min-w-9 md:px-3',
         children !== undefined && currentPage !== undefined && children === currentPage
           ? 'bg-secondary text-dark-1'
           : 'hover:bg-secondary/50',
