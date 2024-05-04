@@ -1,5 +1,6 @@
 import pick from 'lodash/pick'
 import keyBy from 'lodash/keyBy'
+import { useParams } from 'react-router-dom'
 
 import { FieldUnion } from '@/types'
 import { Category, Product as ProductType } from '@/types/product.type'
@@ -20,21 +21,19 @@ const fields =
 type Fields = FieldUnion<typeof fields>
 
 export default function Products() {
+  const { categoryId } = useParams()
+
   const queryParamsFiltered = useQueryParamsFiltered()
   const isMediumDevice = useMediaQuery({ minWidth: 768 })
 
-  const {
-    data: productsRes,
-    isLoading,
-    isSuccess,
-  } = useProducts<Pick<ProductType, Fields>>({
-    fields,
-    limit: LIMIT,
-    ...queryParamsFiltered,
-  })
+  const productParams = categoryId
+    ? { categories: categoryId, limit: LIMIT, ...queryParamsFiltered }
+    : { limit: LIMIT, ...queryParamsFiltered }
+
+  const { data: productsRes, isLoading, isSuccess } = useProducts<Pick<ProductType, Fields>>(productParams)
 
   const { data: categoriesRes } = useCategories()
-  const categories = keyBy(categoriesRes.data.data, 'id')
+  const categories: Record<number, Category> = keyBy(categoriesRes.data.data, 'id')
 
   const oddProducts: Pick<ProductType, Fields>[] = []
   const evenProducts: Pick<ProductType, Fields>[] = []
@@ -52,7 +51,9 @@ export default function Products() {
   return (
     <div className="pb-14 max-lg:mt-5">
       <div className="flex flex-col justify-between">
-        <h2 className="medium-18 md:bold-24 text-secondary1_light1">Tất cả sản phẩm</h2>
+        <h2 className="medium-18 md:bold-24 text-secondary1_light1">
+          {categoryId ? categories[Number(categoryId)]?.title : 'Tất cả sản phẩm'}
+        </h2>
         <div className="ml-auto mt-5 gap-5 flex-center">
           <Filter />
           <Sort />

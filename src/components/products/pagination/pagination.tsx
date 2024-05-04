@@ -3,7 +3,6 @@ import { To } from 'react-router-dom'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 import useQueryParamsFiltered from '@/hooks/useQueryParamsFiltered'
-import { PATH } from '@/constants/path'
 import { PaginationButton } from '@/components/shared/button'
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
 import { PaginationDot } from '@/components/products/pagination'
@@ -22,7 +21,6 @@ export default function Pagination({ totalPage }: { totalPage: number }) {
 
   function createUrl(page: number): To {
     return {
-      pathname: PATH.PRODUCTS,
       search: queryString.stringify({ ...queryParamsFiltered, page: page.toString() }),
     }
   }

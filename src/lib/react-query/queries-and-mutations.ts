@@ -21,7 +21,6 @@ export function useProducts<T>(params?: ProductParameters) {
   return useQuery({
     queryKey: [QUERY_KEYS.PRODUCTS, params],
     queryFn: ({ signal }) => productsApi.getProducts<T>(params, signal),
-    // placeholderData: keepPreviousData,
   })
 }
 

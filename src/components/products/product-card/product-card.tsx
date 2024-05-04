@@ -23,10 +23,11 @@ interface Props {
 export default function ProductCard(props: Props) {
   const { slug, primaryImage, secondaryImage, name, category, real_price, rating_average, discount_rate } = props
 
-  const productDetailPath = generatePath(PATH.productDetail, { slug })
+  const productDetailPath = generatePath(PATH.PRODUCT_DETAIL, { productSlug: slug })
 
   const categoryPath =
-    category && generatePath(PATH.CATEGORY, { slug: extractCategorySlug(category.slug), id: category.id })
+    category &&
+    generatePath(PATH.CATEGORY, { categorySlug: extractCategorySlug(category.slug), categoryId: category.id })
 
   return (
     <div className="background-light1_dark1 flex flex-col overflow-hidden rounded-lg">

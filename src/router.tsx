@@ -21,7 +21,6 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: PATH.PRODUCTS,
         element: (
           <ScrollTopProvider>
             <ProductsLayout />
@@ -29,7 +28,11 @@ export const router = createBrowserRouter([
         ),
         children: [
           {
-            index: true,
+            path: PATH.PRODUCTS,
+            element: <Products />,
+          },
+          {
+            path: PATH.CATEGORY,
             element: <Products />,
           },
         ],

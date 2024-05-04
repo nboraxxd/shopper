@@ -57,6 +57,7 @@ export type ProductParameters = {
   limit?: string
   page?: string
   filterRating?: string
+  categories?: string
 }
 
 export type Paginate = {

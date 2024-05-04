@@ -1,24 +1,44 @@
-import { ComponentPropsWithoutRef } from 'react'
-import { Link } from 'react-router-dom'
 import keyBy from 'lodash/keyBy'
+import { ComponentPropsWithoutRef } from 'react'
+import { Link, generatePath, useParams } from 'react-router-dom'
 
 import { PATH } from '@/constants/path'
 import { CATEGORIES_IMAGE } from '@/data/categories.data'
 import { useCategories } from '@/lib/react-query'
-import { cn } from '@/utils'
+import { cn, extractCategorySlug } from '@/utils'
 
 export default function Categories() {
+  const { categoryId } = useParams()
+
   const categoriesImage = keyBy(CATEGORIES_IMAGE, '_id')
 
   const { data: categoriesResponse } = useCategories()
 
   return (
     <div className="mt-3 max-lg:flex max-lg:gap-2.5 max-lg:overflow-x-auto">
-      <Category to={PATH.PRODUCTS} imgSrc="/assets/images/categories/all.png" title="Tất cả sản phẩm" />
+      <Category
+        to={PATH.PRODUCTS}
+        imgSrc="/assets/images/categories/all.png"
+        title="Tất cả sản phẩm"
+        isActive={categoryId === undefined}
+      />
+
       {categoriesResponse.data.data.map((category) => {
         const categoryImage = categoriesImage[category._id]
 
-        return <Category key={category.id} to={category.slug} imgSrc={categoryImage.image} title={category.title} />
+        const categoryPath = generatePath(PATH.CATEGORY, {
+          categorySlug: extractCategorySlug(category.slug),
+          categoryId: category.id,
+        })
+        return (
+          <Category
+            key={category.id}
+            to={categoryPath}
+            imgSrc={categoryImage.image}
+            title={category.title}
+            isActive={Number(categoryId) === category.id}
+          />
+        )
       })}
     </div>
   )
@@ -27,12 +47,15 @@ export default function Categories() {
 interface CategoryProps extends ComponentPropsWithoutRef<typeof Link> {
   imgSrc: string
   title: string
+  isActive?: boolean
   linkClassName?: string
   imageClassName?: string
   titleClassName?: string
 }
 
-function Category({ imgSrc, title, linkClassName, imageClassName, titleClassName, ...rest }: CategoryProps) {
+function Category(props: CategoryProps) {
+  const { imgSrc, title, isActive = false, linkClassName, imageClassName, titleClassName, ...rest } = props
+
   return (
     <Link
       className={cn(
@@ -48,6 +71,9 @@ function Category({ imgSrc, title, linkClassName, imageClassName, titleClassName
       <h3
         className={cn(
           'text-secondary1_light1 medium-12 lg:medium-15 capitalize max-lg:text-balance max-lg:text-center',
+          {
+            'text-secondary': isActive,
+          },
           titleClassName
         )}
       >

@@ -6,7 +6,6 @@ import { Menu, Transition } from '@headlessui/react'
 
 import { cn } from '@/utils'
 import { QueryConfig } from '@/types'
-import { PATH } from '@/constants/path'
 import { PRODUCTS_SORT } from '@/constants/sorts'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import useQueryParamsFiltered from '@/hooks/useQueryParamsFiltered'
@@ -58,7 +57,6 @@ function SortMobile({ navigate, queryParamsFiltered, selected }: SortProps) {
                   className="size-4 cursor-pointer border-gray-300 text-primary-blue focus:ring-primary-blue"
                   onChange={() => {
                     navigate({
-                      pathname: PATH.PRODUCTS,
                       search: queryString.stringify({ ...queryParamsFiltered, sort: sort.value, page: '1' }),
                     })
                   }}
@@ -104,7 +102,6 @@ function SortDesktop({ navigate, queryParamsFiltered, selected }: SortProps) {
                     })}
                     onClick={() => {
                       navigate({
-                        pathname: PATH.PRODUCTS,
                         search: queryString.stringify({ ...queryParamsFiltered, sort: sort.value, page: '1' }),
                       })
                     }}

@@ -24,8 +24,8 @@ export default function NavCategories() {
           <NavCategory path={PATH.PRODUCTS} title="Tất cả sản phẩm" />
           {categoriesResponse.data.data.map((category) => {
             const categoryPath = generatePath(PATH.CATEGORY, {
-              slug: extractCategorySlug(category.slug),
-              id: category.id,
+              categorySlug: extractCategorySlug(category.slug),
+              categoryId: category.id,
             })
 
             return <NavCategory key={category.id} path={categoryPath} title={category.title} />
@@ -48,8 +48,8 @@ function NavCategory({ path, title }: { path: string; title: string }) {
         to={path}
         className={({ isActive }) =>
           cn('text-secondary1_dark3 focus-primary block py-[7px] transition-colors', {
-            'medium-14 text-primary-blue': isActive,
-            'regular-14 hover:text-primary-blue': !isActive,
+            'medium-14 text-secondary': isActive,
+            'regular-14 hover:text-secondary': !isActive,
           })
         }
         onClick={() => {

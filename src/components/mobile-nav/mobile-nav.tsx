@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useLayoutEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
 import { useFloatingStore } from '@/stores/floating-store'
@@ -10,6 +10,19 @@ import { ArrowLeftIcon } from '@/components/icons'
 export default function MobileNav() {
   const isSidebarOpen = useFloatingStore((state) => state.isSidebarOpen)
   const setIsSidebarOpen = useFloatingStore((state) => state.setIsSidebarOpen)
+
+  useLayoutEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.position = 'fixed'
+      document.body.style.inset = '0'
+    } else {
+      document.body.removeAttribute('style')
+    }
+
+    return () => {
+      document.body.removeAttribute('style')
+    }
+  }, [isSidebarOpen])
 
   return (
     <Transition.Root show={isSidebarOpen} as={Fragment}>
