@@ -1,22 +1,23 @@
+import pick from 'lodash/pick'
 import keyBy from 'lodash/keyBy'
 
 import { FieldUnion } from '@/types'
-import { Product as ProductType } from '@/types/product.type'
+import { Category, Product as ProductType } from '@/types/product.type'
+import { PRODUCT_PLACEHOLDER_IMAGES } from '@/constants'
 import { useCategories, useProducts } from '@/lib/react-query'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import useQueryParamsFiltered from '@/hooks/useQueryParamsFiltered'
 import { Sort } from '@/components/products/sort'
 import { Filter } from '@/components/products/filter'
 import { Pagination } from '@/components/products/pagination'
-import { Product } from '@/components/products/product'
-import { ProductCardSkeleton } from '@/components/products/product-card'
+import { ProductCard, ProductCardSkeleton } from '@/components/products/product-card'
 
 const LIMIT = '60'
 
-export const fields =
+const fields =
   'name,real_price,price,categories,slug,_id,images,rating_average,review_count,discount_rate,configurable_products'
 
-export type Fields = FieldUnion<typeof fields>
+type Fields = FieldUnion<typeof fields>
 
 export default function Products() {
   const queryParamsFiltered = useQueryParamsFiltered()
@@ -83,9 +84,47 @@ export default function Products() {
           ))}
       </div>
 
-      {isSuccess && productsRes.data.data.length > 0 && (
-        <Pagination queryParams={queryParamsFiltered} totalPage={productsRes.data.paginate.totalPage} />
-      )}
+      {isSuccess && productsRes.data.data.length > 0 && <Pagination totalPage={productsRes.data.paginate.totalPage} />}
     </div>
+  )
+}
+
+interface ProductProps {
+  product: Pick<ProductType, Fields>
+  categories: Record<number, Category>
+}
+
+function Product({ product, categories }: ProductProps) {
+  const category = categories[product.categories] as Category | undefined
+
+  let primaryImage = product.images[0].medium_url
+
+  if (
+    PRODUCT_PLACEHOLDER_IMAGES.includes(primaryImage) &&
+    product.configurable_products &&
+    product.configurable_products.length > 0
+  ) {
+    primaryImage =
+      product.configurable_products[1]?.images[0]?.medium_url || product.configurable_products[0]?.images[0]?.medium_url
+  }
+
+  let secondaryImage = product.configurable_products?.[0]?.images?.[0]?.medium_url
+
+  if (!secondaryImage) {
+    secondaryImage = product?.images[1]?.medium_url || primaryImage
+  }
+
+  return (
+    <ProductCard
+      key={product._id}
+      category={category ? pick(category, ['id', 'title', 'slug']) : undefined}
+      name={product.name}
+      real_price={product.real_price}
+      discount_rate={product.discount_rate}
+      primaryImage={primaryImage}
+      secondaryImage={secondaryImage}
+      rating_average={product.rating_average}
+      slug={product.slug}
+    />
   )
 }

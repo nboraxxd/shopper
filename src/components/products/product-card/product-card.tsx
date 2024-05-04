@@ -15,12 +15,13 @@ interface Props {
     title: string
     slug: string
   }
-  price: number
+  real_price: number
+  discount_rate: number
   rating_average: number
 }
 
 export default function ProductCard(props: Props) {
-  const { slug, primaryImage, secondaryImage, name, category, price, rating_average } = props
+  const { slug, primaryImage, secondaryImage, name, category, real_price, rating_average, discount_rate } = props
 
   const productDetailPath = generatePath(PATH.productDetail, { slug })
 
@@ -41,6 +42,11 @@ export default function ProductCard(props: Props) {
             alt={name}
             className="ml-[-100%] inline-block size-full object-contain transition-opacity duration-200 group-hover:opacity-0"
           />
+          {discount_rate > 0 ? (
+            <span className="regular-12 absolute right-1 top-1 rounded-sm bg-primary-blue/85 px-1 py-0.5 text-light-1">
+              -{Math.ceil(discount_rate)}%
+            </span>
+          ) : null}
         </Link>
       </div>
       <div className="flex grow flex-col gap-2 p-3 xs:gap-3 md:gap-4 md:p-4">
@@ -58,7 +64,7 @@ export default function ProductCard(props: Props) {
         ) : null}
         <div className="mt-auto flex-center">
           <div className="text-secondary1_light1 medium-11 xs:medium-12 md:medium-14 line-clamp-1">
-            {formatCurrency(price)}
+            {formatCurrency(real_price)}
             <sup>₫</sup>
           </div>
           {rating_average > 0 && (

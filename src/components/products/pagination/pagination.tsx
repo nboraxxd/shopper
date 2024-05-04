@@ -1,23 +1,20 @@
 import queryString from 'query-string'
 import { To } from 'react-router-dom'
 
-import { QueryConfig } from '@/types'
-import { PATH } from '@/constants/path'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import useQueryParamsFiltered from '@/hooks/useQueryParamsFiltered'
+import { PATH } from '@/constants/path'
 import { PaginationButton } from '@/components/shared/button'
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
 import { PaginationDot } from '@/components/products/pagination'
 
-interface Props {
-  queryParams: QueryConfig
-  totalPage: number
-}
-
 const DESKTOP_RANGE = 2
 const MOBILE_RANGE = 1
 
-export default function Pagination({ queryParams, totalPage }: Props) {
-  const currentPage = Number(queryParams.page) || 1
+export default function Pagination({ totalPage }: { totalPage: number }) {
+  const queryParamsFiltered = useQueryParamsFiltered()
+
+  const currentPage = Number(queryParamsFiltered.page) || 1
 
   const isMediumDevice = useMediaQuery({ minWidth: 768 })
 
@@ -26,7 +23,7 @@ export default function Pagination({ queryParams, totalPage }: Props) {
   function createUrl(page: number): To {
     return {
       pathname: PATH.PRODUCTS,
-      search: queryString.stringify({ ...queryParams, page: page.toString() }),
+      search: queryString.stringify({ ...queryParamsFiltered, page: page.toString() }),
     }
   }
 

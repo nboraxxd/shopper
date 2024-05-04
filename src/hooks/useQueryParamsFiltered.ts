@@ -15,7 +15,7 @@ export default function useQueryParamsFiltered() {
   const queryParamsFiltered: QueryConfig = omitBy(
     {
       sort:
-        queryParams.sort === 'string' && productSortList.includes(queryParams.sort as ProductSort)
+        typeof queryParams.sort === 'string' && productSortList.includes(queryParams.sort as ProductSort)
           ? (queryParams.sort as ProductSort)
           : undefined,
       name: queryParams.name,

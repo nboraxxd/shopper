@@ -1,31 +1,40 @@
-import { Fragment, useState } from 'react'
-import { Menu, Transition } from '@headlessui/react'
+import queryString from 'query-string'
 import { Drawer } from 'vaul'
+import { Fragment } from 'react'
+import { NavigateFunction, useNavigate } from 'react-router-dom'
+import { Menu, Transition } from '@headlessui/react'
 
 import { cn } from '@/utils'
+import { QueryConfig } from '@/types'
+import { PATH } from '@/constants/path'
 import { PRODUCTS_SORT } from '@/constants/sorts'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import useQueryParamsFiltered from '@/hooks/useQueryParamsFiltered'
 import { MediumArrowDownIcon, TickIcon } from '@/components/icons'
 import { PrimaryButton } from '@/components/shared/button'
 import { BottomDrawer } from '@/components/shared/drawer'
 
 export default function Sort() {
-  const [selected, setSelected] = useState<(typeof PRODUCTS_SORT)[number] | undefined>(undefined)
   const isLargeDevice = useMediaQuery({ minWidth: 1024 })
 
+  const navigate = useNavigate()
+  const queryParamsFiltered = useQueryParamsFiltered()
+  const selected = PRODUCTS_SORT.find((sort) => sort.value === queryParamsFiltered.sort)
+
   return isLargeDevice ? (
-    <SortDesktop selected={selected} setSelected={setSelected} />
+    <SortDesktop {...{ navigate, queryParamsFiltered, selected }} />
   ) : (
-    <SortMobile selected={selected} setSelected={setSelected} />
+    <SortMobile {...{ navigate, queryParamsFiltered, selected }} />
   )
 }
 
 interface SortProps {
-  selected: (typeof PRODUCTS_SORT)[number] | undefined
-  setSelected: React.Dispatch<(typeof PRODUCTS_SORT)[number] | undefined>
+  navigate: NavigateFunction
+  queryParamsFiltered: QueryConfig
+  selected?: (typeof PRODUCTS_SORT)[number]
 }
 
-function SortMobile({ selected, setSelected }: SortProps) {
+function SortMobile({ navigate, queryParamsFiltered, selected }: SortProps) {
   return (
     <BottomDrawer
       trigger={
@@ -47,7 +56,12 @@ function SortMobile({ selected, setSelected }: SortProps) {
                   checked={sort.value === selected?.value}
                   type="radio"
                   className="size-4 cursor-pointer border-gray-300 text-primary-blue focus:ring-primary-blue"
-                  onChange={() => setSelected(sort)}
+                  onChange={() => {
+                    navigate({
+                      pathname: PATH.PRODUCTS,
+                      search: queryString.stringify({ ...queryParamsFiltered, sort: sort.value, page: '1' }),
+                    })
+                  }}
                 />
                 {sort.name}
               </label>
@@ -59,7 +73,7 @@ function SortMobile({ selected, setSelected }: SortProps) {
   )
 }
 
-function SortDesktop({ selected, setSelected }: SortProps) {
+function SortDesktop({ navigate, queryParamsFiltered, selected }: SortProps) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button
@@ -88,7 +102,12 @@ function SortDesktop({ selected, setSelected }: SortProps) {
                     className={cn('w-full justify-between px-4 py-2 text-left flex-center', {
                       'bg-light-2 dark:bg-dark-1/30': active,
                     })}
-                    onClick={() => setSelected(sort)}
+                    onClick={() => {
+                      navigate({
+                        pathname: PATH.PRODUCTS,
+                        search: queryString.stringify({ ...queryParamsFiltered, sort: sort.value, page: '1' }),
+                      })
+                    }}
                   >
                     <span
                       className={cn('text-secondary1_light1', sort.value === selected?.value ? 'bold-15' : 'medium-15')}
