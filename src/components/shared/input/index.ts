@@ -1,2 +1,2 @@
 export { default as AuthInput } from './auth-input'
-export { default as PriceInput } from './price-input'
+export { default as NumberInput } from './number-input'

@@ -87,6 +87,10 @@
     @apply text-secondary-3 dark:text-dark-3;
   }
 
+  .text-primaryBlue_secondary {
+    @apply text-primary-blue dark:text-secondary;
+  }
+
   .bold-42 {
     @apply text-[2.625rem] font-bold leading-[142.857%];
   }

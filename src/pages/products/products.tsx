@@ -35,26 +35,26 @@ export default function Products() {
   const { data: categoriesRes } = useCategories()
   const categories: Record<number, Category> = keyBy(categoriesRes.data.data, 'id')
 
-  const oddProducts: Pick<ProductType, Fields>[] = []
-  const evenProducts: Pick<ProductType, Fields>[] = []
+  const firstProducts: Pick<ProductType, Fields>[] = []
+  const secondProducts: Pick<ProductType, Fields>[] = []
 
   if (isSuccess && productsRes.data.paginate.currentPage !== null && productsRes.data.data.length > 0) {
     productsRes.data.data.forEach((product, index) => {
       if (index % 2 === 0) {
-        evenProducts.push(product)
+        firstProducts.push(product)
       } else {
-        oddProducts.push(product)
+        secondProducts.push(product)
       }
     })
   }
 
   return (
     <div className="pb-14 max-lg:mt-5">
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between gap-3">
         <h2 className="medium-18 md:bold-24 text-secondary1_light1">
           {categoryId ? categories[Number(categoryId)]?.title : 'Tất cả sản phẩm'}
         </h2>
-        <div className="ml-auto mt-5 gap-5 flex-center">
+        <div className="ml-auto gap-5 flex-center">
           <Filter />
           <Sort />
         </div>
@@ -72,12 +72,12 @@ export default function Products() {
           ) : (
             <>
               <div className="space-y-3">
-                {oddProducts.map((product) => (
+                {firstProducts.map((product) => (
                   <Product key={product._id} product={product} categories={categories} />
                 ))}
               </div>
               <div className="space-y-3">
-                {evenProducts.map((product) => (
+                {secondProducts.map((product) => (
                   <Product key={product._id} product={product} categories={categories} />
                 ))}
               </div>

@@ -25,12 +25,5 @@ export const registerSchema = z
 
 export const loginSchema = z.object({ username, password }).strict()
 
-export const filterSchema = z.object({
-  minPrice: z.coerce.number().min(0).optional(),
-  maxPrice: z.coerce.number().min(0).optional(),
-  rating: z.coerce.number().min(1).max(5).optional(),
-})
-
 export type RegisterSchemaType = z.infer<typeof registerSchema>
 export type LoginSchemaType = z.infer<typeof loginSchema>
-export type FilterSchemaType = z.infer<typeof filterSchema>

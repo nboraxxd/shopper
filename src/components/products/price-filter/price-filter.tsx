@@ -1,4 +1,17 @@
-export default function PriceFilter() {
+import { Control, Controller, FieldErrors, UseFormTrigger } from 'react-hook-form'
+
+import { FilterSchemaType } from '@/lib/schemas/filter.schema'
+import { NumberInput } from '@/components/shared/input'
+
+interface Props {
+  control: Control<FilterSchemaType>
+  errors: FieldErrors<FilterSchemaType>
+  trigger: UseFormTrigger<FilterSchemaType>
+}
+
+export default function PriceFilter({ control, errors, trigger }: Props) {
+  const errorMessage = errors.minPrice?.message || errors.maxPrice?.message
+
   return (
     <div>
       <label htmlFor="minimum" className="text-secondary1_light1 medium-22">
@@ -7,27 +20,38 @@ export default function PriceFilter() {
       <div className="mt-2 flex gap-8">
         <label>
           <span className="medium-14 text-secondary1_light1">Minimum</span>
-          <input
-            id="minimum"
-            type="text"
-            inputMode="numeric"
-            placeholder="10.000"
-            className="input-ring background-light1_dark2 placeholder:text-secondary3_dark3 mt-2.5 h-9 w-full rounded-md border-none px-2 py-0 shadow-sm flex-center lg:w-[121px]"
+          <Controller
+            name="minPrice"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                id="minimum"
+                inputMode="numeric"
+                placeholder="10.000"
+                className="mt-2.5"
+                {...field}
+                onChange={(ev) => {
+                  field.onChange(ev)
+                  trigger('maxPrice')
+                }}
+              />
+            )}
           />
         </label>
 
         <label>
           <span className="medium-14 text-secondary1_light1">Maximum</span>
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="99.000"
-            className="input-ring background-light1_dark2 placeholder:text-secondary3_dark3 mt-2.5 h-9 w-full rounded-md border-none px-2 py-0 shadow-sm flex-center lg:w-[121px]"
+          <Controller
+            name="maxPrice"
+            control={control}
+            render={({ field }) => (
+              <NumberInput inputMode="numeric" placeholder="99.000" className="mt-2.5" {...field} />
+            )}
           />
         </label>
       </div>
 
-      <p className="regular-12 mb-1 mt-0.5 min-h-[22px] text-left text-primary-red"></p>
+      <p className="regular-12 my-1 min-h-[22px] text-left text-primary-red">{errorMessage}</p>
     </div>
   )
 }

@@ -71,7 +71,7 @@ export default function ProductCard(props: Props) {
           {rating_average > 0 && (
             <div className="ml-auto gap-1 flex-center">
               <StarIcon className="size-3.5 xs:size-4 md:size-5" />
-              <span className="medium-10 xs:medium-12 md:medium-14 text-secondary1_light1">
+              <span className="medium-10 xs:medium-12 md:medium-14 text-secondary1_light1 mt-px">
                 {rating_average.toFixed(1)}
               </span>
             </div>

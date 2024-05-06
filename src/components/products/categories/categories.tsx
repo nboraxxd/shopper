@@ -72,7 +72,7 @@ function Category(props: CategoryProps) {
         className={cn(
           'text-secondary1_light1 medium-12 lg:medium-15 capitalize max-lg:text-balance max-lg:text-center',
           {
-            'text-secondary': isActive,
+            'text-primaryBlue_secondary': isActive,
           },
           titleClassName
         )}

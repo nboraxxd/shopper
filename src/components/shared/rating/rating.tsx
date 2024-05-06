@@ -15,7 +15,7 @@ export default function Rating({ rating, setRating }: Props) {
       <span
         key={index}
         className="inline-block cursor-pointer p-0.5 transition-transform active:scale-90"
-        onClick={() => setRating(currentStar)}
+        onClick={() => (rating === currentStar ? setRating(0) : setRating(currentStar))}
       >
         <StarBlankIcon className="size-6" fill={currentStar <= rating ? '#FFB700' : 'none'} />
       </span>
