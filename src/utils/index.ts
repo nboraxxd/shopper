@@ -18,6 +18,12 @@ export function extractCategorySlug(categorySlugInput: string) {
   return parts[0]
 }
 
+export function extractProductId(productSlugInput: string) {
+  const parts = productSlugInput.split('-p')
+
+  return parts[parts.length - 1]
+}
+
 export function formatCurrency(currency: number) {
   return Intl.NumberFormat('de-DE').format(currency)
 }

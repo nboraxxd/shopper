@@ -1,5 +1,5 @@
 import http from '@/utils/http'
-import { CategoriesResponse, ProductParameters, ProductsResponse } from '@/types/product.type'
+import { CategoriesResponse, ProductParameters, ProductResponse, ProductsResponse } from '@/types/product.type'
 
 const PRODUCTS_URL = '/product'
 
@@ -13,6 +13,10 @@ const productsApi = {
 
   getCategories(signal?: AbortSignal) {
     return http.get<CategoriesResponse>(`${PRODUCTS_URL}/categories`, { signal })
+  },
+
+  getProduct(id: string, signal?: AbortSignal) {
+    return http.get<ProductResponse>(`${PRODUCTS_URL}/${id}`, { signal })
   },
 }
 

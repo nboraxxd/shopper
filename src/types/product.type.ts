@@ -105,6 +105,10 @@ export type ProductsResponse<P> = {
   paginate: Paginate
 }
 
+export type ProductResponse = {
+  data: Product
+}
+
 export type Category = {
   _id: string
   id: number

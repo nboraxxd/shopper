@@ -3,7 +3,7 @@ const PRODUCTS = '/products'
 export const PATH = {
   HOMEPAGE: '/',
   PRODUCTS: PRODUCTS,
-  PRODUCT_DETAIL: '/:productSlug',
+  PRODUCT_DETAIL: PRODUCTS + '/:productSlug',
   CATEGORY: '/:categorySlug/:categoryId',
   LOGIN: '/login',
   REGISTER: '/register',

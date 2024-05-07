@@ -24,6 +24,13 @@ export function useProducts<T>(params?: ProductParameters) {
   })
 }
 
+export function useProduct(id: string) {
+  return useQuery({
+    queryKey: [QUERY_KEYS.PRODUCT, id],
+    queryFn: ({ signal }) => productsApi.getProduct(id, signal),
+  })
+}
+
 export function useRegister() {
   return useMutation({ mutationFn: usersApi.register })
 }
