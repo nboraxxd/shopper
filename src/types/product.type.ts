@@ -123,3 +123,7 @@ export type Category = {
 export type CategoriesResponse = {
   data: Category[]
 }
+
+export type CategoryResponse = {
+  data: Category | null
+}

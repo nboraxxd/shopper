@@ -2,8 +2,9 @@ import { Link, generatePath } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import { PATH } from '@/constants/path'
-import { extractCategorySlug, formatCurrency } from '@/utils'
+import { cn, extractCategorySlug, formatCurrency } from '@/utils'
 import { StarIcon } from '@/components/icons'
+import { useState } from 'react'
 
 interface Props {
   slug: string
@@ -23,6 +24,8 @@ interface Props {
 export default function ProductCard(props: Props) {
   const { slug, primaryImage, secondaryImage, name, category, real_price, rating_average, discount_rate } = props
 
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+
   const productDetailPath = generatePath(PATH.PRODUCT_DETAIL, { productSlug: slug })
 
   const categoryPath =
@@ -41,7 +44,11 @@ export default function ProductCard(props: Props) {
           <LazyLoadImage
             src={primaryImage}
             alt={name}
-            className="ml-[-100%] inline-block size-full object-contain transition-opacity duration-200 group-hover:opacity-0"
+            onLoad={() => setIsImageLoaded(true)}
+            className={cn(
+              'ml-[-100%] inline-block size-full object-contain transition-all duration-200 group-hover:opacity-0',
+              !isImageLoaded ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
+            )}
           />
           {discount_rate > 0 ? (
             <span className="regular-12 absolute right-1 top-1 rounded-sm bg-primary-blue/85 px-1 py-0.5 text-light-1">

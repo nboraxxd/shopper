@@ -10,8 +10,13 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ children, navClassname }: BreadcrumbsProps) {
   return (
-    <nav className={cn('background-light2_dark1 rounded-[10px]', navClassname)}>
-      <ol role="list" className="min-h-14 gap-3 p-4 flex-center md:min-h-16 md:gap-4 md:p-5">
+    <nav
+      className={cn(
+        'background-light1_dark1 md:background-light2_dark1 rounded-[20px] md:rounded-[10px]',
+        navClassname
+      )}
+    >
+      <ol role="list" className="min-h-14 gap-3 p-4 flex-center max-md:flex-wrap md:min-h-16 md:p-5">
         {children}
       </ol>
     </nav>

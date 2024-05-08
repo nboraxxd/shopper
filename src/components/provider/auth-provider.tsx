@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { useGetProfile } from '@/lib/react-query/queries-and-mutations'
+import { useGetProfile } from '@/lib/react-query'
 import { useAuthStore } from '@/stores/auth-store'
 import { setUserToLS } from '@/utils/auth'
 

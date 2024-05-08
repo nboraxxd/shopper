@@ -51,10 +51,6 @@
     @apply bg-light-1 dark:bg-dark-2;
   }
 
-  .background-secondary6_dark1 {
-    @apply bg-secondary-6 dark:bg-dark-1;
-  }
-
   .text-secondary1_light1 {
     @apply text-secondary-1 dark:text-light-1;
   }
@@ -85,6 +81,14 @@
 
   .text-secondary3_dark3 {
     @apply text-secondary-3 dark:text-dark-3;
+  }
+
+  .background-secondary6_dark1 {
+    @apply bg-secondary-6 dark:bg-dark-1;
+  }
+
+  .background-secondary6_dark2 {
+    @apply bg-secondary-6 dark:bg-dark-2;
   }
 
   .text-primaryBlue_secondary {

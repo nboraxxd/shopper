@@ -5,7 +5,7 @@ export default function ChevronLeftIcon(props: React.ComponentPropsWithoutRef<'s
         <g>
           <path
             d="M15.5 19L8.5 12L15.5 5"
-            stroke="inherit"
+            stroke="currentColor"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"

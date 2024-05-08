@@ -17,6 +17,14 @@ export function useCategories() {
   })
 }
 
+export function useCategory(id: string, enabled: boolean) {
+  return useQuery({
+    queryKey: [QUERY_KEYS.CATEGORY, id],
+    queryFn: ({ signal }) => productsApi.getCategory(id, signal),
+    enabled,
+  })
+}
+
 export function useProducts<T>(params?: ProductParameters) {
   return useQuery({
     queryKey: [QUERY_KEYS.PRODUCTS, params],
