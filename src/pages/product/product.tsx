@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { useState } from 'react'
 import { generatePath, useParams } from 'react-router-dom'
-import { Swiper as SwiperType } from 'swiper/types'
-import { Navigation } from 'swiper/modules'
 
 import { PATH } from '@/constants/path'
-import { cn, extractCategorySlug, extractProductId } from '@/utils'
 import { useCategory, useProduct } from '@/lib/react-query'
+import { extractCategorySlug, extractProductId } from '@/utils'
 import { Breadcrumbs } from '@/components/breadcrumbs'
-import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
+import { ProductThumb } from '@/components/product/product-thumb'
+import { ProductPreview } from '@/components/product/product-preview'
 
 import 'swiper/css'
 
@@ -16,7 +14,6 @@ export default function Product() {
   const { productSlug } = useParams()
   const productId = extractProductId(productSlug as string)
 
-  const swiperRef = useRef<SwiperType | null>(null)
   const [activeImage, setActiveImage] = useState('')
 
   const {
@@ -31,12 +28,6 @@ export default function Product() {
     isLoading: isLoadingCategory,
     isSuccess: isSuccessCategory,
   } = useCategory(productResponse?.data.data.categories.toString() || '', isSuccessProduct)
-
-  useEffect(() => {
-    if (isSuccessProduct && productResponse.data.data.images.length > 0) {
-      setActiveImage(productResponse.data.data.images[0].large_url)
-    }
-  }, [isSuccessProduct, productResponse?.data.data.images])
 
   const generateCategoryLink =
     isSuccessCategory && categoryResponse.data.data
@@ -63,63 +54,22 @@ export default function Product() {
       ) : null}
 
       {isSuccessProduct ? (
-        <div className="mt-5 grid gap-4 md:mt-8 md:gap-8 lg:grid-cols-2 xl:grid-cols-[5fr,7fr]">
-          <div>
-            <div className="relative pt-[92%]">
-              <img src={activeImage} className="absolute left-0 top-0 size-full !bg-light-1 object-contain" />
-            </div>
+        <div className="mt-5 gap-4 md:mt-8 md:gap-8 lg:flex">
+          <div className="md:flex md:flex-row-reverse md:px-7 lg:block lg:w-1/2 xl:w-5/12">
+            <ProductPreview
+              image={activeImage || productResponse.data.data.images[0].large_url}
+              images={productResponse.data.data.images}
+              name={productResponse.data.data.name}
+            />
 
-            <div className="group/swiper relative p-7">
-              <Swiper
-                className="mySwiper grid grid-cols-1"
-                slidesPerView={4}
-                spaceBetween={20}
-                slidesPerGroup={4}
-                modules={[Navigation]}
-                onBeforeInit={(swiper) => {
-                  swiperRef.current = swiper
-                }}
-              >
-                {productResponse.data.data.images.map((image, index) => (
-                  <SwiperSlide key={index}>
-                    <div
-                      className={cn(
-                        'relative cursor-pointer overflow-hidden rounded-lg border !bg-light-1 pt-[100%] transition-colors',
-                        { 'border-primary-yellow': image.large_url === activeImage }
-                      )}
-                    >
-                      <img
-                        src={image.medium_url}
-                        className={cn(
-                          'absolute left-0 top-0 size-full object-contain transition-opacity',
-                          image.large_url === activeImage ? 'opacity-100' : 'opacity-85'
-                        )}
-                        onMouseEnter={() => setActiveImage(image.large_url)}
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-
-              {productResponse.data.data.images.length > 4 ? (
-                <>
-                  <button
-                    onClick={() => swiperRef.current?.slidePrev()}
-                    className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-gray-400 p-1 text-blue-300 opacity-0 transition-opacity duration-300 ease-in-out group-hover/swiper:opacity-100"
-                  >
-                    <ChevronLeftIcon className="size-6 text-secondary-3" />
-                  </button>
-                  <button
-                    onClick={() => swiperRef.current?.slideNext()}
-                    className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-gray-400 p-1 text-blue-300 opacity-0 transition-opacity duration-300 ease-in-out group-hover/swiper:opacity-100"
-                  >
-                    <ChevronRightIcon className="size-6 text-secondary-3" />
-                  </button>
-                </>
-              ) : null}
-            </div>
+            <ProductThumb
+              name={productResponse.data.data.name}
+              images={productResponse.data.data.images}
+              activeImage={activeImage}
+              setActiveImage={setActiveImage}
+            />
           </div>
-          <div>hehe</div>
+          <div className="lg:w-1/2 xl:w-7/12">hehe</div>
         </div>
       ) : null}
     </>
