@@ -1,24 +1,26 @@
-import { StarBlankIcon } from '@/components/icons'
+import { SmallStarIcon } from '@/components/icons'
 
-const MAX_STAR_COUNT = 5
+const TOTAL_STARS = 5
 
-interface Props {
-  rating: number
-  setRating: React.Dispatch<React.SetStateAction<number>>
-}
+export default function Rating({ rating }: { rating: number }) {
+  const handleWidth = (order: number) => {
+    if (order <= rating) return '100%'
 
-export default function Rating({ rating, setRating }: Props) {
-  return Array.from(Array(MAX_STAR_COUNT)).map((_, index) => {
-    const currentStar = index + 1
+    if (order > rating && order - rating < 1) return `${(rating - Math.floor(rating)) * 100}%`
 
-    return (
-      <span
-        key={index}
-        className="inline-block cursor-pointer p-0.5 transition-transform active:scale-90"
-        onClick={() => (rating === currentStar ? setRating(0) : setRating(currentStar))}
-      >
-        <StarBlankIcon className="size-6" fill={currentStar <= rating ? '#FFB700' : 'none'} />
-      </span>
-    )
-  })
+    return '0%'
+  }
+
+  return (
+    <div className="gap-1 flex-center">
+      {Array.from({ length: TOTAL_STARS }).map((_, index) => (
+        <div key={index} className="relative">
+          <div className="absolute left-0 top-0 overflow-hidden" style={{ width: handleWidth(index + 1) }}>
+            <SmallStarIcon className="size-6 fill-primary-yellow" />
+          </div>
+          <SmallStarIcon className="size-6" />
+        </div>
+      ))}
+    </div>
+  )
 }

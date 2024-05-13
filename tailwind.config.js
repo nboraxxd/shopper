@@ -33,6 +33,7 @@ export default {
           3: '#EEEEEE',
         },
         dark: {
+          DEFAULT: '#000000',
           1: '#171C28',
           2: '#292E39',
           3: '#B9BABE',

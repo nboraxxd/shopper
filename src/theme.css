@@ -83,6 +83,10 @@
     @apply text-secondary-3 dark:text-dark-3;
   }
 
+  .text-dark_light3 {
+    @apply text-dark dark:text-light-3;
+  }
+
   .background-secondary6_dark1 {
     @apply bg-secondary-6 dark:bg-dark-1;
   }

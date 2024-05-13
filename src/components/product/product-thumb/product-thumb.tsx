@@ -1,3 +1,4 @@
+import flatten from 'lodash/flatten'
 import { useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Swiper as SwiperType } from 'swiper/types'
@@ -14,13 +15,14 @@ import 'swiper/css'
 interface Props {
   name: string
   images: Product['images']
+  configurable_products: Product['configurable_products']
   activeImage: string
   setActiveImage: React.Dispatch<React.SetStateAction<string>>
 }
 
 const SLIDES_PER_VIEW = 5
 
-export default function ProductThumb({ name, images, activeImage, setActiveImage }: Props) {
+export default function ProductThumb({ name, images, configurable_products, activeImage, setActiveImage }: Props) {
   const isMediumAndUp = useMediaQuery({ minWidth: 768 })
   const isLargeAndUp = useMediaQuery({ minWidth: 1024 })
 
@@ -31,6 +33,10 @@ export default function ProductThumb({ name, images, activeImage, setActiveImage
       setActiveImage(images[0].large_url)
     }
   }, [images, setActiveImage])
+
+  const _images = configurable_products
+    ? [...images, ...flatten(configurable_products.map((product) => product.images))]
+    : images
 
   return isMediumAndUp ? (
     <div className="group/swiper relative max-lg:mr-8 max-lg:flex max-lg:py-8 lg:p-4">
@@ -46,7 +52,7 @@ export default function ProductThumb({ name, images, activeImage, setActiveImage
           swiperRef.current = swiper
         }}
       >
-        {images.map((image, index) => (
+        {_images.map((image, index) => (
           <SwiperSlide
             key={index}
             className={cn(
@@ -68,7 +74,7 @@ export default function ProductThumb({ name, images, activeImage, setActiveImage
           </SwiperSlide>
         ))}
       </Swiper>
-      {images.length > SLIDES_PER_VIEW ? (
+      {_images.length > SLIDES_PER_VIEW ? (
         <>
           <PrimaryButton
             onClick={() => swiperRef.current?.slidePrev()}

@@ -25,7 +25,7 @@ export function extractProductId(productSlugInput: string) {
 }
 
 export function formatCurrency(currency: number) {
-  return Intl.NumberFormat('de-DE').format(currency)
+  return Intl.NumberFormat('en').format(currency)
 }
 
 export function formatSecondsToMMSS(seconds: number): string {
@@ -34,4 +34,8 @@ export function formatSecondsToMMSS(seconds: number): string {
   const formattedMinutes = String(minutes).padStart(2, '0')
   const formattedSeconds = String(remainingSecs).padStart(2, '0')
   return `${formattedMinutes}:${formattedSeconds}`
+}
+
+export function formatNumberToSocialStyle(value: number) {
+  return new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(value).toLowerCase()
 }

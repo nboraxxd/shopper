@@ -23,22 +23,21 @@ type ConfigurableOption = {
   }[]
 }
 
+export type ImageUrl = {
+  large_url: string
+  medium_url: string
+  small_url: string
+}
+
 type ConfigurableProduct = {
-  images: {
-    large_url: string
-    medium_url: string
-    small_url: string
-  }[]
+  images: ImageUrl[]
 }
 
 type Image = {
   base_url: string
   thumbnail_url: string
-  small_url: string
-  medium_url: string
-  large_url: string
   is_gallery: boolean
-}
+} & ImageUrl
 
 type Specification = {
   name: string

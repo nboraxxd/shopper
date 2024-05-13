@@ -1,3 +1,5 @@
+import { useMatch } from 'react-router-dom'
+
 import { PATH } from '@/constants/path'
 import { clearLS } from '@/utils/auth'
 import { clearTokenInHttp } from '@/utils/http'
@@ -11,6 +13,8 @@ import { Logo } from '@/components/shared/logo'
 import { LinkButton, PrimaryButton } from '@/components/shared/button'
 
 export default function Header() {
+  const isProductDetail = Boolean(useMatch(PATH.PRODUCT_DETAIL))
+
   const setIsSidebarOpen = useFloatingStore((state) => state.setIsSidebarOpen)
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
@@ -40,7 +44,10 @@ export default function Header() {
             <MoreIcon className="size-6" />
           </PrimaryButton>
 
-          <Logo wrapperClassName="px-1.5 py-[0.5625rem] max-md:mx-auto lg:px-2 lg:py-2.5" />
+          <Logo
+            wrapperClassName="px-1.5 py-[0.5625rem] max-md:mx-auto lg:px-2 lg:py-2.5"
+            BrandTag={isProductDetail ? 'h2' : 'h1'}
+          />
 
           <Navbar />
 
