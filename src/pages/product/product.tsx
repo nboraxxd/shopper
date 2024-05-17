@@ -5,14 +5,14 @@ import { PATH } from '@/constants/path'
 import { useCategory, useProduct } from '@/lib/react-query'
 import { extractCategorySlug, extractProductId, formatCurrency, formatNumberToSocialStyle } from '@/utils'
 import { Breadcrumbs } from '@/components/breadcrumbs'
+import { ProductTab } from '@/components/product/product-tab'
 import { ProductThumb } from '@/components/product/product-thumb'
 import { ProductPreview } from '@/components/product/product-preview'
-
-import 'swiper/css'
 import { HeartIcon, MinusIcon, PlusIcon, StarIcon } from '@/components/icons'
 import { NumberInput } from '@/components/shared/input'
 import { PrimaryButton } from '@/components/shared/button'
-import { ProductTab } from '@/components/product/product-tab'
+
+import 'swiper/css'
 
 export default function Product() {
   const { productSlug } = useParams()
@@ -48,7 +48,7 @@ export default function Product() {
   return (
     <>
       {isSuccessProduct && !isLoadingCategory ? (
-        <Breadcrumbs navClassname="mt-5 md:mt-8">
+        <Breadcrumbs navClassname="shadow-light10_dark10 mt-5 md:mt-8">
           <Breadcrumbs.Item to={PATH.HOMEPAGE}>Home</Breadcrumbs.Item>
           <Breadcrumbs.Item to={generateCategoryLink}>
             {categoryResponse?.data.data?.title || 'Products'}
@@ -59,7 +59,7 @@ export default function Product() {
 
       {isSuccessProduct ? (
         <>
-          <div className="mt-5 gap-4 overflow-hidden rounded-[20px] md:mt-8 md:gap-8 lg:flex">
+          <div className="max-md:background-light1_dark1 mt-5 gap-4 max-md:rounded-[20px] max-md:p-4 md:mt-8 md:gap-8 lg:flex">
             <div className="md:flex md:flex-row-reverse md:px-7 lg:block lg:w-1/2 xl:w-5/12">
               <ProductPreview
                 image={activeImage || productResponse.data.data.images[0].large_url}
@@ -75,9 +75,9 @@ export default function Product() {
                 setActiveImage={setActiveImage}
               />
             </div>
-            <div className="background-light1_dark1 p-10 lg:w-1/2 xl:w-7/12">
+            <div className="md:background-light2_dark1 mt-5 md:mt-8 md:rounded-[10px] md:p-10 lg:mt-0 lg:w-1/2 xl:w-7/12">
               <h1 className="text-secondary1_light3 bold-18 md:medium-26">{productResponse.data.data.name}</h1>
-              <div className="mt-7 flex flex-col gap-7 xl:flex-row">
+              <div className="mt-5 flex flex-col gap-5 md:mt-7 md:gap-7 xl:flex-row">
                 <div className="space-y-7 xl:w-1/2">
                   {productResponse.data.data.rating_average > 0 ? (
                     <div className="gap-2 flex-center">
@@ -92,10 +92,21 @@ export default function Product() {
                     </div>
                   ) : null}
                   <div>
-                    <h3 className="medium-18 text-secondary1_light3">Mô tả chung</h3>
-                    <p className="regular-14 text-secondary1_light3 mt-1">
-                      {productResponse.data.data.short_description}
-                    </p>
+                    <h3 className="medium-18 text-secondary1_light3">Quantity</h3>
+                    <div className="input-ring text-secondary1_dark3 mt-5 h-11 w-fit rounded-[10px] border border-secondary-3 px-5 flex-center">
+                      <PrimaryButton noFocus tabIndex={-1}>
+                        <MinusIcon className="size-6" />
+                      </PrimaryButton>
+                      <NumberInput
+                        maxLength={3}
+                        noFocus
+                        className="background-light2_dark1 medium-15 h-11 w-[3.25rem] px-2.5 text-center"
+                      />
+                      <PrimaryButton noFocus tabIndex={-1}>
+                        <PlusIcon className="size-6" />
+                      </PrimaryButton>
+                    </div>
+                    <p className="medium-15 mt-3">{productResponse.data.data.stock_item.qty} sản phẩm có sẵn</p>
                   </div>
                 </div>
                 <div className="xl:w-1/2">
@@ -112,16 +123,6 @@ export default function Product() {
                     {formatCurrency(productResponse.data.data.real_price)}
                     <sup>₫</sup>
                   </h2>
-                  <div className="flex h-9">
-                    <PrimaryButton className="input-ring relative -left-px w-9 justify-center rounded-s-md flex-center">
-                      <MinusIcon className="size-6" />
-                    </PrimaryButton>
-                    <NumberInput className="rounded-e-none rounded-s-none focus:z-10" />
-                    <PrimaryButton className="input-ring relative left-px w-9 justify-center rounded-r-md flex-center">
-                      <PlusIcon className="size-6" />
-                    </PrimaryButton>
-                  </div>
-                  <p>{productResponse.data.data.stock_item.qty} sản phẩm có sẵn</p>
                   <div>
                     <PrimaryButton className="medium-18 mt-5 h-[46px] w-full rounded-md bg-primary-yellow text-secondary-1">
                       Mua ngay
@@ -140,6 +141,7 @@ export default function Product() {
             </div>
           </div>
           <ProductTab
+            productId={productId}
             description={productResponse.data.data.description}
             features={productResponse.data.data.specifications}
           />

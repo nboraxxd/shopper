@@ -28,7 +28,8 @@ export default function ProductPreview({ image, images, configurable_products, n
     </div>
   ) : (
     <Swiper
-      className="mySwiper !bg-light-1 p-4"
+      className="mySwiper"
+      // overflow-hidden rounded-[20px] !bg-light-1
       spaceBetween={12}
       modules={[Pagination]}
       pagination={{

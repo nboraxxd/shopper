@@ -1,9 +1,11 @@
 import { cn } from '@/utils'
 import { ComponentPropsWithRef, forwardRef } from 'react'
 
-interface Props extends ComponentPropsWithRef<'input'> {}
+interface Props extends ComponentPropsWithRef<'input'> {
+  noFocus?: boolean
+}
 
-const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, onChange, ...rest }, ref) => {
+const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, onChange, noFocus = false, ...rest }, ref) => {
   function handleOnChange(ev: React.ChangeEvent<HTMLInputElement>) {
     const { value } = ev.target
     if ((/^\d+$/.test(value) || value === '') && onChange) {
@@ -14,7 +16,8 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, onChange, 
   return (
     <input
       className={cn(
-        'input-ring background-light1_dark2 h-9 w-full rounded-md border-none px-2 py-0 shadow-sm flex-center placeholder:text-secondary-3 dark:placeholder:text-dark-3/40 lg:w-[121px]',
+        'border-none py-0 flex-center placeholder:text-secondary-3 dark:placeholder:text-dark-3/40',
+        noFocus ? 'no-focus' : 'input-ring',
         className
       )}
       onChange={handleOnChange}

@@ -9,4 +9,5 @@ export {
   useProduct,
   useRegister,
   useResendEmail,
+  useReviews,
 } from './queries-and-mutations'

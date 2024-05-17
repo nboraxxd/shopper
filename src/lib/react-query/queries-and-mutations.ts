@@ -1,11 +1,13 @@
 import ms from 'ms'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import productsApi from '@/apis/products.api'
-import { CATEGORIES_DATA } from '@/data/categories.data'
 import usersApi from '@/apis/users.api'
 import authsApi from '@/apis/auths.api'
+import reviewsApi from '@/apis/review.api'
+import { CATEGORIES_DATA } from '@/data/categories.data'
 import { ProductParameters } from '@/types/product.type'
+import { ReviewsReqBody } from '@/types/review.type'
 import { QUERY_KEYS } from '@/constants/query-key'
 
 export function useCategories() {
@@ -36,6 +38,19 @@ export function useProduct(id: string) {
   return useQuery({
     queryKey: [QUERY_KEYS.PRODUCT, id],
     queryFn: ({ signal }) => productsApi.getProduct(id, signal),
+  })
+}
+
+export function useReviews(productId: string, params: Pick<ReviewsReqBody, 'limit' | 'page'>, enabled: boolean) {
+  const queryClient = useQueryClient()
+
+  return useQuery({
+    queryKey: [QUERY_KEYS.REVIEWS, productId, params],
+    queryFn: ({ signal }) => reviewsApi.getReviews({ productId, ...params, signal }),
+    initialData: () => {
+      return queryClient.getQueryData([QUERY_KEYS.REVIEWS, productId])
+    },
+    enabled,
   })
 }
 

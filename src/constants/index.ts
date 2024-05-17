@@ -74,3 +74,10 @@ export const PRODUCT_PLACEHOLDER_IMAGES = [
   'https://salt.tikicdn.com/assets/img/image.svg',
   'https://salt.tikicdn.com/cache/w300/media/catalog/producthttp://img11.joybuy.com/N0/s900x900_g10/M00/00/09/rBEQWFD-WsUIAAAAAADys29bRvUAAADlQC4eC8AAPLL793.jpg',
 ]
+
+export const PRODUCT_TABS = [
+  { value: 'description', name: 'Description' },
+  { value: 'features', name: 'Features' },
+  { value: 'reviews', name: 'Reviews' },
+  { value: 'similar', name: 'Similar' },
+] as const

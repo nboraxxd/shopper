@@ -14,3 +14,10 @@ export type QueryConfig = {
 } & {
   sort?: ProductSort
 }
+
+export type Paginate = {
+  currentPage: number | null
+  totalPage: number
+  count: number
+  perPage: number
+}

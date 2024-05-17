@@ -65,7 +65,7 @@ export default function ProductThumb({ name, images, configurable_products, acti
                 src={image.medium_url}
                 alt={name}
                 className={cn(
-                  'size-full object-contain opacity-85 transition-opacity lg:absolute lg:left-0 lg:top-0',
+                  'size-full object-contain opacity-90 transition-opacity lg:absolute lg:left-0 lg:top-0',
                   image.large_url === activeImage ? 'opacity-100' : 'group-hover/slide:opacity-100'
                 )}
                 onClick={() => setActiveImage(image.large_url)}

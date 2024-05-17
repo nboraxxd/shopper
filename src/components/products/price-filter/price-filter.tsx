@@ -28,7 +28,7 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
                 id="minimum"
                 inputMode="numeric"
                 placeholder="10.000"
-                className="mt-2.5"
+                className="background-light1_dark2 mt-2.5 h-9 w-full rounded-md px-2 shadow-sm lg:w-[121px]"
                 {...field}
                 onChange={(ev) => {
                   field.onChange(ev)
@@ -45,7 +45,12 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
             name="maxPrice"
             control={control}
             render={({ field }) => (
-              <NumberInput inputMode="numeric" placeholder="99.000" className="mt-2.5" {...field} />
+              <NumberInput
+                inputMode="numeric"
+                placeholder="99.000"
+                className="background-light1_dark2 mt-2.5 h-9 w-full rounded-md px-2 shadow-sm lg:w-[121px]"
+                {...field}
+              />
             )}
           />
         </label>

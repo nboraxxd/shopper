@@ -48,7 +48,7 @@ export default {
         // 'bold-42': ['2.625rem', { lineHeight: '142.857%', fontWeight: 'bold' }],
       },
       boxShadow: {
-        light10: '  rgb(237 237 246 / 0.2)',
+        light10: '0px 20px 60px 10px rgb(237 237 246 / 0.2)',
         light20: '0px 40px 90px 20px rgb(200 200 200 / 0.4)',
         dark10: '0px 20px 60px 10px rgb(23 28 40 / 0.2)',
         dark20: '0px 40px 90px 20px rgb(0 0 0 / 0.4)',

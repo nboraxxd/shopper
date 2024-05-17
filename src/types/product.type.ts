@@ -1,3 +1,4 @@
+import { Paginate } from '@/types'
 import { ProductSort } from '@/constants/enums'
 
 type Badge =
@@ -57,13 +58,6 @@ export type ProductParameters = {
   page?: string
   filterRating?: string
   categories?: string
-}
-
-export type Paginate = {
-  currentPage: number | null
-  totalPage: number
-  count: number
-  perPage: number
 }
 
 export type Product = {
