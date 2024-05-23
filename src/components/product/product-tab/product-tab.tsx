@@ -24,7 +24,7 @@ export default function ProductTab({ productId, description, features }: Props) 
   const queryClient = useQueryClient()
 
   const { data: reviewsResponse } = useReviews(productId, { limit: '5', page: '1' }, tab === 'reviews' ? true : false)
-  console.log('🔥 ~ ProductTab ~ reviewsResponse:', reviewsResponse?.data.data)
+  console.log('🔥 ~ ProductTab ~ reviewsResponse:', reviewsResponse)
 
   function handlePrefetchReviews() {
     queryClient.prefetchQuery({

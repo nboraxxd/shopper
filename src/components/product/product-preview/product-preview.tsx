@@ -1,26 +1,20 @@
-import flatten from 'lodash/flatten'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
-import { Product } from '@/types/product.type'
+import { ImageUrl } from '@/types/product.type'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
 
 interface Props {
   image: string
-  images: Product['images']
-  configurable_products: Product['configurable_products']
+  images: ImageUrl[]
   name: string
 }
 
-export default function ProductPreview({ image, images, configurable_products, name }: Props) {
+export default function ProductPreview({ image, images, name }: Props) {
   const isMediumAndUp = useMediaQuery({ minWidth: 768 })
-
-  const _images = configurable_products
-    ? [...images, ...flatten(configurable_products.map((product) => product.images))]
-    : images
 
   return isMediumAndUp ? (
     <div className="relative !bg-light-1 pt-[92%] max-lg:flex-1">
@@ -29,7 +23,6 @@ export default function ProductPreview({ image, images, configurable_products, n
   ) : (
     <Swiper
       className="mySwiper"
-      // overflow-hidden rounded-[20px] !bg-light-1
       spaceBetween={12}
       modules={[Pagination]}
       pagination={{
@@ -39,7 +32,7 @@ export default function ProductPreview({ image, images, configurable_products, n
         },
       }}
     >
-      {_images.map((_image, index) => {
+      {images.map((_image, index) => {
         return (
           <SwiperSlide key={index} className="relative pt-[92%]">
             <img src={_image.large_url} alt={name} className="absolute left-0 top-0 size-full object-contain" />

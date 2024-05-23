@@ -1,11 +1,10 @@
-import flatten from 'lodash/flatten'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Swiper as SwiperType } from 'swiper/types'
 import { Navigation } from 'swiper/modules'
 
 import { cn } from '@/utils'
-import { Product } from '@/types/product.type'
+import { ImageUrl } from '@/types/product.type'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { PrimaryButton } from '@/components/shared/button'
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
@@ -14,29 +13,18 @@ import 'swiper/css'
 
 interface Props {
   name: string
-  images: Product['images']
-  configurable_products: Product['configurable_products']
+  images: ImageUrl[]
   activeImage: string
   setActiveImage: React.Dispatch<React.SetStateAction<string>>
 }
 
 const SLIDES_PER_VIEW = 5
 
-export default function ProductThumb({ name, images, configurable_products, activeImage, setActiveImage }: Props) {
+export default function ProductThumb({ name, images, activeImage, setActiveImage }: Props) {
   const isMediumAndUp = useMediaQuery({ minWidth: 768 })
   const isLargeAndUp = useMediaQuery({ minWidth: 1024 })
 
   const swiperRef = useRef<SwiperType | null>(null)
-
-  useEffect(() => {
-    if (images.length > 0) {
-      setActiveImage(images[0].large_url)
-    }
-  }, [images, setActiveImage])
-
-  const _images = configurable_products
-    ? [...images, ...flatten(configurable_products.map((product) => product.images))]
-    : images
 
   return isMediumAndUp ? (
     <div className="group/swiper relative max-lg:mr-8 max-lg:flex max-lg:py-8 lg:p-4">
@@ -52,7 +40,7 @@ export default function ProductThumb({ name, images, configurable_products, acti
           swiperRef.current = swiper
         }}
       >
-        {_images.map((image, index) => (
+        {images.map((image, index) => (
           <SwiperSlide
             key={index}
             className={cn(
@@ -74,7 +62,7 @@ export default function ProductThumb({ name, images, configurable_products, acti
           </SwiperSlide>
         ))}
       </Swiper>
-      {_images.length > SLIDES_PER_VIEW ? (
+      {images.length > SLIDES_PER_VIEW ? (
         <>
           <PrimaryButton
             onClick={() => swiperRef.current?.slidePrev()}
