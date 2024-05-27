@@ -10,4 +10,6 @@ export {
   useRegister,
   useResendEmail,
   useReviews,
+  useGetCart,
+  useUpdateQtyCart,
 } from './queries-and-mutations'

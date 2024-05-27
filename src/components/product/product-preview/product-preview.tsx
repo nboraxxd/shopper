@@ -34,7 +34,7 @@ export default function ProductPreview({ image, images, name }: Props) {
     >
       {images.map((_image, index) => {
         return (
-          <SwiperSlide key={index} className="relative pt-[92%]">
+          <SwiperSlide key={index} className="relative !bg-light-1 pt-[92%]">
             <img src={_image.large_url} alt={name} className="absolute left-0 top-0 size-full object-contain" />
           </SwiperSlide>
         )

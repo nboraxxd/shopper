@@ -1,5 +1,6 @@
-import { ProductSidebar } from '@/components/products/sidebar'
 import { Outlet } from 'react-router-dom'
+
+import { ProductSidebar } from '@/components/products/sidebar'
 
 export default function ProductsLayout() {
   return (

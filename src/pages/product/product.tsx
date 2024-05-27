@@ -65,6 +65,7 @@ export default function Product() {
               <h1 className="text-secondary1_light3 bold-18 md:medium-26">{productResponse.data.data.name}</h1>
               <div className="mt-5 flex flex-col gap-5 md:mt-7 md:gap-7 xl:flex-row">
                 <ProductAction
+                  productId={Number(productId)}
                   productRatingAverage={productResponse.data.data.rating_average}
                   productReviewCount={productResponse.data.data.review_count}
                   productQty={productResponse.data.data.stock_item.qty}

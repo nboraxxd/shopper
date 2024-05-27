@@ -17,7 +17,7 @@ export default function QuantityInput({ max, onIncrease, onDecrease, onType, val
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     let _value = ev.target.value
 
-    if (_value.length > 3) return
+    if (_value.length > 3 || max === 0) return
 
     if (max && Number(_value) > max) {
       _value = max.toString()
@@ -30,12 +30,16 @@ export default function QuantityInput({ max, onIncrease, onDecrease, onType, val
   }
 
   const handleIncrease = () => {
-    const newValue = Math.min(Number(value || localValue) + 1, max || Infinity)
+    if (max === 0) return
+
+    const newValue = Math.min(Number(value || localValue) + 1, (max && max > 999 ? 999 : max) || Infinity)
     onIncrease?.(newValue)
     setLocalValue(newValue)
   }
 
   const handleDecrease = () => {
+    if (max === 0) return
+
     const newValue = Math.max(Number(value || localValue) - 1, 1)
     onDecrease?.(newValue)
     setLocalValue(newValue)
@@ -43,7 +47,7 @@ export default function QuantityInput({ max, onIncrease, onDecrease, onType, val
 
   return (
     <div className="input-ring text-secondary1_dark3 mt-5 h-11 w-fit rounded-[10px] border border-secondary-3 px-5 flex-center">
-      <PrimaryButton noFocus tabIndex={-1} onClick={handleDecrease}>
+      <PrimaryButton noFocus tabIndex={-1} onClick={handleDecrease} disabled={max === 0}>
         <MinusIcon className="size-6" />
       </PrimaryButton>
       <NumberInput
@@ -55,9 +59,10 @@ export default function QuantityInput({ max, onIncrease, onDecrease, onType, val
         value={value || localValue}
         onChange={handleChange}
         onBlur={() => (!value && onType?.(1)) || (!localValue && setLocalValue(1))}
+        disabled={max === 0}
         {...rest}
       />
-      <PrimaryButton noFocus tabIndex={-1} onClick={handleIncrease}>
+      <PrimaryButton noFocus tabIndex={-1} onClick={handleIncrease} disabled={max === 0}>
         <PlusIcon className="size-6" />
       </PrimaryButton>
     </div>

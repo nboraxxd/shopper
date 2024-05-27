@@ -21,5 +21,5 @@ export default function AuthProvider({ children }: Props) {
     }
   }, [isAuthenticated, profile, setUser])
 
-  return <>{children}</>
+  return children
 }

@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { ErrorResponse } from '@/types'
 import { PATH } from '@/constants/path'
@@ -40,10 +40,7 @@ export default function LoginForm() {
   useEffect(() => {
     if (code) {
       loginByCodeMutation.mutate(code, {
-        onSuccess: () => {
-          setIsAuthenticated(true)
-          navigate(PATH.HOMEPAGE)
-        },
+        onSuccess: () => setIsAuthenticated(true),
         onError: (error) => {
           if (isAxiosBadRequestError<ErrorResponse<{ code: string }>>(error)) {
             toast.error(error.response!.data.detail?.code)
@@ -54,7 +51,7 @@ export default function LoginForm() {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code])
+  }, [code, navigate, setIsAuthenticated])
 
   function onValid(data: LoginSchemaType) {
     const { username, password } = data
@@ -62,10 +59,7 @@ export default function LoginForm() {
     loginMutation.mutate(
       { username, password },
       {
-        onSuccess: () => {
-          setIsAuthenticated(true)
-          navigate(PATH.HOMEPAGE)
-        },
+        onSuccess: () => setIsAuthenticated(true),
         onError: (error) => {
           if (isAxiosBadRequestError<ErrorResponse<LoginSchemaType>>(error)) {
             const isValidateError = error.response?.data.error === VALIDATION_MESSAGES.ERROR

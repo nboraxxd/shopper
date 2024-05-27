@@ -5,4 +5,5 @@ export const QUERY_KEYS = {
   PRODUCT: 'product',
   REVIEWS: 'reviews',
   PROFILE: 'profile',
+  CART: 'cart',
 }
