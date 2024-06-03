@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import defaultTheme from 'tailwindcss/defaultTheme'
 import { default as flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette'
 
 /** @type {import('tailwindcss').Config} */
@@ -40,7 +39,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Gordita', ...defaultTheme.fontFamily.sans],
+        lato: ['Lato', 'sans-serif'],
       },
       fontSize: {
         // Reference: https://github.com/tailwindlabs/tailwindcss/issues/11529
