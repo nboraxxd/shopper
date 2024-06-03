@@ -5,10 +5,10 @@ import { clearLS } from '@/utils/auth'
 import { clearTokenInHttp } from '@/utils/http'
 import { useAuthStore } from '@/stores/auth-store'
 import { useFloatingStore } from '@/stores/floating-store'
-import { ShoppingList, Theme } from '@/components/header'
+import { Cart, ShoppingList, Theme } from '@/components/header'
 import { Navbar } from '@/components/navbar'
 import { MobileNav } from '@/components/mobile-nav'
-import { BuyIcon, HeartIcon, MoreIcon, SearchIcon } from '@/components/icons'
+import { HeartIcon, MoreIcon, SearchIcon } from '@/components/icons'
 import { Logo } from '@/components/shared/logo'
 import { LinkButton, PrimaryButton } from '@/components/shared/button'
 
@@ -64,7 +64,7 @@ export default function Header() {
                 <div className="h-8 w-px bg-secondary-4"></div>
                 {/* Cart */}
                 {/* TODO: Bổ sung `to` prop */}
-                <ShoppingList to={PATH.HOMEPAGE} icon={<BuyIcon className="size-6" />} count={3} />
+                <Cart />
                 {/* TODO: Dời Theme component xuống Footer, tạm thời để đây để test dark mode */}
                 <div className="h-8 w-px bg-secondary-4"></div>
                 <Theme />

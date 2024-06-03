@@ -64,3 +64,13 @@
 .swiper-pagination-horizontal {
   @apply max-md:!bottom-0;
 }
+
+.swiper-button-disabled {
+  @apply !hidden;
+}
+
+.swiper-btn-prev {
+}
+
+.swiper-btn-next {
+}

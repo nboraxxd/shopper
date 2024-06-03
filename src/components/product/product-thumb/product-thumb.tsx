@@ -32,7 +32,7 @@ export default function ProductThumb({ name, images, activeImage, setActiveImage
         className="mySwiper lg:!px-0.5"
         direction={isLargeAndUp ? 'horizontal' : 'vertical'}
         autoHeight
-        slidesPerView={isLargeAndUp ? 5 : 'auto'}
+        slidesPerView={isLargeAndUp ? SLIDES_PER_VIEW : 'auto'}
         spaceBetween={12}
         slidesPerGroup={SLIDES_PER_VIEW}
         modules={[Navigation]}
@@ -44,8 +44,8 @@ export default function ProductThumb({ name, images, activeImage, setActiveImage
           <SwiperSlide
             key={index}
             className={cn(
-              'overflow-hidden rounded-md border border-secondary-4 !bg-light-1 p-1 max-lg:flex-center',
-              image.large_url === activeImage ? 'border-primary-yellow' : 'hover:border-primary-yellow'
+              'overflow-hidden rounded-md border border-secondary-4 !bg-light-1 p-1 transition-colors max-lg:flex-center',
+              image.large_url === activeImage ? 'border-primary-yellow' : 'hover:border-secondary-2'
             )}
           >
             <div className="group/slide cursor-pointer transition-colors max-lg:size-20 lg:relative lg:pt-[100%]">

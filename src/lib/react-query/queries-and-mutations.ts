@@ -75,8 +75,12 @@ export function useGetProfile(enabled: boolean) {
   return useQuery({ queryKey: [QUERY_KEYS.PROFILE], queryFn: ({ signal }) => usersApi.getProfile(signal), enabled })
 }
 
-export function useGetCart(enabled: boolean) {
-  return useQuery({ queryKey: [QUERY_KEYS.CART], queryFn: ({ signal }) => cartsApi.getCart(signal), enabled })
+export function useGetCart(enabled: boolean = true) {
+  return useQuery({
+    queryKey: [QUERY_KEYS.CART],
+    queryFn: ({ signal }) => cartsApi.getCart(signal),
+    enabled,
+  })
 }
 
 export function useUpdateQtyCart() {
