@@ -8,4 +8,5 @@ export const PATH = {
   LOGIN: '/login',
   REGISTER: '/register',
   PROFILE: '/profile',
+  SHOPPING_CART: '/shopping-cart',
 }

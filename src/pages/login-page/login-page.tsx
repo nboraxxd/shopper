@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { PATH } from '@/constants/path'
 import { LoginForm } from '@/components/shared/form'
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <>
       <h1 className="medium-22 sm:medium-30 text-secondary1_dark3 mt-14">Hello Again!</h1>

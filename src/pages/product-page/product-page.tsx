@@ -10,7 +10,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs'
 
 import 'swiper/css'
 
-export default function Product() {
+export default function ProductPage() {
   const { productSlug } = useParams()
   const productId = extractProductId(productSlug as string)
 

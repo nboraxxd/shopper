@@ -7,9 +7,9 @@ import { MainLayout } from '@/layouts/main-layout'
 import { ProductsLayout } from '@/layouts/products-layout'
 import { ProductLayout } from '@/layouts/product-layout'
 import { NotFound } from '@/pages/not-found'
-import { Home } from '@/pages/home'
-import { Products } from '@/pages/products'
-import { Product } from '@/pages/product'
+import { Homepage } from '@/pages/homepage'
+import { ProductsPage } from '@/pages/products-page'
+import { ProductPage } from '@/pages/product-page'
 import { ScrollTopProvider } from '@/components/provider'
 
 export const router = createBrowserRouter([
@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Homepage />,
       },
       {
         element: (
@@ -31,11 +31,11 @@ export const router = createBrowserRouter([
         children: [
           {
             path: PATH.PRODUCTS,
-            element: <Products />,
+            element: <ProductsPage />,
           },
           {
             path: PATH.CATEGORY,
-            element: <Products />,
+            element: <ProductsPage />,
           },
         ],
       },
@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Product />,
+        element: <ProductPage />,
       },
     ],
   },

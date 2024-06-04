@@ -20,7 +20,7 @@ const fields =
 
 type Fields = FieldUnion<typeof fields>
 
-export default function Products() {
+export default function ProductsPage() {
   const { categoryId } = useParams()
 
   const queryParamsFiltered = useQueryParamsFiltered()

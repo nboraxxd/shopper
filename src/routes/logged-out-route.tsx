@@ -3,8 +3,8 @@ import { RouteObject } from 'react-router-dom'
 import { PATH } from '@/constants/path'
 import { LoggedOutLayout } from '@/layouts/logged-out-layout'
 import { AuthLayout } from '@/layouts/auth-layout'
-import { Register } from '@/pages/register'
-import { Login } from '@/pages/login'
+import { RegisterPage } from '@/pages/register-page'
+import { LoginPage } from '@/pages/login-page'
 
 const loggedOutRoute: RouteObject = {
   element: <LoggedOutLayout />,
@@ -14,11 +14,11 @@ const loggedOutRoute: RouteObject = {
       children: [
         {
           path: PATH.REGISTER,
-          element: <Register />,
+          element: <RegisterPage />,
         },
         {
           path: PATH.LOGIN,
-          element: <Login />,
+          element: <LoginPage />,
         },
       ],
     },

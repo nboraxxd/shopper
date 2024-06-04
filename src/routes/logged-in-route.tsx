@@ -3,7 +3,7 @@ import { RouteObject } from 'react-router-dom'
 import { PATH } from '@/constants/path'
 import { LoggedInLayout } from '@/layouts/logged-in-layout'
 import { ProfileLayout } from '@/layouts/profile-layout'
-import { Profile } from '@/pages/profile'
+import { ProfilePage } from '@/pages/profile-page'
 
 const loggedInRoute: RouteObject = {
   element: <LoggedInLayout />,
@@ -13,7 +13,7 @@ const loggedInRoute: RouteObject = {
       children: [
         {
           path: PATH.PROFILE,
-          element: <Profile />,
+          element: <ProfilePage />,
         },
       ],
     },

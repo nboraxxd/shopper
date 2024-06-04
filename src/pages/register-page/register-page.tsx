@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { PATH } from '@/constants/path'
 import { RegisterForm } from '@/components/shared/form'
 
-export default function Register() {
+export default function RegisterPage() {
   return (
     <>
       <h1 className="medium-22 sm:medium-30 text-secondary1_dark3 mt-14">Sign Up</h1>
