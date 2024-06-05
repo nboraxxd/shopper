@@ -25,7 +25,7 @@ export function extractProductId(productSlugInput: string) {
 }
 
 export function formatCurrency(currency: number) {
-  return Intl.NumberFormat('en').format(currency)
+  return Intl.NumberFormat('de-DE').format(currency)
 }
 
 export function formatSecondsToMMSS(seconds: number): string {

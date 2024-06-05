@@ -7,7 +7,7 @@ export default function MainLayout() {
     <>
       <Header />
       {/* Cách định nghĩa lại CSS var trong Tailwind [--header-height:500px] */}
-      <main className="background-light2_dark2 pt-[--header-height]">
+      <main className="background-light2_dark2 pb-10 pt-[--header-height]">
         <div className="container">
           <Outlet />
         </div>

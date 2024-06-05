@@ -23,6 +23,10 @@
     filter: var(--icon-color);
   }
 
+  .border-secondary3_secondary2 {
+    @apply border-secondary-3 dark:border-secondary-2;
+  }
+
   .border-secondary3_dark3 {
     @apply border-secondary-3 dark:border-dark-3;
   }
@@ -49,6 +53,10 @@
 
   .background-light1_dark2 {
     @apply bg-light-1 dark:bg-dark-2;
+  }
+
+  .background-secondary3_dark2 {
+    @apply bg-secondary-3 dark:bg-dark-2;
   }
 
   .text-secondary1_light1 {

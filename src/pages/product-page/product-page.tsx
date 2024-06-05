@@ -10,7 +10,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs'
 
 import 'swiper/css'
 
-export default function ProductPage() {
+export default function () {
   const { productSlug } = useParams()
   const productId = extractProductId(productSlug as string)
 
@@ -41,9 +41,9 @@ export default function ProductPage() {
 
   return (
     <>
-      {isSuccessProduct && !isLoadingCategory ? (
-        <Breadcrumbs navClassname="shadow-light10_dark10 mt-5 md:mt-8">
-          <Breadcrumbs.Item to={PATH.HOMEPAGE}>Home</Breadcrumbs.Item>
+      {!isLoadingCategory && isSuccessProduct ? (
+        <Breadcrumbs navClassname="md:background-light2_dark1 shadow-light10_dark10 mt-5 md:mt-8">
+          <Breadcrumbs.Item to={PATH.HOMEPAGE}>Trang chủ</Breadcrumbs.Item>
           <Breadcrumbs.Item to={generateCategoryLink}>
             {categoryResponse?.data.data?.title || 'Products'}
           </Breadcrumbs.Item>

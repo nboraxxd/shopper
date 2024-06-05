@@ -14,7 +14,7 @@ export default function AuthInput<T extends string>(props: Props<T>) {
   const { register, wrapperClassname, inputClassname, Icon, errorMessage, ...rest } = props
 
   return (
-    <div className={cn('', wrapperClassname)}>
+    <div className={wrapperClassname}>
       <div className="input-ring h-12 rounded-[10px] px-3 shadow-sm flex-center">
         <input
           {...rest}

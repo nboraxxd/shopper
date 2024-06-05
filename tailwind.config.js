@@ -56,6 +56,13 @@ export default {
         xs: '480px',
         '2xl': '1400px',
       },
+      spacing: {
+        7.5: '1.875rem',
+      },
+      borderRadius: {
+        ten: '0.625rem',
+        twenty: '1.25rem',
+      },
     },
   },
   plugins: [

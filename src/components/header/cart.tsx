@@ -26,6 +26,7 @@ export default function Cart() {
     >
       <Floating.Reference
         as={LinkButton}
+        to={PATH.CART}
         className="focus-primary gap-2.5 rounded-md p-2.5 flex-center hover:bg-light-2/60 dark:hover:bg-dark-3/5 lg:rounded-lg lg:px-5 lg:py-3.5"
       >
         <BuyIcon className="size-6" />

@@ -112,6 +112,7 @@ export default function ProductAction(props: Props) {
         <div>
           <h3 className="medium-18 text-secondary1_light3">Quantity</h3>
           <QuantityInput
+            wrapperClassName="mt-5"
             max={productQty}
             onDecrease={handleChangeQuantity}
             onIncrease={handleChangeQuantity}
@@ -157,7 +158,7 @@ export default function ProductAction(props: Props) {
               Thêm vào giỏ
             </PrimaryButton>
             <PrimaryButton className="size-[46px] justify-center rounded-md border border-secondary-3 text-secondary-1 flex-center">
-              <HeartIcon className="size-6" />
+              <HeartIcon className="text-secondary1_light1 size-6" />
             </PrimaryButton>
           </div>
         </div>

@@ -1,4 +1,5 @@
 export { default as ArrowLeftIcon } from './arrow-left-icon'
+export { default as BinIcon } from './bin-icon'
 export { default as BuyIcon } from './buy-icon'
 export { default as Category1Icon } from './category-1-icon'
 export { default as Category2Icon } from './category-2-icon'

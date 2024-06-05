@@ -3,15 +3,27 @@ import { useState } from 'react'
 import { MinusIcon, PlusIcon } from '@/components/icons'
 import { PrimaryButton } from '@/components/shared/button'
 import { NumberInput, NumberInputProps } from '@/components/shared/input'
+import { cn } from '@/utils'
 
-interface Props extends NumberInputProps {
+interface Props extends Omit<NumberInputProps, 'className'> {
+  wrapperClassName?: string
+  inputClassName?: string
   max?: number
   onIncrease?: (value: number) => void
   onDecrease?: (value: number) => void
   onType?: (value: number) => void
 }
 
-export default function QuantityInput({ max, onIncrease, onDecrease, onType, value, ...rest }: Props) {
+export default function QuantityInput({
+  wrapperClassName,
+  inputClassName,
+  max,
+  onIncrease,
+  onDecrease,
+  onType,
+  value,
+  ...rest
+}: Props) {
   const [localValue, setLocalValue] = useState(Number(value) || 1)
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,12 +58,17 @@ export default function QuantityInput({ max, onIncrease, onDecrease, onType, val
   }
 
   return (
-    <div className="input-ring text-secondary1_dark3 mt-5 h-11 w-fit rounded-[10px] border border-secondary-3 px-5 flex-center">
+    <div
+      className={cn(
+        'input-ring text-secondary1_dark3 h-11 w-fit rounded-[10px] px-5 flex-center dark:ring-secondary-2',
+        wrapperClassName
+      )}
+    >
       <PrimaryButton noFocus tabIndex={-1} onClick={handleDecrease} disabled={max === 0}>
         <MinusIcon className="size-6" />
       </PrimaryButton>
       <NumberInput
-        className="background-light2_dark1 medium-15 h-11 w-[3.25rem] px-2.5 text-center"
+        className={cn('medium-16 h-full w-[3.25rem] bg-transparent px-2.5 text-center', inputClassName)}
         noFocus
         type="text"
         inputMode="numeric"
