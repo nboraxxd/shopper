@@ -1,5 +1,12 @@
 import http from '@/utils/http'
-import { DelCartItemResponse, GetCartResponse, UpdateQtyCartReqBody, UpdateQtyCartResponse } from '@/types/cart.type'
+import {
+  DelCartItemResponse,
+  GetCartResponse,
+  PreCheckOutReqBody,
+  PreCheckOutResponse,
+  UpdateQtyCartReqBody,
+  UpdateQtyCartResponse,
+} from '@/types/cart.type'
 
 const CART_URL = '/cart/v2'
 
@@ -12,8 +19,12 @@ const cartsApi = {
     return http.patch<UpdateQtyCartResponse>(`${CART_URL}/${productId}`, { quantity })
   },
 
-  delCartItem(productId: number) {
+  deleteCartItem(productId: number) {
     return http.delete<DelCartItemResponse>(`${CART_URL}/${productId}`)
+  },
+
+  preCheckOut(body: PreCheckOutReqBody) {
+    return http.post<PreCheckOutResponse>(`${CART_URL}/pre-checkout`, body)
   },
 }
 

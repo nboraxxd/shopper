@@ -21,7 +21,7 @@ export type ReviewsResponse = {
 }
 
 export type ReviewsReqBody = {
-  productId: string
+  productId: number
   limit?: string
   page?: string
   signal?: AbortSignal

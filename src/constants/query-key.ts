@@ -6,4 +6,5 @@ export const QUERY_KEYS = {
   REVIEWS: 'reviews',
   PROFILE: 'profile',
   CART: 'cart',
+  PRE_CHECKOUT: 'preCheckout',
 }

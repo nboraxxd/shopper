@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
-
-import { BuyIcon, ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
-import { Floating } from '@/components/shared/floating'
-import { LinkButton, PrimaryButton } from '@/components/shared/button'
-import { PATH } from '@/constants/path'
-import { useGetCart } from '@/lib/react-query'
-import { formatCurrency } from '@/utils'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Link, generatePath } from 'react-router-dom'
 
+import { PATH } from '@/constants/path'
+import { formatCurrency } from '@/utils'
+import { useGetCart } from '@/lib/react-query'
+import { Floating } from '@/components/shared/floating'
+import { LinkButton, PrimaryButton } from '@/components/shared/button'
+import { BuyIcon, ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
+
 export default function Cart() {
-  const [isOpenFloating, setIsOpenFloating] = useState(true)
+  const [isOpenFloating, setIsOpenFloating] = useState(false)
 
   const { data: getCartResponse, isError: isErrorGetCart, isSuccess: isSuccessGetCart } = useGetCart()
 
@@ -88,10 +88,7 @@ export default function Cart() {
 
                   return (
                     <SwiperSlide key={item.productId}>
-                      <Link
-                        to={productDetailPath}
-                        className="group/slide text-secondary1_dark3 relative block cursor-pointer pt-[100%]"
-                      >
+                      <div className="group/slide text-secondary1_dark3 relative block cursor-grab pt-[100%]">
                         <img
                           src={item.product.thumbnail_url}
                           alt={item.product.name}
@@ -100,7 +97,7 @@ export default function Cart() {
                         <span className="regular-11 absolute bottom-1 right-1 size-6 justify-center rounded-full bg-primary-blue/85 text-light-1 flex-center">
                           x{item.quantity}
                         </span>
-                      </Link>
+                      </div>
                       <Link to={productDetailPath} className="regular-14 mt-3.5 line-clamp-2">
                         {item.product.name}
                       </Link>

@@ -50,6 +50,7 @@ type Specification = {
 
 export type ProductParameters = {
   sort?: ProductSort
+  id?: string
   name?: string
   fields?: string
   minPrice?: string

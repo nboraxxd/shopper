@@ -12,3 +12,9 @@ export enum ProductSort {
   TOP_SELL = 'top_sell',
   NEWEST = 'newest',
 }
+
+export enum ShippingMethod {
+  FREE = 'mien-phi',
+  STANDARD = 'tieu-chuan',
+  FAST = 'giao-hang-nhanh',
+}

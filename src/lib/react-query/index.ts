@@ -12,4 +12,6 @@ export {
   useReviews,
   useGetCart,
   useUpdateQtyCart,
+  useDeleteCartItem,
+  usePreCheckOut,
 } from './queries-and-mutations'

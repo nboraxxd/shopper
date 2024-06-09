@@ -17,7 +17,7 @@ const productsApi = {
     })
   },
 
-  getProduct(id: string, signal?: AbortSignal) {
+  getProduct(id: number, signal?: AbortSignal) {
     return http.get<ProductResponse>(`${PRODUCTS_URL}/${id}`, { signal })
   },
 

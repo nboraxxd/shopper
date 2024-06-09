@@ -1,7 +1,8 @@
-import { User } from '@/types/user.type'
-import { getAccessTokenFromLS, getUserFromLS } from '@/utils/auth'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+
+import { User } from '@/types/user.type'
+import { getAccessTokenFromLS, getUserFromLS } from '@/utils/auth'
 
 type AuthState = {
   isAuthenticated: boolean

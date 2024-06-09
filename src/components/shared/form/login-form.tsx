@@ -1,8 +1,8 @@
 import { toast } from 'sonner'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import { ErrorResponse } from '@/types'
 import { PATH } from '@/constants/path'
@@ -19,7 +19,7 @@ export default function LoginForm() {
   const [searchParams] = useSearchParams()
   const code = searchParams.get('code')
 
-  const navigate = useNavigate()
+  const loginByCodeRef = useRef<unknown>(null)
 
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
 
@@ -35,23 +35,28 @@ export default function LoginForm() {
 
   const loginMutation = useLogin()
 
-  const loginByCodeMutation = useLoginByCode()
+  const { mutateAsync: loginByCodeMutateAsync } = useLoginByCode()
 
   useEffect(() => {
-    if (code) {
-      loginByCodeMutation.mutate(code, {
-        onSuccess: () => setIsAuthenticated(true),
-        onError: (error) => {
-          if (isAxiosBadRequestError<ErrorResponse<{ code: string }>>(error)) {
-            toast.error(error.response!.data.detail?.code)
-          } else if (isAxiosForbiddenError<ErrorResponse>(error)) {
-            toast.error(error.response!.data.message)
-          }
-        },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, navigate, setIsAuthenticated])
+    if (!code || loginByCodeRef.current !== null) return
+    ;(async () => {
+      loginByCodeRef.current = loginByCodeMutateAsync
+
+      try {
+        await loginByCodeMutateAsync(code)
+        setIsAuthenticated(true)
+        setTimeout(() => {
+          loginByCodeRef.current = null
+        }, 10000)
+      } catch (error) {
+        if (isAxiosBadRequestError<ErrorResponse<{ code: string }>>(error)) {
+          toast.error(error.response!.data.detail?.code)
+        } else if (isAxiosForbiddenError<ErrorResponse>(error)) {
+          toast.error(error.response!.data.message)
+        }
+      }
+    })()
+  }, [code, loginByCodeMutateAsync, setIsAuthenticated])
 
   function onValid(data: LoginSchemaType) {
     const { username, password } = data

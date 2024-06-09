@@ -1,14 +1,23 @@
-import { Link } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useIsMutating } from '@tanstack/react-query'
 
 import { PATH } from '@/constants/path'
+import { QUERY_KEYS } from '@/constants/query-key'
 import { formatCurrency } from '@/utils'
-import { useGetCart } from '@/lib/react-query'
-import { Breadcrumbs } from '@/components/breadcrumbs'
-import { BinIcon, ChevronLeftIcon, HeartIcon } from '@/components/icons'
-import { QuantityInput } from '@/components/shared/input'
+import { useCartStore } from '@/stores/cart-store'
+import { useGetCart, usePreCheckOut } from '@/lib/react-query'
 import { LinkButton, PrimaryButton } from '@/components/shared/button'
+import { Breadcrumbs } from '@/components/breadcrumbs'
+import { ChevronLeftIcon } from '@/components/icons'
+import { ProductInCart } from '@/components/cart'
 
 export default function CartPage() {
+  const selectedProductIds = useCartStore((state) => state.selectedProductIds)
+  const setSelectedProductIds = useCartStore((state) => state.setSelectedProductIds)
+
+  const preCheckoutResponse = useCartStore((state) => state.preCheckoutResponse)
+  const setPreCheckoutResponse = useCartStore((state) => state.setPreCheckoutResponse)
+
   const {
     data: getCartResponse,
     isLoading: isLoadingGetCart,
@@ -16,7 +25,25 @@ export default function CartPage() {
     isSuccess: isSuccessGetCart,
   } = useGetCart()
 
-  const productsInCart = isSuccessGetCart ? getCartResponse.data.data.listItems : undefined
+  const preCheckoutMutation = usePreCheckOut()
+
+  const isPendingPreCheckout =
+    useIsMutating({ mutationKey: [QUERY_KEYS.PRE_CHECKOUT], exact: true }) === 1 ? true : false
+
+  function toggleAllCheckbox(ev: React.ChangeEvent<HTMLInputElement>) {
+    if (!isSuccessGetCart) return
+
+    const listItems = ev.target.checked ? getCartResponse.data.data.listItems.map((item) => item.productId) : []
+
+    setSelectedProductIds(listItems)
+
+    preCheckoutMutation.mutate(
+      { listItems },
+      {
+        onSuccess: (response) => setPreCheckoutResponse(response.data.data),
+      }
+    )
+  }
 
   return (
     <>
@@ -31,67 +58,23 @@ export default function CartPage() {
         </Breadcrumbs>
       ) : null}
 
-      {isSuccessGetCart && productsInCart ? (
-        <div className="mt-5 grid gap-7.5 md:mt-7.5 lg:grid-cols-[8fr,4fr]">
+      {isSuccessGetCart ? (
+        <div className="mt-5 grid gap-7.5 md:mt-7.5 lg:grid-cols-[minmax(0,8fr),minmax(0,4fr)]">
           <div className="shadow-light10_dark10 background-light1_dark1 rounded-twenty p-7.5">
             <div className="border-secondary3_dark2 flex border-b pb-5">
               <input
-                title="Select all items in cart"
                 type="checkbox"
                 className="size-5 self-center rounded border-gray-300 text-primary-blue focus:ring-primary-blue"
+                onChange={toggleAllCheckbox}
+                checked={selectedProductIds.length === getCartResponse.data.data.listItems.length}
               />
 
               <h2 className="text-secondary1_dark3 medium-18 ml-3 mt-px">
-                Chọn tất cả <span>({productsInCart.length} sản phẩm)</span>
+                Chọn tất cả <span>({getCartResponse.data.data.listItems.length} sản phẩm)</span>
               </h2>
             </div>
-            {[...productsInCart].reverse().map(({ product, quantity }) => (
-              <div key={product.id} className="border-secondary3_dark2 flex items-start border-b py-7.5">
-                {/* Checkbox */}
-                <input
-                  type="checkbox"
-                  className="size-5 self-center rounded border-gray-300 text-primary-blue focus:ring-primary-blue"
-                />
-                {/* Thumbnail */}
-                <Link to={PATH.HOMEPAGE}>
-                  <img
-                    src={product.thumbnail_url}
-                    alt={product.name}
-                    className="ml-3 rounded bg-white object-contain xl:size-[150px] 2xl:size-[172px]"
-                  />
-                </Link>
-
-                <div className="flex flex-1">
-                  {/* Left content */}
-                  <div className="ml-5 flex-1 space-y-4">
-                    <h2 className="text-secondary1_dark3 medium-18 line-clamp-2">
-                      <Link to={PATH.HOMEPAGE}>{product.name}</Link>
-                    </h2>
-                    <p className="medium-18 text-secondary-2">
-                      {formatCurrency(product.real_price)}
-                      <sup>₫</sup>
-                    </p>
-                    <QuantityInput />
-                  </div>
-                  {/* Right content */}
-                  <div className="flex flex-col items-end justify-between">
-                    <h3 className="text-secondary1_dark3 bold-22">
-                      {formatCurrency(product.real_price * quantity)}
-                      <sup>₫</sup>
-                    </h3>
-                    <div className="flex gap-5">
-                      <PrimaryButton className="hover:text-secondary1_secondary3 min-h-11 gap-2.5 px-1.5 text-secondary-2 transition-colors flex-center">
-                        <HeartIcon />
-                        <span>Save</span>
-                      </PrimaryButton>
-                      <PrimaryButton className="hover:text-secondary1_secondary3 min-h-11 gap-2.5 px-1.5 text-secondary-2 transition-colors flex-center">
-                        <BinIcon />
-                        <span>Delete</span>
-                      </PrimaryButton>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {[...getCartResponse.data.data.listItems].reverse().map((item) => (
+              <ProductInCart key={item.productId} {...item} />
             ))}
             <div className="text-secondary1_dark3 medium-18 flex pt-7.5">
               <div className="basis-2/3 self-end">
@@ -132,6 +115,25 @@ export default function CartPage() {
 
           <div>
             <div className="shadow-light10_dark10 background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-twenty p-7.5">
+              <AnimatePresence>
+                {isPendingPreCheckout ? (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 0.75,
+                    }}
+                    transition={{
+                      duration: 0.1,
+                    }}
+                    className="background-light1_dark1 absolute inset-0 z-10 rounded-twenty"
+                  >
+                    <span className="absolute inset-0 m-auto inline-block size-6 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></span>
+                    <span className="sr-only">Loading...</span>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
               <form>
                 <label htmlFor="discount-code" className="text-secondary1_dark3 medium-18">
                   Mã giảm giá
@@ -140,11 +142,11 @@ export default function CartPage() {
                   <input
                     id="discount-code"
                     placeholder="Nhập mã giảm giá"
-                    className="input-ring text-secondary1_dark3 h-full grow rounded-ten bg-inherit py-0 flex-center placeholder:text-secondary-3 dark:ring-secondary-2 dark:placeholder:text-dark-3/40"
+                    className="input-ring text-secondary1_dark3 size-full text-ellipsis rounded-ten bg-inherit py-0 flex-center placeholder:text-secondary-3 dark:ring-secondary-2 dark:placeholder:text-dark-3/40"
                   />
                   <PrimaryButton
                     type="submit"
-                    className="medium-16 h-full rounded-ten bg-primary-yellow px-3 text-secondary-1 flex-center disabled:opacity-70"
+                    className="medium-16 h-full shrink-0 rounded-ten bg-primary-yellow px-3 text-secondary-1 flex-center disabled:opacity-70"
                   >
                     Áp dụng
                   </PrimaryButton>
@@ -154,7 +156,10 @@ export default function CartPage() {
               <dl className="text-secondary1_dark3 medium-16 mt-7.5 space-y-3.5">
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
-                  <dd className="bold-16">$210.00</dd>
+                  <dd className="bold-16">
+                    {formatCurrency(preCheckoutResponse?.subTotal ?? 0)}
+                    <sup>₫</sup>
+                  </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="flex">
@@ -163,15 +168,24 @@ export default function CartPage() {
                       SALE50
                     </span>
                   </dt>
-                  <dd className="bold-16">-$24.00</dd>
+                  <dd className="bold-16">
+                    -{formatCurrency(preCheckoutResponse?.promotion?.discount ?? 0)}
+                    <sup>₫</sup>
+                  </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt>Taxes</dt>
-                  <dd className="bold-16">$23.68</dd>
+                  <dd className="bold-16">
+                    {formatCurrency(preCheckoutResponse?.tax ?? 0)}
+                    <sup>₫</sup>
+                  </dd>
                 </div>
                 <div className="border-secondary3_dark2 flex justify-between border-t pt-3.5">
                   <dt>Total</dt>
-                  <dd className="bold-16">$341.68</dd>
+                  <dd className="bold-16">
+                    {formatCurrency(preCheckoutResponse?.total ?? 0)}
+                    <sup>₫</sup>
+                  </dd>
                 </div>
               </dl>
               <div className="mt-7.5 flex justify-center">

@@ -12,18 +12,23 @@ interface Props extends Omit<NumberInputProps, 'className'> {
   onIncrease?: (value: number) => void
   onDecrease?: (value: number) => void
   onType?: (value: number) => void
+  onFocusOut?: (value: number) => void
 }
 
-export default function QuantityInput({
-  wrapperClassName,
-  inputClassName,
-  max,
-  onIncrease,
-  onDecrease,
-  onType,
-  value,
-  ...rest
-}: Props) {
+export default function QuantityInput(props: Props) {
+  const {
+    wrapperClassName,
+    inputClassName,
+    max,
+    onIncrease,
+    onDecrease,
+    onType,
+    onFocusOut,
+    value,
+    disabled,
+    ...rest
+  } = props
+
   const [localValue, setLocalValue] = useState(Number(value) || 1)
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +62,18 @@ export default function QuantityInput({
     setLocalValue(newValue)
   }
 
+  const handleBlur = () => {
+    if (!value) {
+      onType?.(1)
+    }
+
+    if (!localValue) {
+      setLocalValue(1)
+    }
+
+    onFocusOut?.(Number(value || localValue))
+  }
+
   return (
     <div
       className={cn(
@@ -64,22 +81,37 @@ export default function QuantityInput({
         wrapperClassName
       )}
     >
-      <PrimaryButton noFocus tabIndex={-1} onClick={handleDecrease} disabled={max === 0}>
+      <PrimaryButton
+        noFocus
+        tabIndex={-1}
+        onClick={handleDecrease}
+        disabled={max === 0 || disabled}
+        className="transition-opacity disabled:opacity-50"
+      >
         <MinusIcon className="size-6" />
       </PrimaryButton>
       <NumberInput
-        className={cn('medium-16 h-full w-[3.25rem] bg-transparent px-2.5 text-center', inputClassName)}
+        className={cn(
+          'medium-16 h-full w-[3.25rem] bg-transparent px-2.5 text-center transition-opacity disabled:opacity-50',
+          inputClassName
+        )}
         noFocus
         type="text"
         inputMode="numeric"
         maxLength={3}
         value={value || localValue}
         onChange={handleChange}
-        onBlur={() => (!value && onType?.(1)) || (!localValue && setLocalValue(1))}
-        disabled={max === 0}
+        onBlur={handleBlur}
+        disabled={max === 0 || disabled}
         {...rest}
       />
-      <PrimaryButton noFocus tabIndex={-1} onClick={handleIncrease} disabled={max === 0}>
+      <PrimaryButton
+        noFocus
+        tabIndex={-1}
+        onClick={handleIncrease}
+        disabled={max === 0 || disabled}
+        className="transition-opacity disabled:opacity-50"
+      >
         <PlusIcon className="size-6" />
       </PrimaryButton>
     </div>

@@ -28,29 +28,29 @@ export function useCategory(id: string, enabled: boolean) {
   })
 }
 
-export function useProducts<T>(params?: ProductParameters) {
+export function useProducts<T>(params?: ProductParameters, enabled: boolean = true) {
   return useQuery({
     queryKey: [QUERY_KEYS.PRODUCTS, params],
     queryFn: ({ signal }) => productsApi.getProducts<T>(params, signal),
+    enabled,
   })
 }
 
-export function useProduct(id: string) {
+export function useProduct(productId: number, enabled: boolean = true) {
   return useQuery({
-    queryKey: [QUERY_KEYS.PRODUCT, id],
-    queryFn: ({ signal }) => productsApi.getProduct(id, signal),
+    queryKey: [QUERY_KEYS.PRODUCT, productId],
+    queryFn: ({ signal }) => productsApi.getProduct(productId, signal),
+    enabled,
   })
 }
 
-export function useReviews(productId: string, params: Pick<ReviewsReqBody, 'limit' | 'page'>, enabled: boolean) {
+export function useReviews(productId: number, params: Pick<ReviewsReqBody, 'limit' | 'page'>, enabled: boolean) {
   const queryClient = useQueryClient()
 
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWS, productId, params],
     queryFn: ({ signal }) => reviewsApi.getReviews({ productId, ...params, signal }),
-    initialData: () => {
-      return queryClient.getQueryData([QUERY_KEYS.REVIEWS, productId])
-    },
+    initialData: () => queryClient.getQueryData([QUERY_KEYS.REVIEWS, productId]),
     enabled,
   })
 }
@@ -85,4 +85,12 @@ export function useGetCart(enabled: boolean = true) {
 
 export function useUpdateQtyCart() {
   return useMutation({ mutationFn: cartsApi.updateQtyCart })
+}
+
+export function useDeleteCartItem() {
+  return useMutation({ mutationFn: cartsApi.deleteCartItem })
+}
+
+export function usePreCheckOut() {
+  return useMutation({ mutationKey: [QUERY_KEYS.PRE_CHECKOUT], mutationFn: cartsApi.preCheckOut })
 }

@@ -73,6 +73,12 @@ export default function ProductAction(props: Props) {
       return toast.error('Không thể thêm vào giỏ hàng. Vui lòng thử lại sau')
     }
 
+    if (productQuantityInCart + quantity > productQty) {
+      return toast.warning(
+        `Bạn đã có ${productQuantityInCart} sản phẩm trong giỏ hàng. Số lượng sản phẩm còn lại là ${productQty - productQuantityInCart}`
+      )
+    }
+
     toast.promise(updateQtyCartMutation.mutateAsync({ productId, quantity: productQuantityInCart + quantity }), {
       loading: 'Đang thêm vào giỏ hàng...',
       success: () => {

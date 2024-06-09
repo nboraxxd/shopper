@@ -14,7 +14,7 @@ export type ErrorResponse<Data = undefined> = {
 }
 
 export type QueryConfig = {
-  [key in keyof Omit<ProductParameters, 'fields' | 'limit' | 'sort'>]: string
+  [key in keyof Omit<ProductParameters, 'fields' | 'limit' | 'sort' | 'id'>]: string
 } & {
   sort?: ProductSort
 }
@@ -25,3 +25,5 @@ export type Paginate = {
   count: number
   perPage: number
 }
+
+export type ServiceStatus = 'error' | 'idle' | 'pending' | 'success'

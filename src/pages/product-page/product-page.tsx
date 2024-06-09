@@ -19,7 +19,7 @@ export default function () {
     isLoading: isLoadingProduct,
     isError: isErrorProduct,
     isSuccess: isSuccessProduct,
-  } = useProduct(productId)
+  } = useProduct(Number(productId))
 
   const {
     data: categoryResponse,
@@ -77,7 +77,7 @@ export default function () {
             </div>
           </div>
           <ProductTab
-            productId={productId}
+            productId={Number(productId)}
             description={productResponse.data.data.description}
             features={productResponse.data.data.specifications}
           />

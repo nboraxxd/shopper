@@ -13,7 +13,7 @@ import { useReviews } from '@/lib/react-query'
 import { useState } from 'react'
 
 interface Props {
-  productId: string
+  productId: number
   description: string
   features: Product['specifications']
 }
