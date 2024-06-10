@@ -95,7 +95,7 @@ export default function Filter() {
         as={PrimaryButton}
         className={cn(
           'text-secondary1_secondary3 h-9 justify-center gap-1.5 rounded-md px-3 flex-center',
-          minPrice || maxPrice || filterRating ? 'text-primaryBlue_secondary' : 'text-secondary1_secondary3'
+          minPrice || maxPrice || filterRating ? 'text-active-category' : 'text-secondary1_secondary3'
         )}
       >
         <FilterIcon className="relative inline-block size-5" />
@@ -106,7 +106,7 @@ export default function Filter() {
         arrowImg="/assets/images/dropdown-arrow.png"
         arrowWidth={50}
         arrowClassName="-top-4"
-        wrapperClassName="background-light1_dark2 shadow-light20_dark20 rounded-3xl"
+        wrapperClassName="background-light1_dark2 rounded-3xl shadow-floating"
       >
         <div className="p-8">
           <h3 className="text-secondary1_light1 medium-22">Filter</h3>
@@ -118,13 +118,13 @@ export default function Filter() {
             <div className="mt-6 justify-end gap-5 flex-center">
               <PrimaryButton
                 type="button"
-                className="regular-15 h-10 rounded-md px-1.5 text-secondary-2 transition-opacity hover:text-opacity-85"
+                className="h-10 rounded-md px-1.5 text-secondary-2 transition-opacity regular-15 hover:text-opacity-85"
                 onClick={onClear}
               >
                 Clear
               </PrimaryButton>
               <ButtonWithLoading
-                buttonClassName="medium-15 h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity hover:opacity-85"
+                buttonClassName="h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity medium-15 hover:opacity-85"
                 loadingClassName="size-4"
               >
                 Show Result
@@ -141,7 +141,7 @@ export default function Filter() {
       trigger={
         <PrimaryButton className="h-9 justify-center gap-1.5 rounded-md px-3 flex-center">
           <FilterIcon className="inline-block size-5" />
-          <span className="medium-16 text-secondary1_secondary3">Lọc</span>
+          <span className="text-secondary1_secondary3 medium-16">Lọc</span>
         </PrimaryButton>
       }
       title={
@@ -156,13 +156,13 @@ export default function Filter() {
         <div className="mt-6 justify-end gap-5 flex-center">
           <PrimaryButton
             type="button"
-            className="regular-15 h-10 rounded-md px-1.5 text-secondary-2 transition-opacity hover:text-opacity-85"
+            className="h-10 rounded-md px-1.5 text-secondary-2 transition-opacity regular-15 hover:text-opacity-85"
             onClick={onClear}
           >
             Clear
           </PrimaryButton>
           <ButtonWithLoading
-            buttonClassName="medium-15 h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity hover:opacity-85"
+            buttonClassName="h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity medium-15 hover:opacity-85"
             loadingClassName="size-4"
             type="submit"
           >

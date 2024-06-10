@@ -1,12 +1,9 @@
-/* eslint-disable no-undef */
-import { default as flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette'
+import type { Config } from 'tailwindcss'
 
-/** @type {import('tailwindcss').Config} */
-export default {
+const config = {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    container: false,
     extend: {
       colors: {
         primary: {
@@ -37,11 +34,14 @@ export default {
           2: '#292E39',
           3: '#B9BABE',
         },
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         breadcrumb: {
           DEFAULT: 'hsl(var(--breadcrumb))',
           foreground: 'hsl(var(--breadcrumb-foreground))',
           last: 'hsl(var(--breadcrumb-last))',
         },
+        'active-category': 'hsl(var(--active-category))',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
@@ -56,6 +56,8 @@ export default {
         light20: '0px 40px 90px 20px rgb(200 200 200 / 0.4)',
         dark10: '0px 20px 60px 10px rgb(23 28 40 / 0.2)',
         dark20: '0px 40px 90px 20px rgb(0 0 0 / 0.4)',
+        primary: 'var(--shadow-primary)',
+        floating: 'var(--shadow-floating)',
       },
       screens: {
         xs: '480px',
@@ -71,21 +73,11 @@ export default {
     },
   },
   plugins: [
-    addVariablesForColors,
     require('@tailwindcss/forms'),
-    require('./tailwind-plugin.cts'),
     require('tailwind-scrollbar-hide'),
     require('@tailwindcss/aspect-ratio'),
+    require('./tailwind-plugin.cts'),
   ],
-}
+} satisfies Config
 
-// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
-function addVariablesForColors({ addBase, theme }) {
-  let allColors = flattenColorPalette(theme('colors'))
-
-  let newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]))
-
-  addBase({
-    ':root': newVars,
-  })
-}
+export default config

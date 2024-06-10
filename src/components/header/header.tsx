@@ -33,11 +33,11 @@ export default function Header() {
     <>
       <MobileNav />
 
-      <header className="background-light1_dark1 md:background-light3_dark1 shadow-light10_dark10 sticky top-0 z-40 h-[var(--header-height)] flex-center">
+      <header className="background-light1_dark1 md:background-light3_dark1 fixed inset-x-0 top-0 z-40 h-[var(--header-height)] shadow-primary flex-center">
         <div className="container flex-center">
           {/* Open sidebar button */}
           <PrimaryButton
-            className="shadow-light10_dark0 rounded-md py-2.5 pl-0.5 pr-2.5 hover:bg-light-2/50 dark:hover:bg-dark-2/15 md:mr-6 lg:hidden"
+            className="rounded-md py-2.5 pl-0.5 pr-2.5 hover:bg-light-2/50 dark:hover:bg-dark-2/15 md:mr-6 lg:hidden"
             onClick={() => setIsSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
@@ -54,10 +54,10 @@ export default function Header() {
           {isAuthenticated ? (
             <div className="gap-5 flex-center md:ml-auto">
               {/* Search */}
-              <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-light10 hover:bg-light-2/50 dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
+              <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-primary hover:bg-light-2/50 dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
                 <SearchIcon className="size-6" />
               </PrimaryButton>
-              <div className="background-light1_dark2 rounded-md shadow-light10 flex-center dark:shadow-[0px_20px_60px_10px_rgb(0,0,0,0.2)] max-md:hidden lg:rounded-lg">
+              <div className="background-light1_dark2 rounded-md shadow-primary flex-center max-md:hidden lg:rounded-lg">
                 {/* Favorites */}
                 {/* TODO: Bổ sung `to` prop */}
                 <ShoppingList to={PATH.HOMEPAGE} icon={<HeartIcon className="size-6" />} count={3} />

@@ -53,7 +53,7 @@ export default function Cart() {
         arrowImg="/assets/images/dropdown-arrow.png"
         arrowWidth={50}
         arrowClassName="-top-4"
-        wrapperClassName="background-light1_dark2 shadow-light20_dark20 w-[min(500px,100vw)] rounded-3xl p-7"
+        wrapperClassName="background-light1_dark2 w-[min(500px,100vw)] rounded-3xl p-7 shadow-floating"
       >
         <div className="justify-between flex-center">
           <span className="medium-22 text-secondary1_dark3">

@@ -29,11 +29,9 @@
       --breadcrumb-last: 0 0% 100%; /* #FFF - Light-1 */
     }
   }
+}
 
-  html {
-    @apply font-montserrat;
-  }
-
+@layer base {
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -46,6 +44,10 @@
   input:-webkit-autofill:active {
     -webkit-background-clip: text;
     -webkit-text-fill-color: text;
+  }
+
+  body {
+    @apply bg-background text-foreground font-montserrat antialiased;
   }
 }
 

@@ -52,7 +52,7 @@ export default function CartPage() {
       {isErrorGetCart ? <div>Error...</div> : null}
 
       {isSuccessGetCart ? (
-        <Breadcrumbs navClassname="shadow-light10_dark10 mt-5 md:mt-7.5">
+        <Breadcrumbs navClassname="shadow-primary mt-5 md:mt-7.5">
           <Breadcrumbs.Item to={PATH.HOMEPAGE}>Trang chủ</Breadcrumbs.Item>
           <Breadcrumbs.Item isLastChild>Giỏ hàng</Breadcrumbs.Item>
         </Breadcrumbs>
@@ -60,7 +60,7 @@ export default function CartPage() {
 
       {isSuccessGetCart ? (
         <div className="mt-5 grid gap-7.5 md:mt-7.5 lg:grid-cols-[minmax(0,8fr),minmax(0,4fr)]">
-          <div className="shadow-light10_dark10 background-light1_dark1 rounded-3xl p-7.5">
+          <div className="shadow-primary background-light1_dark1 rounded-3xl p-7.5">
             <div className="border-secondary3_dark2 flex border-b pb-5">
               <input
                 type="checkbox"
@@ -114,7 +114,7 @@ export default function CartPage() {
           </div>
 
           <div>
-            <div className="shadow-light10_dark10 background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-3xl p-7.5">
+            <div className="shadow-primary background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-3xl p-7.5">
               <AnimatePresence>
                 {isPendingPreCheckout ? (
                   <motion.div

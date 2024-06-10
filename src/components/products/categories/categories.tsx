@@ -70,9 +70,9 @@ function Category(props: CategoryProps) {
       </div>
       <h3
         className={cn(
-          'text-secondary1_light1 medium-12 lg:medium-15 capitalize max-lg:text-balance max-lg:text-center',
+          'text-secondary1_light1 capitalize medium-12 max-lg:text-balance max-lg:text-center lg:medium-15',
           {
-            'text-primaryBlue_secondary': isActive,
+            'text-active-category': isActive,
           },
           titleClassName
         )}

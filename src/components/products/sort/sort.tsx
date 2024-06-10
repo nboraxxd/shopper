@@ -91,7 +91,7 @@ function SortDesktop({ navigate, queryParamsFiltered, selected }: SortProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="background-light1_dark2 shadow-light20_dark20 absolute right-0 z-10 mt-2 hidden w-56 origin-top-right rounded-md ring-1 ring-black/5 focus:outline-none lg:block">
+        <Menu.Items className="background-light1_dark2 shadow-floating absolute right-0 z-10 mt-2 hidden w-56 origin-top-right rounded-md ring-1 ring-black/5 focus:outline-none lg:block">
           <div className="py-1">
             {PRODUCTS_SORT.map((sort) => (
               <Menu.Item key={sort.value}>

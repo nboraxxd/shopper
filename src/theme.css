@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 96.47%; /* #F6F6F6 - Light-2 */
+    --foreground: 250 35.29% 13.33%; /* #1A162E - Secondary-1 */
+
+    --shadow-primary: 0px 20px 60px 10px rgb(237 237 246 / 0.2);
+
+    --shadow-floating: 0px 40px 90px 20px rgb(200 200 200 / 0.4);
+
+    --active-category: 209.18 100% 43.14% /* '#0071DC' - Primary-blue */;
+  }
+
+  .dark {
+    --background: 221.25 16.33% 19.22%; /* #292E39 - Dark-2 */
+    --foreground: 0 0% 100%; /* #FFF - Light-1 */
+
+    --shadow-primary: 0px 20px 60px 10px rgb(23 28 40 / 0.2);
+
+    --shadow-floating: 0px 40px 90px 20px rgb(0 0 0 / 0.4);
+
+    --active-category: 186.49 68.94% 68.43% /* #77DAE6 - Secondary-DEFAULT */;
+  }
+}
+
 @layer utilities {
   html {
     --icon-color: brightness(0) saturate(100%) invert(7%) sepia(67%) saturate(647%) hue-rotate(211deg) brightness(96%)
@@ -101,149 +125,5 @@
 
   .background-secondary6_dark2 {
     @apply bg-secondary-6 dark:bg-dark-2;
-  }
-
-  .text-primaryBlue_secondary {
-    @apply text-primary-blue dark:text-secondary;
-  }
-
-  .bold-42 {
-    @apply text-[2.625rem] font-bold leading-[142.857%];
-  }
-
-  .medium-42 {
-    @apply text-[2.625rem] font-medium leading-[142.857%];
-  }
-
-  .bold-36 {
-    @apply text-4xl font-bold leading-[138.889%];
-  }
-
-  .medium-36 {
-    @apply text-4xl font-medium leading-normal;
-  }
-
-  .bold-30 {
-    @apply text-3xl font-bold leading-[146.667%];
-  }
-
-  .medium-30 {
-    @apply text-3xl font-medium leading-[146.667%];
-  }
-
-  .bold-26 {
-    @apply text-[1.625rem] font-bold leading-[138.462%];
-  }
-
-  .medium-26 {
-    @apply text-[1.625rem] font-medium leading-[138.462%];
-  }
-
-  .bold-24 {
-    @apply text-2xl font-bold leading-[141.667%];
-  }
-
-  .medium-24 {
-    @apply text-2xl font-medium leading-[141.667%];
-  }
-
-  .bold-22 {
-    @apply text-[1.375rem] font-bold leading-[145.455%];
-  }
-
-  .medium-22 {
-    @apply text-[1.375rem] font-medium leading-[145.455%];
-  }
-
-  .regular-22 {
-    @apply text-[1.375rem] font-normal leading-[145.455%];
-  }
-
-  .bold-18 {
-    @apply text-lg font-bold leading-[144.444%];
-  }
-
-  .medium-18 {
-    @apply text-lg font-medium leading-[144.444%];
-  }
-
-  .regular-18 {
-    @apply text-lg font-normal leading-[144.444%];
-  }
-
-  .bold-16 {
-    @apply text-base font-bold leading-normal;
-  }
-
-  .medium-16 {
-    @apply text-base font-medium leading-normal;
-  }
-
-  .regular-16 {
-    @apply text-base font-normal leading-normal;
-  }
-
-  .bold-15 {
-    @apply text-[0.9375rem] font-bold leading-[146.667%];
-  }
-
-  .medium-15 {
-    @apply text-[0.9375rem] font-medium leading-[146.667%];
-  }
-
-  .regular-15 {
-    @apply text-[0.9375rem] font-normal leading-[146.667%];
-  }
-
-  .bold-14 {
-    @apply text-[0.875rem] font-bold leading-[142.857%];
-  }
-
-  .medium-14 {
-    @apply text-[0.875rem] font-medium leading-[142.857%];
-  }
-
-  .regular-14 {
-    @apply text-[0.875rem] font-normal leading-[142.857%];
-  }
-
-  .medium-12 {
-    @apply text-xs font-medium leading-4;
-  }
-
-  .regular-12 {
-    @apply text-xs font-normal leading-4;
-  }
-
-  .medium-11 {
-    @apply text-[0.6875rem] font-medium leading-[0.9375rem];
-  }
-
-  .regular-11 {
-    @apply text-[0.6875rem] font-normal leading-[0.9375rem];
-  }
-
-  .medium-10 {
-    @apply text-[0.625rem] font-medium leading-[0.875rem];
-  }
-
-  .regular-10 {
-    @apply text-[0.625rem] font-normal leading-[0.875rem];
-  }
-
-  .shadow-light10_dark10 {
-    @apply shadow-light10 dark:shadow-dark10;
-  }
-
-  .shadow-light20_dark20 {
-    @apply shadow-light20 dark:shadow-dark20;
-  }
-
-  .shadow-light10_dark0 {
-    @apply shadow-light10 dark:shadow-none;
-  }
-
-  .shadow-light20_dark0 {
-    @apply shadow-light20 dark:shadow-none;
   }
 }

@@ -42,7 +42,7 @@ export default function () {
   return (
     <>
       {!isLoadingCategory && isSuccessProduct ? (
-        <Breadcrumbs navClassname="md:background-light2_dark1 shadow-light10_dark10 mt-5 md:mt-8">
+        <Breadcrumbs navClassname="md:background-light2_dark1 shadow-primary mt-5 md:mt-8">
           <Breadcrumbs.Item to={PATH.HOMEPAGE}>Trang chủ</Breadcrumbs.Item>
           <Breadcrumbs.Item to={generateCategoryLink}>
             {categoryResponse?.data.data?.title || 'Products'}

@@ -34,7 +34,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
           arrowImg="/assets/images/dropdown-arrow.png"
           arrowWidth={50}
           arrowClassName="-top-4"
-          wrapperClassName="background-light1_dark2 shadow-light20_dark20 w-[min(1024px,90%)] rounded-3xl"
+          wrapperClassName="background-light1_dark2 shadow-floating w-[min(1024px,90%)] rounded-3xl"
         >
           <div className="grid grid-cols-[repeat(2,minmax(405px,1fr))] items-center gap-10 p-8">
             {/* Categories */}
