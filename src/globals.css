@@ -1,5 +1,4 @@
 @import url('./theme.css');
-@import url('./unreset.css');
 
 @tailwind base;
 @tailwind components;
@@ -7,14 +6,32 @@
 
 @layer base {
   :root {
-    --grid-gutter-x: 2rem;
-    --grid-gutter-y: 0;
-    --header-height: 82px;
-    --mobile-nav-height: 72px;
+    --breadcrumb: 0 0% 100%; /* #FFFFFF - Light-1 */
+    --breadcrumb-foreground: 245.45 5.95% 63.73%; /* #9E9DA8 - Secondary-2 */
+    --breadcrumb-last: 250 35.29% 13.33%; /* #1A162E - Secondary-1 */
+
+    --container-gutter: 1.875rem; /* 30px */
+    --section-gutter: 1.25rem; /* 20px */
+    --section-padding: 1rem; /* 16px */
+    --breadcrumb-padding: 1rem; /* 16px */
+    --header-height: 5.125rem; /* 82px */
+    --mobile-nav-height: 4.5rem; /* 72px */
+
+    /* Cách định nghĩa lại CSS var trong Tailwind [--header-height:500px] */
+    @apply md:[--section-gutter:1.875rem] /* 30px */
+      md:[--section-padding:1.875rem] /* 30px */
+      md:[--breadcrumb-padding:1.25rem] /* 20px */
+      lg:[--header-height:5.625rem] /* 90px */;
+
+    .dark {
+      --breadcrumb: 222.35, 26.98%, 12.35%; /* #171C28 - Dark-1 */
+      --breadcrumb-foreground: 245.45 5.95% 63.73%; /* #9E9DA8 - Secondary-2 */
+      --breadcrumb-last: 0 0% 100%; /* #FFF - Light-1 */
+    }
   }
 
   html {
-    @apply font-lato;
+    @apply font-montserrat;
   }
 
   input[type='number']::-webkit-inner-spin-button,
@@ -30,12 +47,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: text;
   }
-
-  @media (min-width: 1024px) {
-    :root {
-      --header-height: 90px;
-    }
-  }
 }
 
 @layer utilities {
@@ -49,11 +60,6 @@
 
   .input-ring {
     @apply ring-1 ring-secondary-3 focus-within:ring-2 focus:ring-2 focus-within:!ring-secondary focus:!ring-secondary !border-none;
-  }
-
-  .active-theme {
-    filter: brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(464%) hue-rotate(155deg) brightness(102%)
-      contrast(95%) !important;
   }
 }
 

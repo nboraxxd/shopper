@@ -60,7 +60,7 @@ export default function CartPage() {
 
       {isSuccessGetCart ? (
         <div className="mt-5 grid gap-7.5 md:mt-7.5 lg:grid-cols-[minmax(0,8fr),minmax(0,4fr)]">
-          <div className="shadow-light10_dark10 background-light1_dark1 rounded-twenty p-7.5">
+          <div className="shadow-light10_dark10 background-light1_dark1 rounded-3xl p-7.5">
             <div className="border-secondary3_dark2 flex border-b pb-5">
               <input
                 type="checkbox"
@@ -114,7 +114,7 @@ export default function CartPage() {
           </div>
 
           <div>
-            <div className="shadow-light10_dark10 background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-twenty p-7.5">
+            <div className="shadow-light10_dark10 background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-3xl p-7.5">
               <AnimatePresence>
                 {isPendingPreCheckout ? (
                   <motion.div
@@ -127,7 +127,7 @@ export default function CartPage() {
                     transition={{
                       duration: 0.1,
                     }}
-                    className="background-light1_dark1 absolute inset-0 z-10 rounded-twenty"
+                    className="background-light1_dark1 absolute inset-0 z-10 rounded-3xl"
                   >
                     <span className="absolute inset-0 m-auto inline-block size-6 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></span>
                     <span className="sr-only">Loading...</span>
@@ -142,11 +142,11 @@ export default function CartPage() {
                   <input
                     id="discount-code"
                     placeholder="Nhập mã giảm giá"
-                    className="input-ring text-secondary1_dark3 size-full text-ellipsis rounded-ten bg-inherit py-0 flex-center placeholder:text-secondary-3 dark:ring-secondary-2 dark:placeholder:text-dark-3/40"
+                    className="input-ring text-secondary1_dark3 size-full text-ellipsis rounded-xl bg-inherit py-0 flex-center placeholder:text-secondary-3 dark:ring-secondary-2 dark:placeholder:text-dark-3/40"
                   />
                   <PrimaryButton
                     type="submit"
-                    className="medium-16 h-full shrink-0 rounded-ten bg-primary-yellow px-3 text-secondary-1 flex-center disabled:opacity-70"
+                    className="medium-16 h-full shrink-0 rounded-xl bg-primary-yellow px-3 text-secondary-1 flex-center disabled:opacity-70"
                   >
                     Áp dụng
                   </PrimaryButton>
@@ -164,7 +164,7 @@ export default function CartPage() {
                 <div className="flex justify-between">
                   <dt className="flex">
                     Discount
-                    <span className="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-xs tracking-wide text-gray-600">
+                    <span className="ml-2 inline-block rounded-full bg-gray-200 px-2 py-0.5 text-xs tracking-wide text-gray-600 flex-center">
                       SALE50
                     </span>
                   </dt>

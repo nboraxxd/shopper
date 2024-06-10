@@ -24,11 +24,7 @@ export default function Hero() {
       {HERO_SLIDES.map((slide, index) => (
         <SwiperSlide key={index} className="relative w-full pt-[26%]">
           <Link to={slide.to}>
-            <img
-              src={slide.img}
-              alt={slide.alt}
-              className="absolute left-0 top-0 size-full rounded-[20px] object-cover"
-            />
+            <img src={slide.img} alt={slide.alt} className="absolute left-0 top-0 size-full rounded-3xl object-cover" />
           </Link>
         </SwiperSlide>
       ))}

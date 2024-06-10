@@ -3,13 +3,20 @@ import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios'
 
 import { LoginResponse } from '@/types/auth.type'
 import { envConfig } from '@/constants/config'
-import { getAccessTokenFromLS, setAccessTokenToLS } from '@/utils/auth'
 import { LOGIN_API_URL, LOGIN_BY_CODE_API_URL } from '@/apis/auths.api'
+import {
+  getAccessTokenFromLocalStorage,
+  getRefreshTokenFromLocalStorage,
+  setAccessTokenToLocalStorage,
+} from '@/utils/localStorage'
 
-let accessToken: string | null = getAccessTokenFromLS()
+let accessToken: string | null = getAccessTokenFromLocalStorage()
+let refreshToken: string | null = getRefreshTokenFromLocalStorage()
+let refreshTokenRequest: Promise<string> | null
 
-export function clearTokenInHttp() {
+export function removeTokensFromHttp() {
   accessToken = null
+  refreshToken = null
 }
 
 const http: AxiosInstance = axios.create({
@@ -38,8 +45,9 @@ http.interceptors.response.use(
 
     if (url === LOGIN_API_URL || url === LOGIN_BY_CODE_API_URL) {
       accessToken = (response.data as LoginResponse).data.accessToken
+      refreshToken = (response.data as LoginResponse).data.refreshToken
 
-      setAccessTokenToLS(accessToken)
+      setAccessTokenToLocalStorage(accessToken)
     }
 
     return response

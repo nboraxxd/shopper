@@ -106,7 +106,7 @@ export default function Filter() {
         arrowImg="/assets/images/dropdown-arrow.png"
         arrowWidth={50}
         arrowClassName="-top-4"
-        wrapperClassName="background-light1_dark2 shadow-light20_dark20 rounded-[20px]"
+        wrapperClassName="background-light1_dark2 shadow-light20_dark20 rounded-3xl"
       >
         <div className="p-8">
           <h3 className="text-secondary1_light1 medium-22">Filter</h3>

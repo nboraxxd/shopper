@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import { User } from '@/types/user.type'
-import { getAccessTokenFromLS, getUserFromLS } from '@/utils/auth'
+import { getAccessTokenFromLocalStorage, getUserFromLocalStorage } from '@/utils/localStorage'
 
 type AuthState = {
   isAuthenticated: boolean
@@ -14,9 +14,9 @@ type AuthState = {
 export const useAuthStore = create<AuthState>()(
   devtools(
     (set) => ({
-      isAuthenticated: Boolean(getAccessTokenFromLS()),
+      isAuthenticated: Boolean(getAccessTokenFromLocalStorage()),
       setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-      user: getUserFromLS(),
+      user: getUserFromLocalStorage(),
       setUser: (user) => set({ user }),
     }),
     { enabled: process.env.NODE_ENV === 'development', name: 'Auth' }

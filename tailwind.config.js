@@ -37,9 +37,14 @@ export default {
           2: '#292E39',
           3: '#B9BABE',
         },
+        breadcrumb: {
+          DEFAULT: 'hsl(var(--breadcrumb))',
+          foreground: 'hsl(var(--breadcrumb-foreground))',
+          last: 'hsl(var(--breadcrumb-last))',
+        },
       },
       fontFamily: {
-        lato: ['Lato', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
       },
       fontSize: {
         // Reference: https://github.com/tailwindlabs/tailwindcss/issues/11529
@@ -60,8 +65,8 @@ export default {
         7.5: '1.875rem',
       },
       borderRadius: {
-        ten: '0.625rem',
-        twenty: '1.25rem',
+        xl: '0.625rem' /* 10px */,
+        '3xl': '1.25rem' /* 20px */,
       },
     },
   },

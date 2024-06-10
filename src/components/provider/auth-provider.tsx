@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { useGetProfile } from '@/lib/react-query'
 import { useAuthStore } from '@/stores/auth-store'
-import { setUserToLS } from '@/utils/auth'
+import { setUserToLocalStorage } from '@/utils/localStorage'
 
 interface Props {
   children: React.ReactNode
@@ -17,7 +17,7 @@ export default function AuthProvider({ children }: Props) {
   useEffect(() => {
     if (isAuthenticated && profile) {
       setUser(profile.data.data)
-      setUserToLS(profile.data.data)
+      setUserToLocalStorage(profile.data.data)
     }
   }, [isAuthenticated, profile, setUser])
 

@@ -77,7 +77,7 @@ export default function QuantityInput(props: Props) {
   return (
     <div
       className={cn(
-        'input-ring text-secondary1_dark3 h-11 w-fit rounded-[10px] px-5 flex-center dark:ring-secondary-2',
+        'input-ring text-secondary1_dark3 h-11 w-fit rounded-xl px-5 flex-center dark:ring-secondary-2',
         wrapperClassName
       )}
     >

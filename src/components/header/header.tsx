@@ -1,8 +1,8 @@
 import { useMatch } from 'react-router-dom'
 
 import { PATH } from '@/constants/path'
-import { clearLS } from '@/utils/auth'
-import { clearTokenInHttp } from '@/utils/http'
+import { removeAuthFromLocalStorage } from '@/utils/localStorage'
+import { removeTokensFromHttp } from '@/utils/http'
 import { useAuthStore } from '@/stores/auth-store'
 import { useFloatingStore } from '@/stores/floating-store'
 import { Cart, ShoppingList, Theme } from '@/components/header'
@@ -25,15 +25,15 @@ export default function Header() {
   function handleLogout() {
     setIsAuthenticated(false)
     setUser(null)
-    clearLS()
-    clearTokenInHttp()
+    removeAuthFromLocalStorage()
+    removeTokensFromHttp()
   }
 
   return (
     <>
       <MobileNav />
 
-      <header className="background-light1_dark1 md:background-light3_dark1 shadow-light10_dark10 fixed inset-x-0 top-0 z-40 h-[var(--header-height)] flex-center">
+      <header className="background-light1_dark1 md:background-light3_dark1 shadow-light10_dark10 sticky top-0 z-40 h-[var(--header-height)] flex-center">
         <div className="container flex-center">
           {/* Open sidebar button */}
           <PrimaryButton

@@ -125,7 +125,7 @@ export default function LoginForm() {
       </div>
       {/* Button */}
       <ButtonWithLoading
-        buttonClassName="medium-18 mt-12 h-12 rounded-[10px] bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
+        buttonClassName="medium-18 mt-12 h-12 rounded-xl bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
         isLoading={loginMutation.isPending}
       >
         Login

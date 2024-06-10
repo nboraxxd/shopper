@@ -53,7 +53,7 @@ export default function () {
 
       {isSuccessProduct ? (
         <>
-          <div className="max-md:background-light1_dark1 mt-5 gap-4 max-md:rounded-[20px] max-md:p-4 md:mt-8 md:gap-8 lg:flex">
+          <div className="max-md:background-light1_dark1 mt-5 gap-4 max-md:rounded-3xl max-md:p-4 md:mt-8 md:gap-8 lg:flex">
             <div className="md:flex md:flex-row-reverse md:px-7 lg:block lg:w-1/2 xl:w-5/12">
               <ProductImages
                 productName={productResponse.data.data.name}
@@ -61,7 +61,7 @@ export default function () {
                 configurableProducts={productResponse.data.data.configurable_products}
               />
             </div>
-            <div className="md:background-light2_dark1 mt-5 md:mt-8 md:rounded-[10px] md:p-10 lg:mt-0 lg:w-1/2 xl:w-7/12">
+            <div className="md:background-light2_dark1 mt-5 md:mt-8 md:rounded-xl md:p-10 lg:mt-0 lg:w-1/2 xl:w-7/12">
               <h1 className="text-secondary1_light3 bold-18 md:medium-26">{productResponse.data.data.name}</h1>
               <div className="mt-5 flex flex-col gap-5 md:mt-7 md:gap-7 xl:flex-row">
                 <ProductAction
