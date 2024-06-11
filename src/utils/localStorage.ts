@@ -3,6 +3,9 @@ import { User } from '@/types/user.type'
 const ACCESS_TOKEN = 'access_token'
 const REFRESH_TOKEN = 'refresh_token'
 const USER = 'user'
+export const REMOVE_AUTH_LOCAL_STORAGE_EVENT = 'removeAuthFromLocalStorage'
+
+export const localStorageEventTarget = new EventTarget()
 
 export const setAccessTokenToLocalStorage = (accessToken: string) => localStorage.setItem(ACCESS_TOKEN, accessToken)
 
@@ -24,4 +27,5 @@ export const removeAuthFromLocalStorage = () => {
   localStorage.removeItem(ACCESS_TOKEN)
   localStorage.removeItem(REFRESH_TOKEN)
   localStorage.removeItem(USER)
+  localStorageEventTarget.dispatchEvent(new Event(REMOVE_AUTH_LOCAL_STORAGE_EVENT))
 }

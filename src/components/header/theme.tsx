@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { cn } from '@/utils'
 import { THEMES } from '@/constants'
-import { useTheme } from '@/context/theme-provider'
+import { useTheme } from '@/components/provider/theme-provider'
 import { Floating } from '@/components/shared/floating'
 import { PrimaryButton } from '@/components/shared/button'
 import { MoonIcon, SunIcon } from '@/components/icons'
@@ -30,7 +30,7 @@ export default function Theme() {
 
       <Floating
         arrowImg="/assets/images/dropdown-arrow.png"
-        wrapperClassName="shadow-floating w-32 rounded-lg bg-light-1 py-1.5 dark:bg-dark-2"
+        wrapperClassName="w-32 rounded-lg bg-light-1 py-1.5 shadow-floating dark:bg-dark-2"
         arrowWidth={32}
         arrowClassName="-top-2.5"
       >
@@ -46,7 +46,7 @@ export default function Theme() {
               >
                 <item.icon className={cn('size-5 fill-[#7B8EC8]', { 'fill-[#38bdf8]': theme === item.value })} />
                 <span
-                  className={cn('medium-15 text-secondary1_light1', {
+                  className={cn('text-secondary1_light1 medium-15', {
                     'text-[#38bdf8]': theme === item.value,
                   })}
                 >
