@@ -52,7 +52,7 @@ export default function CartPage() {
       {isErrorGetCart ? <div>Error...</div> : null}
 
       {isSuccessGetCart ? (
-        <Breadcrumbs navClassname="shadow-primary mt-5 md:mt-7.5">
+        <Breadcrumbs navClassname="mt-5 shadow-primary md:mt-7.5">
           <Breadcrumbs.Item to={PATH.HOMEPAGE}>Trang chủ</Breadcrumbs.Item>
           <Breadcrumbs.Item isLastChild>Giỏ hàng</Breadcrumbs.Item>
         </Breadcrumbs>
@@ -60,7 +60,7 @@ export default function CartPage() {
 
       {isSuccessGetCart ? (
         <div className="mt-5 grid gap-7.5 md:mt-7.5 lg:grid-cols-[minmax(0,8fr),minmax(0,4fr)]">
-          <div className="shadow-primary background-light1_dark1 rounded-3xl p-7.5">
+          <div className="background-light1_dark1 rounded-3xl p-7.5 shadow-primary">
             <div className="border-secondary3_dark2 flex border-b pb-5">
               <input
                 type="checkbox"
@@ -69,14 +69,14 @@ export default function CartPage() {
                 checked={selectedProductIds.length === getCartResponse.data.data.listItems.length}
               />
 
-              <h2 className="text-secondary1_dark3 medium-18 ml-3 mt-px">
+              <h2 className="text-secondary1_dark3 ml-3 mt-px medium-18">
                 Chọn tất cả <span>({getCartResponse.data.data.listItems.length} sản phẩm)</span>
               </h2>
             </div>
             {[...getCartResponse.data.data.listItems].reverse().map((item) => (
               <ProductInCart key={item.productId} {...item} />
             ))}
-            <div className="text-secondary1_dark3 medium-18 flex pt-7.5">
+            <div className="text-secondary1_dark3 flex pt-7.5 medium-18">
               <div className="basis-2/3 self-end">
                 <LinkButton
                   to={PATH.PRODUCTS}
@@ -102,7 +102,7 @@ export default function CartPage() {
                   </span>
                 </div>
                 <div className="background-secondary3_dark2 my-7.5 h-px" />
-                <div className="bold-22 flex justify-between gap-4">
+                <div className="flex justify-between gap-4 bold-22">
                   <span>Total:</span>
                   <span>
                     {formatCurrency(getCartResponse.data.data.subTotal)}
@@ -114,7 +114,7 @@ export default function CartPage() {
           </div>
 
           <div>
-            <div className="shadow-primary background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-3xl p-7.5">
+            <div className="background-light1_dark1 sticky top-[calc(var(--header-height)+1.875rem)] rounded-3xl p-7.5 shadow-primary">
               <AnimatePresence>
                 {isPendingPreCheckout ? (
                   <motion.div
@@ -146,14 +146,14 @@ export default function CartPage() {
                   />
                   <PrimaryButton
                     type="submit"
-                    className="medium-16 h-full shrink-0 rounded-xl bg-primary-yellow px-3 text-secondary-1 flex-center disabled:opacity-70"
+                    className="h-full shrink-0 rounded-xl bg-primary-yellow px-3 text-secondary-1 flex-center medium-16 disabled:opacity-70"
                   >
                     Áp dụng
                   </PrimaryButton>
                 </div>
               </form>
 
-              <dl className="text-secondary1_dark3 medium-16 mt-7.5 space-y-3.5">
+              <dl className="text-secondary1_dark3 mt-7.5 space-y-3.5 medium-16">
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
                   <dd className="bold-16">
@@ -191,7 +191,7 @@ export default function CartPage() {
               <div className="mt-7.5 flex justify-center">
                 <LinkButton
                   to={'/'}
-                  className="medium-22 h-[46px] w-[278px] justify-center rounded-full bg-primary-yellow text-secondary-1 flex-center disabled:opacity-70"
+                  className="h-[46px] w-[278px] justify-center rounded-full bg-primary-yellow text-secondary-1 flex-center medium-22 disabled:opacity-70"
                 >
                   Continue checkout
                 </LinkButton>

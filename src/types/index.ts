@@ -10,6 +10,7 @@ export type MessageResponse = {
 export type ErrorResponse<Data = undefined> = {
   message: string
   error?: string | number
+  error_code?: 'TOKEN_EXPIRED' | 'TOKEN_INVALID'
   detail?: Data
 }
 

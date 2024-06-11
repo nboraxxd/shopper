@@ -15,7 +15,7 @@ export default function App() {
         <ThemeProvider>
           <AuthProvider>
             <RouterProvider router={router} />
-            <Toaster position="top-center" icons={{ error: <FormErrorIcon className="size-5" /> }} />
+            <Toaster icons={{ error: <FormErrorIcon className="size-5" /> }} />
           </AuthProvider>
         </ThemeProvider>
       </QueryProvider>

@@ -115,17 +115,17 @@ export default function LoginForm() {
         {/* Remember */}
         <label className="gap-2.5 flex-center">
           <input type="checkbox" className="size-5 rounded border-gray-300 text-primary-blue focus:ring-primary-blue" />
-          <span className="regular-14 sm:medium-15 text-secondary2_dark3">Remember me</span>
+          <span className="text-secondary2_dark3 regular-14 sm:medium-15">Remember me</span>
         </label>
         {/* Forgot Password */}
         {/* TODO: Update `to` prop */}
-        <Link to={PATH.HOMEPAGE} className="medium-14 sm:medium-15 focus-primary text-primary-blue">
+        <Link to={PATH.HOMEPAGE} className="focus-primary text-primary-blue medium-14 sm:medium-15">
           Forgot Password?
         </Link>
       </div>
       {/* Button */}
       <ButtonWithLoading
-        buttonClassName="medium-18 mt-12 h-12 rounded-xl bg-primary-yellow px-5 text-secondary-1 transition-opacity hover:opacity-85"
+        buttonClassName="mt-12 h-12 rounded-xl bg-primary-yellow px-5 text-secondary-1 transition-opacity medium-18 hover:opacity-85"
         isLoading={loginMutation.isPending}
       >
         Login

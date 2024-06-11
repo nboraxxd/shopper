@@ -89,7 +89,7 @@ export default function Header() {
               {/* Login */}
               <LinkButton
                 to={PATH.LOGIN}
-                className="medium-15 lg:medium-18 md:text-secondary1_light1 h-9 justify-center rounded-md px-5 text-secondary-1 flex-center max-md:bg-primary-yellow lg:h-11"
+                className="md:text-secondary1_light1 h-9 justify-center rounded-md px-5 text-secondary-1 flex-center medium-15 max-md:bg-primary-yellow lg:h-11 lg:medium-18"
               >
                 Login
               </LinkButton>
@@ -97,7 +97,7 @@ export default function Header() {
               {/* Sign Up */}
               <LinkButton
                 to={PATH.REGISTER}
-                className="medium-15 lg:medium-18 ml-4 hidden h-9 items-center justify-center rounded-md bg-primary-yellow px-5 text-secondary-1 md:flex lg:h-11"
+                className="ml-4 hidden h-9 items-center justify-center rounded-md bg-primary-yellow px-5 text-secondary-1 medium-15 md:flex lg:h-11 lg:medium-18"
               >
                 Sign Up
               </LinkButton>

@@ -44,7 +44,7 @@ export default function ProductTab({ productId, description, features }: Props) 
             onClick={() => setTab(tab.value)}
             className={({ selected }) =>
               cn(
-                'medium-16 relative rounded-sm px-7 py-3.5',
+                'relative rounded-sm px-7 py-3.5 medium-16',
                 selected
                   ? "text-primary-red before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-primary-red before:content-['']"
                   : 'text-secondary1_light1'
@@ -59,7 +59,7 @@ export default function ProductTab({ productId, description, features }: Props) 
       <Tab.Panels className="mt-5 md:mt-8">
         <Tab.Panel className="focus-primary flex justify-center">
           <div
-            className="unreset w-full lg:w-10/12 xl:w-8/12"
+            className="w-full lg:w-10/12 xl:w-8/12"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(description),
             }}
@@ -85,7 +85,7 @@ export default function ProductTab({ productId, description, features }: Props) 
                 <tr key={index}>
                   <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">{attribute.name}</td>
                   <td
-                    className="unreset px-3 py-4 text-sm text-gray-500"
+                    className="px-3 py-4 text-sm text-gray-500"
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(attribute.value),
                     }}

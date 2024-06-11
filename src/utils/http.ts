@@ -1,13 +1,18 @@
+import ms from 'ms'
 import { toast } from 'sonner'
 import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios'
 
-import { LoginResponse } from '@/types/auth.type'
+import { ErrorResponse } from '@/types'
+import { AuthResponse } from '@/types/auth.type'
 import { envConfig } from '@/constants/config'
-import { LOGIN_API_URL, LOGIN_BY_CODE_API_URL } from '@/apis/auths.api'
+import { AUTH_API_URL, LOGIN_API_URL, LOGIN_BY_CODE_API_URL, REFRESH_TOKEN_API_URL } from '@/apis/auths.api'
+import { isAxiosExpiredTokenError, isAxiosForbiddenError } from '@/utils/error'
 import {
   getAccessTokenFromLocalStorage,
   getRefreshTokenFromLocalStorage,
+  removeAuthFromLocalStorage,
   setAccessTokenToLocalStorage,
+  setRefreshTokenToLocalStorage,
 } from '@/utils/localStorage'
 
 let accessToken: string | null = getAccessTokenFromLocalStorage()
@@ -25,6 +30,23 @@ const http: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+async function handleRefreshToken() {
+  try {
+    const response = await http.post<AuthResponse>(`${AUTH_API_URL}/refresh-token`, { refreshToken })
+
+    const { accessToken: newAccessToken } = response.data.data
+
+    setAccessTokenToLocalStorage(newAccessToken)
+    accessToken = newAccessToken
+
+    return newAccessToken
+  } catch (error) {
+    removeAuthFromLocalStorage()
+    removeTokensFromHttp()
+    throw error
+  }
+}
 
 http.interceptors.request.use(
   (config) => {
@@ -44,23 +66,53 @@ http.interceptors.response.use(
     const { url } = response.config
 
     if (url === LOGIN_API_URL || url === LOGIN_BY_CODE_API_URL) {
-      accessToken = (response.data as LoginResponse).data.accessToken
-      refreshToken = (response.data as LoginResponse).data.refreshToken
+      const responseData = response.data as AuthResponse
+      accessToken = responseData.data.accessToken
+      refreshToken = responseData.data.refreshToken
 
       setAccessTokenToLocalStorage(accessToken)
+      setRefreshTokenToLocalStorage(refreshToken)
     }
 
     return response
   },
-  (error) => {
-    if (error instanceof AxiosError) {
-      const excludedStatusCodes = [HttpStatusCode.Forbidden, HttpStatusCode.BadRequest]
+  async (error: AxiosError) => {
+    const excludedStatusCodes = [HttpStatusCode.Forbidden, HttpStatusCode.BadRequest]
 
-      if (error.response?.status && !excludedStatusCodes.includes(error.response.status)) {
-        const message = error.response?.data.message || error.message
-        toast.error(message)
-      }
+    if (error.response?.status && !excludedStatusCodes.includes(error.response.status)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const data: any | undefined = error.response.data
+      const message = data.message || error.message
+      toast.error(message)
     }
+
+    if (isAxiosForbiddenError<{ error: ErrorResponse }>(error)) {
+      const config = error.response?.config
+      const url = config?.url
+
+      if (isAxiosExpiredTokenError(error) && url !== REFRESH_TOKEN_API_URL) {
+        refreshTokenRequest = refreshTokenRequest
+          ? refreshTokenRequest
+          : handleRefreshToken().finally(() => {
+              // Giữ refreshTokenRequest trong 10s cho những request tiếp theo nếu có lỗi 403 thì dùng
+              setTimeout(() => {
+                refreshTokenRequest = null
+              }, ms('10s'))
+            })
+
+        const accessToken = await refreshTokenRequest
+        if (config?.headers) {
+          config.headers.Authorization = accessToken
+        }
+
+        return http.request({ ...config, headers: { ...config?.headers, Authorization: accessToken } })
+      }
+
+      removeAuthFromLocalStorage()
+      removeTokensFromHttp()
+      toast.error(error.response?.data.error.message || error.message)
+    }
+
     return Promise.reject(error)
   }
 )

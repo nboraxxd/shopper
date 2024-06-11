@@ -36,7 +36,7 @@ export default function ProductInCart({ productId, product, quantity }: Props) {
 
   const isChecked = selectedProductIds.includes(productId)
 
-  const { refetch: refetchGetCart, isLoading: isLoadingGetCart } = useGetCart()
+  const { refetch: refetchGetCart, isLoading: isLoadingGetCart } = useGetCart(false)
 
   const preCheckoutMutation = usePreCheckOut()
 
@@ -129,10 +129,10 @@ export default function ProductInCart({ productId, product, quantity }: Props) {
       <div className="flex flex-1 gap-2 lg:gap-0">
         {/* Left content */}
         <div className="ml-5 flex-1 space-y-4">
-          <h2 className="text-secondary1_dark3 medium-18 line-clamp-2">
+          <h2 className="text-secondary1_dark3 line-clamp-2 medium-18">
             <Link to={productDetailPath}>{product.name}</Link>
           </h2>
-          <p className="medium-18 text-secondary-2">
+          <p className="text-secondary-2 medium-18">
             {formatCurrency(product.real_price)}
             <sup>₫</sup>
           </p>

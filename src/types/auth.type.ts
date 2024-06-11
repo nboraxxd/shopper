@@ -3,7 +3,7 @@ export type LoginReqBody = {
   password: string
 }
 
-export type LoginResponse = {
+export type AuthResponse = {
   data: {
     accessToken: string
     refreshToken: string
