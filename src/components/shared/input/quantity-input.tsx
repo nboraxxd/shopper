@@ -77,7 +77,7 @@ export default function QuantityInput(props: Props) {
   return (
     <div
       className={cn(
-        'input-ring text-secondary1_dark3 h-11 w-fit rounded-xl px-5 flex-center dark:ring-secondary-2',
+        'input-ring text-secondary1_dark3 flex-center h-11 w-fit rounded-xl px-5 dark:ring-secondary-2',
         wrapperClassName
       )}
     >
@@ -92,7 +92,7 @@ export default function QuantityInput(props: Props) {
       </PrimaryButton>
       <NumberInput
         className={cn(
-          'medium-16 h-full w-[3.25rem] bg-transparent px-2.5 text-center transition-opacity disabled:opacity-50',
+          'h-full w-[3.25rem] bg-transparent px-2.5 text-center text-medium-16 transition-opacity disabled:opacity-50',
           inputClassName
         )}
         noFocus

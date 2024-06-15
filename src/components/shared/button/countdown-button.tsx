@@ -44,7 +44,7 @@ export default function CountdownButton(props: Props) {
   return (
     <button
       className={cn(
-        'focus-primary line-clamp-1 justify-center gap-2 whitespace-nowrap flex-center disabled:pointer-events-none disabled:opacity-50',
+        'focus-primary flex-center line-clamp-1 justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50',
         className
       )}
       disabled={disabled || isLoading || isWaiting}

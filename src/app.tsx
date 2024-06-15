@@ -4,7 +4,7 @@ import { router } from '@/router'
 import { RouterProvider } from 'react-router-dom'
 
 import { useAuthStore } from '@/stores/auth-store'
-import { REMOVE_AUTH_LOCAL_STORAGE_EVENT, localStorageEventTarget } from '@/utils/localStorage'
+import { REMOVE_AUTH_LOCAL_STORAGE_EVENT, localStorageEventTarget } from '@/utils/local-storage'
 import { AuthProvider, QueryProvider, ThemeProvider } from '@/components/provider'
 import { FormErrorIcon } from '@/components/icons'
 import '@/globals.css'

@@ -36,7 +36,7 @@ export default function ProductTab({ productId, description, features }: Props) 
 
   return (
     <Tab.Group>
-      <Tab.List className="mt-8 justify-center border-b border-secondary-4 flex-center md:mt-12">
+      <Tab.List className="flex-center mt-8 justify-center border-b border-secondary-4 md:mt-12">
         {PRODUCT_TABS.map((tab) => (
           <Tab
             key={tab.value}
@@ -44,7 +44,7 @@ export default function ProductTab({ productId, description, features }: Props) 
             onClick={() => setTab(tab.value)}
             className={({ selected }) =>
               cn(
-                'relative rounded-sm px-7 py-3.5 medium-16',
+                'relative rounded-sm px-7 py-3.5 text-medium-16',
                 selected
                   ? "text-primary-red before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-primary-red before:content-['']"
                   : 'text-secondary1_light1'

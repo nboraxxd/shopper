@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { useGetProfile } from '@/lib/react-query'
 import { useAuthStore } from '@/stores/auth-store'
-import { setUserToLocalStorage } from '@/utils/localStorage'
+import { setUserToLocalStorage } from '@/utils/local-storage'
 
 interface Props {
   children: React.ReactNode

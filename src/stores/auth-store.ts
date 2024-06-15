@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import { User } from '@/types/user.type'
-import { getAccessTokenFromLocalStorage, getUserFromLocalStorage } from '@/utils/localStorage'
+import { getAccessTokenFromLocalStorage, getUserFromLocalStorage } from '@/utils/local-storage'
 
 type AuthState = {
   isAuthenticated: boolean

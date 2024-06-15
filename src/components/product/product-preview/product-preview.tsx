@@ -28,7 +28,7 @@ export default function ProductPreview({ image, images, name }: Props) {
       pagination={{
         type: 'custom',
         renderCustom(_, current, total) {
-          return `<div class="regular-11 text-secondary-3 bg-dark-2/75 flex justify-start w-fit rounded-md p-1 mb-2 ml-2">${current}/${total}</div>`
+          return `<div class="text-regular-11 text-secondary-3 bg-dark-2/75 flex justify-start w-fit rounded-md p-1 mb-2 ml-2">${current}/${total}</div>`
         },
       }}
     >

@@ -129,10 +129,10 @@ export default function ProductInCart({ productId, product, quantity }: Props) {
       <div className="flex flex-1 gap-2 lg:gap-0">
         {/* Left content */}
         <div className="ml-5 flex-1 space-y-4">
-          <h2 className="text-secondary1_dark3 line-clamp-2 medium-18">
+          <h2 className="text-secondary1_dark3 line-clamp-2 text-medium-18">
             <Link to={productDetailPath}>{product.name}</Link>
           </h2>
-          <p className="text-secondary-2 medium-18">
+          <p className="text-medium-18 text-secondary-2">
             {formatCurrency(product.real_price)}
             <sup>₫</sup>
           </p>
@@ -147,7 +147,7 @@ export default function ProductInCart({ productId, product, quantity }: Props) {
         </div>
         {/* Right content */}
         <div className="flex flex-col items-end justify-between">
-          <h3 className="text-secondary1_dark3 bold-18 xl:bold-22">
+          <h3 className="text-secondary1_dark3 text-bold-18 xl:text-bold-22">
             {formatCurrency(product.real_price * quantity)}
             <sup>₫</sup>
           </h3>

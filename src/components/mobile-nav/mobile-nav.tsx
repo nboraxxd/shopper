@@ -39,7 +39,7 @@ export default function MobileNav() {
             leaveTo="-translate-x-full"
           >
             <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-              <div className="shadow-floating background-light1_dark2 w-full rounded-r-[20px] pb-12">
+              <div className="background-light1_dark2 w-full rounded-r-[20px] pb-12 shadow-popover">
                 {/* Close button */}
                 <div className="flex h-[var(--mobile-nav-height)] items-center px-4">
                   <PrimaryButton

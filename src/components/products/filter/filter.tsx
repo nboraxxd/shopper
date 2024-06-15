@@ -94,37 +94,37 @@ export default function Filter() {
       <Floating.Reference
         as={PrimaryButton}
         className={cn(
-          'text-secondary1_secondary3 h-9 justify-center gap-1.5 rounded-md px-3 flex-center',
+          'text-secondary1_secondary3 flex-center h-9 justify-center gap-1.5 rounded-md px-3',
           minPrice || maxPrice || filterRating ? 'text-active-category' : 'text-secondary1_secondary3'
         )}
       >
         <FilterIcon className="relative inline-block size-5" />
-        <span className="medium-16">Filter</span>
+        <span className="text-medium-16">Filter</span>
       </Floating.Reference>
 
       <Floating
         arrowImg="/assets/images/dropdown-arrow.png"
         arrowWidth={50}
         arrowClassName="-top-4"
-        wrapperClassName="background-light1_dark2 rounded-3xl shadow-floating"
+        wrapperClassName="background-light1_dark2 rounded-3xl shadow-popover"
       >
         <div className="p-8">
-          <h3 className="text-secondary1_light1 medium-22">Filter</h3>
+          <h3 className="text-secondary1_light1 text-medium-22">Filter</h3>
           <hr className="my-4 h-px w-full shrink-0 border-none bg-light-3/50 dark:bg-light-3/10" />
           <form onSubmit={handleSubmit(onValid)}>
             <PriceFilter control={control} errors={errors} trigger={trigger} />
             <RatingFilter rating={rating} setRating={setRating} />
 
-            <div className="mt-6 justify-end gap-5 flex-center">
+            <div className="flex-center mt-6 justify-end gap-5">
               <PrimaryButton
                 type="button"
-                className="h-10 rounded-md px-1.5 text-secondary-2 transition-opacity regular-15 hover:text-opacity-85"
+                className="h-10 rounded-md px-1.5 text-regular-15 text-secondary-2 transition-opacity hover:text-opacity-85"
                 onClick={onClear}
               >
                 Clear
               </PrimaryButton>
               <ButtonWithLoading
-                buttonClassName="h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity medium-15 hover:opacity-85"
+                buttonClassName="h-10 rounded-md bg-primary-yellow px-2.5 text-medium-15 text-secondary-1 transition-opacity hover:opacity-85"
                 loadingClassName="size-4"
               >
                 Show Result
@@ -139,30 +139,30 @@ export default function Filter() {
       isOpenDrawer={isOpenDrawer}
       setIsOpenDrawer={setIsOpenDrawer}
       trigger={
-        <PrimaryButton className="h-9 justify-center gap-1.5 rounded-md px-3 flex-center">
+        <PrimaryButton className="flex-center h-9 justify-center gap-1.5 rounded-md px-3">
           <FilterIcon className="inline-block size-5" />
-          <span className="text-secondary1_secondary3 medium-16">Lọc</span>
+          <span className="text-secondary1_secondary3 text-medium-16">Lọc</span>
         </PrimaryButton>
       }
       title={
-        <div className="mb-5 justify-between flex-center">
-          <h3 className="text-secondary1_light1 medium-22">Filter</h3>
+        <div className="flex-center mb-5 justify-between">
+          <h3 className="text-secondary1_light1 text-medium-22">Filter</h3>
         </div>
       }
     >
       <form onSubmit={handleSubmit(onValid)}>
         <PriceFilter control={control} errors={errors} trigger={trigger} />
         <RatingFilter rating={rating} setRating={setRating} />
-        <div className="mt-6 justify-end gap-5 flex-center">
+        <div className="flex-center mt-6 justify-end gap-5">
           <PrimaryButton
             type="button"
-            className="h-10 rounded-md px-1.5 text-secondary-2 transition-opacity regular-15 hover:text-opacity-85"
+            className="h-10 rounded-md px-1.5 text-regular-15 text-secondary-2 transition-opacity hover:text-opacity-85"
             onClick={onClear}
           >
             Clear
           </PrimaryButton>
           <ButtonWithLoading
-            buttonClassName="h-10 rounded-md bg-primary-yellow px-2.5 text-secondary-1 transition-opacity medium-15 hover:opacity-85"
+            buttonClassName="h-10 rounded-md bg-primary-yellow px-2.5 text-medium-15 text-secondary-1 transition-opacity hover:opacity-85"
             loadingClassName="size-4"
             type="submit"
           >

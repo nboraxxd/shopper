@@ -24,7 +24,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
           as={Link}
           to={item.route}
           onClick={() => setIsFloatingOpen(false)}
-          className="medium-15 text-secondary1_light1 focus-primary px-4 py-2 flex-center"
+          className="text-secondary1_light1 focus-primary flex-center px-4 py-2 text-medium-15"
         >
           <span>{item.label}</span>
           <SmallArrowDownIcon className="ml-1.5 size-3" />
@@ -34,7 +34,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
           arrowImg="/assets/images/dropdown-arrow.png"
           arrowWidth={50}
           arrowClassName="-top-4"
-          wrapperClassName="background-light1_dark2 shadow-floating w-[min(1024px,90%)] rounded-3xl"
+          wrapperClassName="background-light1_dark2 w-[min(1024px,90%)] rounded-3xl shadow-popover"
         >
           <div className="grid grid-cols-[repeat(2,minmax(405px,1fr))] items-center gap-10 p-8">
             {/* Categories */}
@@ -48,7 +48,7 @@ export default function NavItem({ item }: { item: (typeof NAVBAR)[number] }) {
     </li>
   ) : (
     <li>
-      <Link to={item.route} className="medium-15 text-secondary1_light1 focus-primary px-4 py-2 flex-center">
+      <Link to={item.route} className="text-secondary1_light1 focus-primary flex-center px-4 py-2 text-medium-15">
         <span>{item.label}</span>
       </Link>
     </li>

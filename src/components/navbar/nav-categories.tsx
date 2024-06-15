@@ -16,7 +16,7 @@ export default function NavCategories() {
           <Category1Icon className="size-5 lg:size-[30px]" />
           <Category2Icon className="absolute bottom-0 right-0 z-10 size-4 lg:size-6" />
         </div>
-        <p className="text-secondary1_dark3 medium-15 lg:medium-16">Categories</p>
+        <p className="text-secondary1_dark3 text-medium-15 lg:text-medium-16">Categories</p>
       </div>
 
       <nav className="ml-8 mt-2.5 lg:ml-0 lg:border-t lg:border-secondary-3 lg:pt-2.5 lg:dark:border-dark-3">
@@ -48,8 +48,8 @@ function NavCategory({ path, title }: { path: string; title: string }) {
         to={path}
         className={({ isActive }) =>
           cn('focus-primary block py-[7px] transition-colors', {
-            'medium-14 text-active-category': isActive,
-            'regular-14 text-secondary1_dark3 hover:text-active-category': !isActive,
+            'text-medium-14 text-active-category': isActive,
+            'text-regular-14 text-secondary1_dark3 hover:text-active-category': !isActive,
           })
         }
         onClick={() => {

@@ -37,19 +37,19 @@ function SortMobile({ navigate, queryParamsFiltered, selected }: SortProps) {
   return (
     <BottomDrawer
       trigger={
-        <PrimaryButton className="background-light1_dark1 h-9 justify-center gap-2 rounded-md px-3 flex-center lg:hidden">
-          <span className="medium-16 text-secondary1_secondary3">{selected?.name || 'Sắp xếp'}</span>
+        <PrimaryButton className="background-light1_dark1 flex-center h-9 justify-center gap-2 rounded-md px-3 lg:hidden">
+          <span className="text-secondary1_secondary3 text-medium-16">{selected?.name || 'Sắp xếp'}</span>
           <MediumArrowDownIcon className="inline-block size-5 stroke-secondary-1 dark:stroke-secondary-3" />
         </PrimaryButton>
       }
-      title={<p className="bold-18 text-secondary1_light1 mb-4">Sắp xếp</p>}
+      title={<p className="text-bold-18 text-secondary1_light1 mb-4">Sắp xếp</p>}
     >
       <fieldset>
         <legend className="sr-only">Product sort</legend>
         {PRODUCTS_SORT.map((sort) => (
           <Drawer.Close asChild key={sort.value}>
             <div className="relative flex items-start">
-              <label className="text-secondary1_light1 medium-16 h-10 w-full cursor-pointer gap-5 font-medium text-gray-900 flex-center">
+              <label className="text-secondary1_light1 flex-center h-10 w-full cursor-pointer gap-5 text-medium-16 font-medium text-gray-900">
                 <input
                   name="sort"
                   checked={sort.value === selected?.value}
@@ -76,9 +76,9 @@ function SortDesktop({ navigate, queryParamsFiltered, selected }: SortProps) {
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button
         as={PrimaryButton}
-        className="background-light1_dark1 hidden h-9 justify-center gap-2 rounded-md px-3 lg:flex-center"
+        className="background-light1_dark1 lg:flex-center hidden h-9 justify-center gap-2 rounded-md px-3"
       >
-        <span className="medium-16 text-secondary1_secondary3">{selected?.name || 'Sắp xếp'}</span>
+        <span className="text-secondary1_secondary3 text-medium-16">{selected?.name || 'Sắp xếp'}</span>
         <MediumArrowDownIcon className="inline-block size-5 stroke-secondary-1 dark:stroke-secondary-3" />
       </Menu.Button>
 
@@ -91,13 +91,13 @@ function SortDesktop({ navigate, queryParamsFiltered, selected }: SortProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="background-light1_dark2 shadow-floating absolute right-0 z-10 mt-2 hidden w-56 origin-top-right rounded-md ring-1 ring-black/5 focus:outline-none lg:block">
+        <Menu.Items className="background-light1_dark2 absolute right-0 z-10 mt-2 hidden w-56 origin-top-right rounded-md shadow-popover ring-1 ring-black/5 focus:outline-none lg:block">
           <div className="py-1">
             {PRODUCTS_SORT.map((sort) => (
               <Menu.Item key={sort.value}>
                 {({ active }) => (
                   <PrimaryButton
-                    className={cn('w-full justify-between px-4 py-2 text-left flex-center', {
+                    className={cn('flex-center w-full justify-between px-4 py-2 text-left', {
                       'bg-light-2 dark:bg-dark-1/30': active,
                     })}
                     onClick={() => {
@@ -107,7 +107,10 @@ function SortDesktop({ navigate, queryParamsFiltered, selected }: SortProps) {
                     }}
                   >
                     <span
-                      className={cn('text-secondary1_light1', sort.value === selected?.value ? 'bold-15' : 'medium-15')}
+                      className={cn(
+                        'text-secondary1_light1',
+                        sort.value === selected?.value ? 'text-bold-15' : 'text-medium-15'
+                      )}
                     >
                       {sort.name}
                     </span>

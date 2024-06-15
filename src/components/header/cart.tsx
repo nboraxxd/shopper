@@ -31,7 +31,7 @@ export default function Cart() {
       >
         <BuyIcon className="size-6" />
         {isSuccessGetCart || isErrorGetCart ? (
-          <span className="medium-15 text-secondary1_light1 min-w-5 text-center">
+          <span className="text-secondary1_light1 min-w-5 text-center text-medium-15">
             {isSuccessGetCart && getCartResponse.data.data.listItems.length > 99
               ? '99+'
               : getCartResponse?.data.data.listItems.length
@@ -53,10 +53,10 @@ export default function Cart() {
         arrowImg="/assets/images/dropdown-arrow.png"
         arrowWidth={50}
         arrowClassName="-top-4"
-        wrapperClassName="background-light1_dark2 w-[min(500px,100vw)] rounded-3xl p-7 shadow-floating"
+        wrapperClassName="background-light1_dark2 w-[min(500px,100vw)] rounded-3xl p-7 shadow-popover"
       >
         <div className="justify-between flex-center">
-          <span className="medium-22 text-secondary1_dark3">
+          <span className="text-secondary1_dark3 text-medium-22">
             You have{' '}
             {isSuccessGetCart
               ? getCartResponse.data.data.listItems.length > 99
@@ -65,7 +65,7 @@ export default function Cart() {
               : '0'}{' '}
             items
           </span>
-          <LinkButton to={PATH.HOMEPAGE} className="regular-22 text-primary-blue">
+          <LinkButton to={PATH.HOMEPAGE} className="text-regular-22 text-primary-blue">
             View Cart
           </LinkButton>
         </div>
@@ -94,14 +94,14 @@ export default function Cart() {
                           alt={item.product.name}
                           className="absolute left-0 top-0 size-full object-contain opacity-90 transition-opacity"
                         />
-                        <span className="regular-11 absolute bottom-1 right-1 size-6 justify-center rounded-full bg-primary-blue/85 text-light-1 flex-center">
+                        <span className="absolute bottom-1 right-1 size-6 justify-center rounded-full bg-primary-blue/85 text-regular-11 text-light-1 flex-center">
                           x{item.quantity}
                         </span>
                       </div>
-                      <Link to={productDetailPath} className="regular-14 mt-3.5 line-clamp-2">
+                      <Link to={productDetailPath} className="mt-3.5 line-clamp-2 text-regular-14">
                         {item.product.name}
                       </Link>
-                      <div className="medium-15 mt-1.5">
+                      <div className="mt-1.5 text-medium-15">
                         <span>{formatCurrency(item.product.real_price)}</span>
                         <sup>₫</sup>
                       </div>
@@ -126,7 +126,7 @@ export default function Cart() {
 
         <div className="space-y-5">
           {isSuccessGetCart ? (
-            <div className="regular-22 text-secondary1_dark3 justify-between flex-center">
+            <div className="text-secondary1_dark3 justify-between text-regular-22 flex-center">
               <span>Subtotal:</span>
               <span>
                 {formatCurrency(getCartResponse.data.data.subTotal)}
@@ -135,19 +135,19 @@ export default function Cart() {
             </div>
           ) : null}
           {isSuccessGetCart ? (
-            <div className="regular-22 text-secondary1_dark3 justify-between flex-center">
+            <div className="text-secondary1_dark3 justify-between text-regular-22 flex-center">
               <span>Taxes:</span>
               <span>Free</span>
             </div>
           ) : null}
           {isSuccessGetCart ? (
-            <div className="regular-22 text-secondary1_dark3 justify-between flex-center">
+            <div className="text-secondary1_dark3 justify-between text-regular-22 flex-center">
               <span>Shipping:</span>
               <span>Free</span>
             </div>
           ) : null}
           {isSuccessGetCart ? (
-            <div className="medium-22 text-secondary1_dark3 justify-between flex-center">
+            <div className="text-secondary1_dark3 justify-between text-medium-22 flex-center">
               <span>Total Price:</span>
               <span>
                 {formatCurrency(getCartResponse.data.data.subTotal)}
@@ -161,7 +161,7 @@ export default function Cart() {
 
         <LinkButton
           to={'/'}
-          className="medium-22 ml-auto h-[46px] w-[278px] justify-center rounded-full bg-primary-yellow text-secondary-1 flex-center disabled:opacity-70"
+          className="ml-auto h-[46px] w-[278px] justify-center rounded-full bg-primary-yellow text-medium-22 text-secondary-1 flex-center disabled:opacity-70"
         >
           Checkout
         </LinkButton>

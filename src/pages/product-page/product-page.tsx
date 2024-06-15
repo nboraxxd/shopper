@@ -42,7 +42,7 @@ export default function () {
   return (
     <>
       {!isLoadingCategory && isSuccessProduct ? (
-        <Breadcrumbs navClassname="md:background-light2_dark1 shadow-primary mt-5 md:mt-8">
+        <Breadcrumbs navClassname="md:background-light2_dark1 mt-5 shadow-section md:mt-8">
           <Breadcrumbs.Item to={PATH.HOMEPAGE}>Trang chủ</Breadcrumbs.Item>
           <Breadcrumbs.Item to={generateCategoryLink}>
             {categoryResponse?.data.data?.title || 'Products'}
@@ -62,7 +62,9 @@ export default function () {
               />
             </div>
             <div className="md:background-light2_dark1 mt-5 md:mt-8 md:rounded-xl md:p-10 lg:mt-0 lg:w-1/2 xl:w-7/12">
-              <h1 className="text-secondary1_light3 bold-18 md:medium-26">{productResponse.data.data.name}</h1>
+              <h1 className="text-secondary1_light3 text-bold-18 md:text-medium-26">
+                {productResponse.data.data.name}
+              </h1>
               <div className="mt-5 flex flex-col gap-5 md:mt-7 md:gap-7 xl:flex-row">
                 <ProductAction
                   productId={Number(productId)}

@@ -4,25 +4,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 96.47%; /* #F6F6F6 - Light-2 */
-    --foreground: 250 35.29% 13.33%; /* #1A162E - Secondary-1 */
+    --background: 0 0% 96.47%; /* #f6f6f6 - light-2 */
+    --foreground: 250 35.29% 13.33%; /* #1a162e - secondary-1 */
 
-    --shadow-primary: 0px 20px 60px 10px rgb(237 237 246 / 0.2);
+    --card: 0 0% 100%; /* #fff - light-1 */
+    --card-foreground: 250 35.29% 13.33%; /* #1a162e - secondary-1 */
 
-    --shadow-floating: 0px 40px 90px 20px rgb(200 200 200 / 0.4);
+    --section-shadow: 0px 20px 60px 10px rgb(237 237 246 / 0.2);
 
-    --active-category: 209.18 100% 43.14% /* '#0071DC' - Primary-blue */;
+    --popover: 0 0% 100%; /* #fff */
+    --popover-foreground: 250 35.29% 13.33%; /* #1a162e */
+    --popover-shadow: 0px 40px 90px 20px rgb(200 200 200 / 0.4);
+
+    --active-category: 209.18 100% 43.14%; /* #0071dc - primary-blue */
   }
 
   .dark {
-    --background: 221.25 16.33% 19.22%; /* #292E39 - Dark-2 */
-    --foreground: 0 0% 100%; /* #FFF - Light-1 */
+    --background: 221.25 16.33% 19.22%; /* #292e39 - dark-2 */
+    --foreground: 0 0% 100%; /* #fff - light-1 */
 
-    --shadow-primary: 0px 20px 60px 10px rgb(23 28 40 / 0.2);
+    --card: 222.35, 26.98%, 12.35%; /* #171c28 */
+    --card-foreground: 0 0% 98.04%; /* #fafafa */
 
-    --shadow-floating: 0px 40px 90px 20px rgb(0 0 0 / 0.4);
+    --section-shadow: 0px 20px 60px 10px rgb(23 28 40 / 0.2);
 
-    --active-category: 186.49 68.94% 68.43% /* #77DAE6 - Secondary-DEFAULT */;
+    --popover: 221.25 16.33% 19.22%; /* #292e39 */
+    --popover-foreground: 228 3.7% 73.53%; /* #b9babe */
+    --popover-shadow: 0px 40px 90px 20px rgb(0 0 0 / 0.4);
+
+    --active-category: 186.49 68.94% 68.43% /* #77dae6 - secondary-default */;
   }
 }
 

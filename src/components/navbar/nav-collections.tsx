@@ -30,7 +30,7 @@ export default function NavCollections() {
                 <div className="bg-light-1/60 p-4">
                   <Link
                     to={{ pathname: PATH.PRODUCTS, search: createSearchParams(sortParameterObject).toString() }}
-                    className="medium-16 focus-primary text-secondary-1 "
+                    className="focus-primary text-medium-16 text-secondary-1 "
                     onClick={() => {
                       if (isSidebarOpen) setIsSidebarOpen(false)
                       if (isFloatingOpen) setIsFloatingOpen(false)
@@ -39,7 +39,7 @@ export default function NavCollections() {
                     <span className="absolute inset-0 z-10"></span>
                     {collection.title}
                   </Link>
-                  <p className="regular-14 mt-0.5 text-secondary-1 sm:mt-1">Mua ngay</p>
+                  <p className="mt-0.5 text-regular-14 text-secondary-1 sm:mt-1">Mua ngay</p>
                 </div>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default function NavCollections() {
               </div>
               <Link
                 to={{ pathname: PATH.PRODUCTS, search: createSearchParams(sortParameterObject).toString() }}
-                className="medium-16 text-secondary1_dark3 focus-primary mt-6 inline-block"
+                className="text-secondary1_dark3 focus-primary mt-6 inline-block text-medium-16"
                 onClick={() => {
                   if (isSidebarOpen) setIsSidebarOpen(false)
                   if (isFloatingOpen) setIsFloatingOpen(false)
@@ -60,7 +60,7 @@ export default function NavCollections() {
                 <span className="absolute inset-0 z-10"></span>
                 {collection.title}
               </Link>
-              <p className="regular-14 text-secondary1_dark3 mt-1">Mua ngay</p>
+              <p className="text-secondary1_dark3 mt-1 text-regular-14">Mua ngay</p>
             </div>
           </Fragment>
         )

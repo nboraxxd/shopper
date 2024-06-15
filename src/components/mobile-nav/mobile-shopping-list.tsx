@@ -16,7 +16,7 @@ export default function MobileShoppingList({ to, imgSrc, imgAlt, label, count }:
   return (
     <Link
       to={to}
-      className="medium-15 text-secondary1_dark3 flex items-center md:hidden"
+      className="text-secondary1_dark3 flex items-center text-medium-15 md:hidden"
       onClick={() => setIsSidebarOpen(false)}
     >
       <img src={imgSrc} alt={imgAlt} className="icon-filter size-6" />

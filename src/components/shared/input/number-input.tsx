@@ -21,7 +21,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     return (
       <input
         className={cn(
-          'border-none py-0 flex-center placeholder:text-secondary-3 dark:placeholder:text-dark-3/40',
+          'flex-center border-none py-0 placeholder:text-secondary-3 dark:placeholder:text-dark-3/40',
           noFocus ? 'no-focus' : 'input-ring',
           className
         )}

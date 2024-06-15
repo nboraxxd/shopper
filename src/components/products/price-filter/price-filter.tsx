@@ -14,12 +14,12 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
 
   return (
     <div>
-      <label htmlFor="minimum" className="text-secondary1_light1 medium-22">
+      <label htmlFor="minimum" className="text-secondary1_light1 text-medium-22">
         Price
       </label>
       <div className="mt-2 flex gap-8">
         <label>
-          <span className="medium-14 text-secondary1_light1">Minimum</span>
+          <span className="text-secondary1_light1 text-medium-14">Minimum</span>
           <Controller
             name="minPrice"
             control={control}
@@ -28,7 +28,7 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
                 id="minimum"
                 inputMode="numeric"
                 placeholder="10.000"
-                className="background-light1_dark2 mt-2.5 h-9 w-full rounded-md px-2 shadow-primary lg:w-[121px]"
+                className="background-light1_dark2 mt-2.5 h-9 w-full rounded-md px-2 shadow-section lg:w-[121px]"
                 {...field}
                 onChange={(ev) => {
                   field.onChange(ev)
@@ -40,7 +40,7 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
         </label>
 
         <label>
-          <span className="medium-14 text-secondary1_light1">Maximum</span>
+          <span className="text-secondary1_light1 text-medium-14">Maximum</span>
           <Controller
             name="maxPrice"
             control={control}
@@ -48,7 +48,7 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
               <NumberInput
                 inputMode="numeric"
                 placeholder="99.000"
-                className="background-light1_dark2 mt-2.5 h-9 w-full rounded-md px-2 shadow-primary lg:w-[121px]"
+                className="background-light1_dark2 mt-2.5 h-9 w-full rounded-md px-2 shadow-section lg:w-[121px]"
                 {...field}
               />
             )}
@@ -56,7 +56,7 @@ export default function PriceFilter({ control, errors, trigger }: Props) {
         </label>
       </div>
 
-      <p className="regular-12 my-1 min-h-[22px] text-left text-primary-red">{errorMessage}</p>
+      <p className="my-1 min-h-[22px] text-left text-regular-12 text-primary-red">{errorMessage}</p>
     </div>
   )
 }

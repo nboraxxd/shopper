@@ -12,7 +12,7 @@ export default function Rating({ rating }: { rating: number }) {
   }
 
   return (
-    <div className="gap-1 flex-center">
+    <div className="flex-center gap-1">
       {Array.from({ length: TOTAL_STARS }).map((_, index) => (
         <div key={index} className="relative">
           <div className="absolute left-0 top-0 overflow-hidden" style={{ width: handleWidth(index + 1) }}>

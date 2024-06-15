@@ -13,7 +13,7 @@ import {
   removeAuthFromLocalStorage,
   setAccessTokenToLocalStorage,
   setRefreshTokenToLocalStorage,
-} from '@/utils/localStorage'
+} from '@/utils/local-storage'
 
 let accessToken: string | null = getAccessTokenFromLocalStorage()
 let refreshToken: string | null = getRefreshTokenFromLocalStorage()

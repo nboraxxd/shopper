@@ -6,7 +6,7 @@ export default function ProductCardSkeleton() {
     <div className="background-light1_dark1 overflow-hidden rounded-lg">
       <div className="group relative pt-[100%]">
         <div className="absolute left-0 top-0 size-full">
-          <Skeleton className="size-full justify-center rounded-none flex-center">
+          <Skeleton className="flex-center size-full justify-center rounded-none">
             <LogoIcon className="size-12 opacity-5" isSekeleton />
           </Skeleton>
         </div>
@@ -17,7 +17,7 @@ export default function ProductCardSkeleton() {
           <Skeleton className="mt-2 h-4 md:h-5" />
         </div>
         <Skeleton className="h-4 md:h-5" />
-        <div className="justify-between flex-center">
+        <div className="flex-center justify-between">
           <Skeleton className="h-4 w-1/2 md:h-5" />
           <Skeleton className="h-4 w-1/3 md:h-5" />
         </div>

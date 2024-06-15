@@ -44,7 +44,7 @@ export default function ProductThumb({ name, images, activeImage, setActiveImage
           <SwiperSlide
             key={index}
             className={cn(
-              'overflow-hidden rounded-md border border-secondary-4 !bg-light-1 p-1 transition-colors max-lg:flex-center',
+              'max-lg:flex-center overflow-hidden rounded-md border border-secondary-4 !bg-light-1 p-1 transition-colors',
               image.large_url === activeImage ? 'border-primary-yellow' : 'hover:border-secondary-2'
             )}
           >

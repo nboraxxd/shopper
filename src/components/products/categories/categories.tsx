@@ -59,7 +59,7 @@ function Category(props: CategoryProps) {
   return (
     <Link
       className={cn(
-        'focus-primary shrink-0 gap-2 transition-opacity flex-center hover:opacity-80 max-lg:w-24 max-lg:flex-col lg:h-14',
+        'focus-primary flex-center shrink-0 gap-2 transition-opacity hover:opacity-80 max-lg:w-24 max-lg:flex-col lg:h-14',
         linkClassName
       )}
       title={title}
@@ -70,7 +70,7 @@ function Category(props: CategoryProps) {
       </div>
       <h3
         className={cn(
-          'text-secondary1_light1 capitalize medium-12 max-lg:text-balance max-lg:text-center lg:medium-15',
+          'text-secondary1_light1 text-medium-12 capitalize max-lg:text-balance max-lg:text-center lg:text-medium-15',
           {
             'text-active-category': isActive,
           },

@@ -107,7 +107,7 @@ export default function ProductAction(props: Props) {
         {productRatingAverage > 0 ? (
           <div className="gap-2 flex-center">
             <StarIcon className="size-6 fill-primary-yellow" />
-            <div className="text-secondary1_dark3 medium-18 flex gap-1">
+            <div className="text-secondary1_dark3 flex gap-1 text-medium-18">
               <span>({productRatingAverage.toFixed(1)})</span>
               <span>
                 {formatNumberToSocialStyle(productReviewCount)} {productReviewCount > 1 ? 'ratings' : 'rating'}
@@ -116,7 +116,7 @@ export default function ProductAction(props: Props) {
           </div>
         ) : null}
         <div>
-          <h3 className="medium-18 text-secondary1_light3">Quantity</h3>
+          <h3 className="text-secondary1_light3 text-medium-18">Quantity</h3>
           <QuantityInput
             wrapperClassName="mt-5"
             max={productQty}
@@ -126,38 +126,38 @@ export default function ProductAction(props: Props) {
             value={quantity}
           />
           {productQty > 0 ? (
-            <p className="medium-15 text-secondary1_light3 mt-3">{productQty} sản phẩm có sẵn</p>
+            <p className="text-secondary1_light3 mt-3 text-medium-15">{productQty} sản phẩm có sẵn</p>
           ) : (
-            <p className="medium-15 text-secondary1_light3 mt-3">Sản phẩm đã hết hàng</p>
+            <p className="text-secondary1_light3 mt-3 text-medium-15">Sản phẩm đã hết hàng</p>
           )}
         </div>
       </div>
       <div className="xl:w-1/2">
         {productPrice > productRealPrice ? (
           <div className="flex items-start">
-            <h3 className="regular-16 text-secondary-2 line-through">
+            <h3 className="text-regular-16 text-secondary-2 line-through">
               {formatCurrency(productPrice)}
               <sup>₫</sup>
             </h3>
-            <div className="medium-14 ml-2.5 rounded bg-primary-green/20 px-2 py-0.5 text-primary-green">
+            <div className="ml-2.5 rounded bg-primary-green/20 px-2 py-0.5 text-medium-14 text-primary-green">
               -{productDiscountRate}%
             </div>
           </div>
         ) : null}
-        <h2 className="medium-26 text-dark_light3 mt-5">
+        <h2 className="text-dark_light3 mt-5 text-medium-26">
           {formatCurrency(productRealPrice)}
           <sup>₫</sup>
         </h2>
         <div>
           <PrimaryButton
-            className="medium-18 mt-5 h-[46px] w-full rounded-md bg-primary-yellow text-secondary-1 disabled:opacity-70"
+            className="mt-5 h-[46px] w-full rounded-md bg-primary-yellow text-medium-18 text-secondary-1 disabled:opacity-70"
             disabled={productQty === 0}
           >
             Mua ngay
           </PrimaryButton>
           <div className="mt-5 gap-5 flex-center">
             <PrimaryButton
-              className="medium-18 h-[46px] flex-1 rounded-md bg-primary-green text-secondary-1 disabled:opacity-70"
+              className="h-[46px] flex-1 rounded-md bg-primary-green text-medium-18 text-secondary-1 disabled:opacity-70"
               disabled={productQty === 0}
               onClick={handleAddToCart}
             >

@@ -1,7 +1,7 @@
 import { useMatch } from 'react-router-dom'
 
 import { PATH } from '@/constants/path'
-import { removeAuthFromLocalStorage } from '@/utils/localStorage'
+import { removeAuthFromLocalStorage } from '@/utils/local-storage'
 import { removeTokensFromHttp } from '@/utils/http'
 import { useAuthStore } from '@/stores/auth-store'
 import { useFloatingStore } from '@/stores/floating-store'
@@ -33,7 +33,7 @@ export default function Header() {
     <>
       <MobileNav />
 
-      <header className="background-light1_dark1 md:background-light3_dark1 fixed inset-x-0 top-0 z-40 h-[var(--header-height)] shadow-primary flex-center">
+      <header className="background-light1_dark1 md:background-light3_dark1 fixed inset-x-0 top-0 z-40 h-[var(--header-height)] shadow-section flex-center">
         <div className="container flex-center">
           {/* Open sidebar button */}
           <PrimaryButton
@@ -54,10 +54,10 @@ export default function Header() {
           {isAuthenticated ? (
             <div className="gap-5 flex-center md:ml-auto">
               {/* Search */}
-              <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-primary hover:bg-light-2/50 dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
+              <PrimaryButton className="md:background-light1_dark2 rounded-md p-2.5 shadow-section hover:bg-light-2/50 dark:hover:bg-dark-2/15 md:hover:bg-light-1/70 dark:md:hover:bg-dark-3/15 lg:rounded-lg lg:p-3.5">
                 <SearchIcon className="size-6" />
               </PrimaryButton>
-              <div className="background-light1_dark2 rounded-md shadow-primary flex-center max-md:hidden lg:rounded-lg">
+              <div className="background-light1_dark2 rounded-md shadow-section flex-center max-md:hidden lg:rounded-lg">
                 {/* Favorites */}
                 {/* TODO: Bổ sung `to` prop */}
                 <ShoppingList to={PATH.HOMEPAGE} icon={<HeartIcon className="size-6" />} count={3} />
@@ -89,7 +89,7 @@ export default function Header() {
               {/* Login */}
               <LinkButton
                 to={PATH.LOGIN}
-                className="md:text-secondary1_light1 h-9 justify-center rounded-md px-5 text-secondary-1 flex-center medium-15 max-md:bg-primary-yellow lg:h-11 lg:medium-18"
+                className="md:text-secondary1_light1 h-9 justify-center rounded-md px-5 text-medium-15 text-secondary-1 flex-center max-md:bg-primary-yellow lg:h-11 lg:text-medium-18"
               >
                 Login
               </LinkButton>
@@ -97,7 +97,7 @@ export default function Header() {
               {/* Sign Up */}
               <LinkButton
                 to={PATH.REGISTER}
-                className="ml-4 hidden h-9 items-center justify-center rounded-md bg-primary-yellow px-5 text-secondary-1 medium-15 md:flex lg:h-11 lg:medium-18"
+                className="ml-4 hidden h-9 items-center justify-center rounded-md bg-primary-yellow px-5 text-medium-15 text-secondary-1 md:flex lg:h-11 lg:text-medium-18"
               >
                 Sign Up
               </LinkButton>

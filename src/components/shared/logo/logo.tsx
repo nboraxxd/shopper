@@ -17,9 +17,9 @@ export default function Logo(props: Props) {
   const { to = PATH.HOMEPAGE, wrapperClassName, iconClassName, BrandTag = 'h1', brandClassName } = props
 
   return (
-    <Link to={to} className={cn('focus-primary gap-2.5 flex-center lg:gap-3.5', wrapperClassName)}>
+    <Link to={to} className={cn('focus-primary flex-center gap-2.5 lg:gap-3.5', wrapperClassName)}>
       <LogoIcon className={cn('size-6 lg:size-8', iconClassName)} />
-      <BrandTag className={cn('lg:bold-22 text-secondary1_light1 bold-18', brandClassName)}>Shopper</BrandTag>
+      <BrandTag className={cn('lg:text-bold-22 text-secondary1_light1 text-bold-18', brandClassName)}>Shopper</BrandTag>
     </Link>
   )
 }

@@ -28,9 +28,13 @@ interface BreadCrumbProps {
 Breadcrumbs.Item = ({ children, to, isLastChild = false, className }: BreadCrumbProps) => {
   return (
     <li
-      className={cn('medium-12 md:medium-14 text-breadcrumb-foreground last:text-breadcrumb-last', className, {
-        'flex-center': !isLastChild,
-      })}
+      className={cn(
+        'text-medium-12 text-breadcrumb-foreground last:text-breadcrumb-last md:text-medium-14',
+        className,
+        {
+          'flex-center': !isLastChild,
+        }
+      )}
     >
       {!isLastChild && to ? (
         <Link to={to} className="line-clamp-1">

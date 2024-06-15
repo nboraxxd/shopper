@@ -51,34 +51,34 @@ export default function ProductCard(props: Props) {
             )}
           />
           {discount_rate > 0 ? (
-            <span className="regular-12 absolute right-1 top-1 rounded-sm bg-primary-blue/85 px-1 py-0.5 text-light-1">
+            <span className="absolute right-1 top-1 rounded-sm bg-primary-blue/85 px-1 py-0.5 text-regular-12 text-light-1">
               -{Math.ceil(discount_rate)}%
             </span>
           ) : null}
         </Link>
       </div>
       <div className="flex grow flex-col gap-2 p-3 xs:gap-3 md:gap-4 md:p-4">
-        <h2 className="medium-14 md:medium-16 text-secondary1_light1">
+        <h2 className="text-secondary1_light1 text-medium-14 md:text-medium-16">
           <Link to={productDetailPath} className="focus-primary line-clamp-2">
             {name}
           </Link>
         </h2>
         {categoryPath ? (
-          <h3 className="regular-12 md:regular-15 mt-auto text-secondary-2">
+          <h3 className="mt-auto text-regular-12 text-secondary-2 md:text-regular-15">
             <Link to={categoryPath} className="focus-primary line-clamp-1">
               {category.title}
             </Link>
           </h3>
         ) : null}
-        <div className="mt-auto flex-center">
-          <div className="text-secondary1_light1 medium-11 xs:medium-12 md:medium-14 line-clamp-1">
+        <div className="flex-center mt-auto">
+          <div className="text-secondary1_light1 line-clamp-1 text-medium-11 xs:text-medium-12 md:text-medium-14">
             {formatCurrency(real_price)}
             <sup>₫</sup>
           </div>
           {rating_average > 0 && (
-            <div className="ml-auto gap-1 flex-center">
+            <div className="flex-center ml-auto gap-1">
               <StarIcon className="size-3.5 xs:size-4 md:size-5" />
-              <span className="medium-10 xs:medium-12 md:medium-14 text-secondary1_light1 mt-px">
+              <span className="text-secondary1_light1 mt-px text-medium-10 xs:text-medium-12 md:text-medium-14">
                 {rating_average.toFixed(1)}
               </span>
             </div>

@@ -51,10 +51,10 @@ export default function ProductsPage() {
   return (
     <div className="pb-14 max-lg:mt-5">
       <div className="flex flex-col justify-between gap-3">
-        <h2 className="medium-18 md:bold-24 text-secondary1_light1">
+        <h2 className="md:text-bold-24 text-secondary1_light1 text-medium-18">
           {categoryId ? categories[Number(categoryId)]?.title : 'Tất cả sản phẩm'}
         </h2>
-        <div className="ml-auto gap-5 flex-center">
+        <div className="flex-center ml-auto gap-5">
           <Filter />
           <Sort />
         </div>

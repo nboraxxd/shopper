@@ -19,7 +19,7 @@ export default function ShoppingList({ to, icon: Icon, count, className }: Props
       )}
     >
       {Icon}
-      <span className="medium-15 text-secondary1_light1">{count.toString().padStart(2, '0')}</span>
+      <span className="text-secondary1_light1 text-medium-15">{count.toString().padStart(2, '0')}</span>
     </Link>
   )
 }
